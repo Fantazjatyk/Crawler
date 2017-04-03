@@ -40,11 +40,11 @@ public class CrawlerConfiguration extends HashMap<String, Object> {
         return this.get(key.name());
     }
     public int getTimeLimit() {
-        return (int) this.get(CrawlerParams.timeLimit.name());
+        return (int) this.get(CrawlerParams.TIME_LIMIT.name());
     }
 
     public String getInitURL() {
-        return (String) this.get(CrawlerParams.url.name());
+        return (String) this.get(CrawlerParams.URL.name());
     }
 
 }

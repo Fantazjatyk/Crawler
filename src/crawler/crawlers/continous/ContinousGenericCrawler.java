@@ -54,7 +54,7 @@ public class ContinousGenericCrawler extends ContinousCrawler implements Generic
 
     @Override
     public void appendFilters(SearchEngine se, CrawlerConfiguration conf) {
-        se.addCollector(new SentenceCollector((String[]) conf.get(CrawlerParams.sentences)));
+        se.addCollector(new SentenceCollector((String[]) conf.get(CrawlerParams.SENTENCES)));
         se.addCollector(new ImageCollector());
     }
 

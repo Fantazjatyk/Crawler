@@ -41,7 +41,7 @@ public class ConcurrentSentencesCrawler extends ConcurrentCrawler implements ISe
 
     @Override
     public void appendFilters(SearchEngine se, CrawlerConfiguration conf) {
-        se.addCollector(new SentenceCollector((String[]) conf.get(CrawlerParams.sentences)));
+        se.addCollector(new SentenceCollector((String[]) conf.get(CrawlerParams.SENTENCES)));
     }
 
     @Override

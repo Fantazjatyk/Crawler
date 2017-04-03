@@ -71,8 +71,8 @@ public class CrawlersFactoryTest {
 public void testOneShotCrawler(){
        OneShotCrawler crawler = (OneShotCrawler) CrawlersFactory.createSpecialCrawler(CrawlerMode.OneShot, CrawlerTarget.Sentences);
        CrawlerConfiguration conf = new CrawlerConfiguration();
-       conf.put(CrawlerParams.url, "http://kobietydokodu.pl/kategoria/niezbednik-juniora/");
-       conf.put(CrawlerParams.sentences,new String[]{"java"});
+       conf.put(CrawlerParams.URL, "http://kobietydokodu.pl/kategoria/niezbednik-juniora/");
+       conf.put(CrawlerParams.SENTENCES,new String[]{"java"});
        crawler.init(conf);
        List foundSentences = crawler.getResults().getAllDistinctOf(Sentence.class);
        List foundUrls = crawler.getResults().getAllDistinctOf(Adress.class);
@@ -84,7 +84,7 @@ public void testOneShotCrawler(){
 public void testOneShotImageCrawler(){
        IImageCrawler crawler = (IImageCrawler) CrawlersFactory.createSpecialCrawler(CrawlerMode.OneShot, CrawlerTarget.Images);
        CrawlerConfiguration conf = new CrawlerConfiguration();
-       conf.put(CrawlerParams.url, "http://kobietydokodu.pl/kategoria/niezbednik-juniora/");
+       conf.put(CrawlerParams.URL, "http://kobietydokodu.pl/kategoria/niezbednik-juniora/");
        crawler.addImagesFilter(new ImageFormatFilter(FilterMode.POST, "jpg"));
        crawler.init(conf);
        List foundImages = crawler.getResults().getAllDistinctOf(ImageSource.class);
@@ -97,8 +97,8 @@ public void testOneShotImageCrawler(){
 public void testOneShotGenericCrawler_Jsoup(){
      OneShotCrawler crawler = (OneShotCrawler) CrawlersFactory.createSpecialCrawler(CrawlerMode.OneShot, CrawlerTarget.Generic);
        CrawlerConfiguration conf = new CrawlerConfiguration();
-       conf.put(CrawlerParams.url, "http://kobietydokodu.pl/kategoria/niezbednik-juniora/");
-       conf.put(CrawlerParams.sentences,new String[]{"java"});
+       conf.put(CrawlerParams.URL, "http://kobietydokodu.pl/kategoria/niezbednik-juniora/");
+       conf.put(CrawlerParams.SENTENCES,new String[]{"java"});
        crawler.getSearchEngine().setParser(new JsoupParser());
        crawler.init(conf);
        List foundSentences = crawler.getResults().getAllDistinctOf(Sentence.class);
@@ -113,8 +113,8 @@ public void testOneShotGenericCrawler_Jsoup(){
 public void testOneShotGenericCrawler_HtmlUnit(){
      OneShotCrawler crawler = (OneShotCrawler) CrawlersFactory.createSpecialCrawler(CrawlerMode.OneShot, CrawlerTarget.Generic);
        CrawlerConfiguration conf = new CrawlerConfiguration();
-       conf.put(CrawlerParams.url, "http://kobietydokodu.pl/kategoria/niezbednik-juniora/");
-       conf.put(CrawlerParams.sentences,new String[]{"java"});
+       conf.put(CrawlerParams.URL, "http://kobietydokodu.pl/kategoria/niezbednik-juniora/");
+       conf.put(CrawlerParams.SENTENCES,new String[]{"java"});
        crawler.getSearchEngine().setParser(new HtmlUnitParser());
        crawler.init(conf);
        List foundSentences = crawler.getResults().getAllDistinctOf(Sentence.class);
@@ -129,8 +129,8 @@ public void testOneShotGenericCrawler_HtmlUnit(){
 public void testGenericCrawler(){
        Crawler crawler = CrawlersFactory.createSpecialCrawler(CrawlerMode.Continous, CrawlerTarget.Generic);
        CrawlerConfiguration conf = new CrawlerConfiguration();
-       conf.put(CrawlerParams.url, "http://kobietydokodu.pl/kategoria/niezbednik-juniora/");
-       conf.put(CrawlerParams.timeLimit, 5);
+       conf.put(CrawlerParams.URL, "http://kobietydokodu.pl/kategoria/niezbednik-juniora/");
+       conf.put(CrawlerParams.TIME_LIMIT, 5);
        crawler.init(conf);
        List foundUrls = crawler.getResults().getAllDistinctOf(Adress.class);
        List foundTexts = crawler.getResults().getAllDistinctOf(Text.class);
@@ -141,8 +141,8 @@ public void testGenericCrawler(){
 public void testMultithreadCrawler(){
     Crawler crawler = CrawlersFactory.createSpecialCrawler(CrawlerMode.Multithread, CrawlerTarget.Generic);
        CrawlerConfiguration conf = new CrawlerConfiguration();
-       conf.put(CrawlerParams.url, "http://kobietydokodu.pl/kategoria/niezbednik-juniora/");
-       conf.put(CrawlerParams.timeLimit, 5);
+       conf.put(CrawlerParams.URL, "http://kobietydokodu.pl/kategoria/niezbednik-juniora/");
+       conf.put(CrawlerParams.TIME_LIMIT, 5);
        crawler.init(conf);
        List foundUrls = crawler.getResults().getAllDistinctOf(Adress.class);
        List foundTexts = crawler.getResults().getAllDistinctOf(Text.class);
@@ -153,8 +153,8 @@ public void testMultithreadCrawler(){
 public void testImagesCrawler(){
     Crawler crawler = CrawlersFactory.createSpecialCrawler(CrawlerMode.Continous, CrawlerTarget.Images);
        CrawlerConfiguration conf = new CrawlerConfiguration();
-       conf.put(CrawlerParams.url, "http://kobietydokodu.pl/kategoria/niezbednik-juniora/");
-       conf.put(CrawlerParams.timeLimit, 5);
+       conf.put(CrawlerParams.URL, "http://kobietydokodu.pl/kategoria/niezbednik-juniora/");
+       conf.put(CrawlerParams.TIME_LIMIT, 5);
        crawler.init(conf);
        List foundUrls = crawler.getResults().getAllDistinctOf(Adress.class);
        List foundTexts = crawler.getResults().getAllDistinctOf(Text.class);

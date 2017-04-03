@@ -28,5 +28,5 @@ package crawler.configuration;
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
 public enum CrawlerParams {
-   url, timeLimit, sentences, type, target
+   URL, TIME_LIMIT, SENTENCES, TYPE, TARGET
 }

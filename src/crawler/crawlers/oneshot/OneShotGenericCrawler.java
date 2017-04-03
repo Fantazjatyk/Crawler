@@ -44,7 +44,7 @@ public class OneShotGenericCrawler extends OneShotCrawler implements GenericCraw
 
     @Override
     public void appendFilters(SearchEngine se, CrawlerConfiguration conf) {
-        se.addCollector(new SentenceCollector((String[]) conf.get(CrawlerParams.sentences)));
+        se.addCollector(new SentenceCollector((String[]) conf.get(CrawlerParams.SENTENCES)));
         se.addCollector(new ImageCollector());
     }
 
