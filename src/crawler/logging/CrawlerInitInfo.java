@@ -1,0 +1,64 @@
+/* 
+ * The MIT License
+ *
+ * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+package crawler.logging;
+
+import crawler.configuration.CrawlerConfiguration;
+import crawler.crawlers.Crawler;
+import java.util.Arrays;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
+ */
+public abstract class CrawlerInitInfo {
+    public static void printInitInfo(Crawler crawler, CrawlerConfiguration conf){
+        StringBuilder info = new StringBuilder();
+
+        info.append("Crawler ("+ crawler.getClass().getSimpleName() + ") runs with given parameters:\n");
+
+        conf.forEach((k, el)-> {
+            info.append(k + ": ");
+            if(el!= null && el.getClass().isArray()){
+                info.append(Arrays.toString(convertArrayToStrings((Object[]) el)) +"\n");
+            }
+            else{
+             info.append(el +"\n");
+            }
+
+                });
+        Logger.getLogger(CrawlerInitInfo.class.getClass().getSimpleName()).severe("\n" + info.toString());
+    }
+
+
+    private static String[] convertArrayToStrings(Object[] objs){
+        String[] result = new String[objs.length];
+
+        for(int i = 0; i < result.length; i++){
+            result[i] = (String) objs[i];
+        }
+        return result;
+    }
+
+}
