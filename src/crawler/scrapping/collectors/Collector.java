@@ -48,18 +48,22 @@ public abstract class Collector extends SearchRequestAwareLink {
 
     @Override
     protected final Object process(Object o, ChainRequest cr) {
-        Object filteredPost = new ArrayList();
+       return this.collect(o, (SearchContext) cr.getContext());
+    }
+
+    public final Object collect(Object o, SearchContext ctx){
+                Object filteredPost = new ArrayList();
         if (o instanceof Collection) {
             filteredPost = applyPreFilters((Collection) o);
         } else {
             filteredPost = o;
         }
-        Collection collected = (Collection) collect(filteredPost, (SearchContext) cr.getContext());
+        Collection collected = (Collection) work(filteredPost, ctx);
         Collection filteredCollected = applyPostFilters(collected);
         return filteredCollected;
     }
 
-    public abstract Object collect(Object o, SearchContext ctx);
+    protected abstract Object work(Object o, SearchContext ctx);
 
     public void addFilter(Filter f) {
         FilterMode mode = f.getMode();

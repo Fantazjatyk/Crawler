@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -23,8 +23,8 @@
  */
 package crawler.scrapping.chain.context;
 
-import crawler.scrapping.chain.context.SearchRuntimeContext;
 import crawler.configuration.CrawlerConfiguration;
+import crawler.configuration.CrawlerRuntimeConfiguration;
 
 /**
  *
@@ -32,11 +32,11 @@ import crawler.configuration.CrawlerConfiguration;
  */
 public class SearchContext implements ModifiableContext{
 
-        private SearchRuntimeContext runtime = new SearchRuntimeContext();
+        private CrawlerRuntimeConfiguration runtime = new CrawlerRuntimeConfiguration();
         private CrawlerConfiguration init = new CrawlerConfiguration();
 
 
-   public void setRuntimeContext(SearchRuntimeContext ctx){
+   public void setRuntimeContext(CrawlerRuntimeConfiguration ctx){
        this.runtime = ctx;
    }
 
@@ -44,7 +44,7 @@ public class SearchContext implements ModifiableContext{
        this.init = init;
    }
 
-    public SearchRuntimeContext getRuntimeContext(){
+    public CrawlerRuntimeConfiguration getRuntimeConfiguration(){
         return this.runtime;
     }
 

@@ -36,7 +36,7 @@ public class DomCollectorTest {
      */
     @Test
     public void testCollect_Null() {
-        domCollector.collect(null, null);
+        domCollector.work(null, null);
     }
 
     @Test
@@ -44,7 +44,7 @@ public class DomCollectorTest {
         Document document = mock(Document.class);
         when(document.getAllElements()).thenReturn(new Elements());
         SearchContext ctx = spy(SearchContext.class);
-        assertNotNull(domCollector.collect(document, ctx));
+        assertNotNull(domCollector.work(document, ctx));
     }
 
     /**
@@ -56,7 +56,7 @@ public class DomCollectorTest {
         SearchContext ctx = spy(SearchContext.class);
         when(document.getAllElements()).thenReturn(new Elements());
         domCollector = spy(URLCollector.class);
-        domCollector.collect(document, ctx);
+        domCollector.work(document, ctx);
 
        verify(domCollector, atLeastOnce()).collectUsingJsoup(any(), any());
 
@@ -68,7 +68,7 @@ public class DomCollectorTest {
         SearchContext ctx = spy(SearchContext.class);
         when(page.getByXPath(any())).thenReturn(new ArrayList());
         domCollector = spy(URLCollector.class);
-        domCollector.collect(page, ctx);
+        domCollector.work(page, ctx);
 
        verify(domCollector, atLeastOnce()).collectUsingHtmlUnit(any(), any());
 

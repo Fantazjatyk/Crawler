@@ -25,6 +25,7 @@ package crawler.scrapping.collectors;
 
 import com.gargoylesoftware.htmlunit.html.DomAttr;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import crawler.configuration.CrawlerParams;
 import crawler.data.Adress;
 import crawler.data.Source;
 import crawler.logging.CrawlerLogger;
@@ -58,7 +59,7 @@ public class URLCollector extends DomCollector {
                 if (el.hasAttr(el2)) {
 
                     if (!el.attr(el2).isEmpty()) {
-                        Adress adress = new Adress(el.attr(el2), new Source(ctx.getRuntimeContext().getDomAdress().get()));
+                        Adress adress = new Adress(el.attr(el2), new Source(ctx.getRuntimeConfiguration().get(CrawlerParams.URL)));
                         if (isBelongsToSearchedDomain(ctx.getCrawlerConfiguration().getInitURL(), adress.get())) {
                             adress.markAsBelongsToDomain();
                         }
@@ -79,7 +80,7 @@ public class URLCollector extends DomCollector {
 
         e.forEach((el) -> {
 
-            Adress adress = new Adress(el.getNodeValue(), new Source(ctx.getRuntimeContext().getDomAdress().get()));
+            Adress adress = new Adress(el.getNodeValue(), new Source(ctx.getRuntimeConfiguration().get(CrawlerParams.URL)));
             if (isBelongsToSearchedDomain(ctx.getCrawlerConfiguration().getInitURL(), adress.get())) {
                 adress.markAsBelongsToDomain();
             }

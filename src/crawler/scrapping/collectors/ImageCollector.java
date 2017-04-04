@@ -25,6 +25,7 @@ package crawler.scrapping.collectors;
 
 import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import crawler.configuration.CrawlerParams;
 import crawler.data.Data;
 import crawler.data.ImageSource;
 import crawler.data.Source;
@@ -49,7 +50,7 @@ public class ImageCollector extends DomCollector{
         List<Data> result = e.parallelStream()
                 .filter((el) -> el.tagName().equals("img") && el.hasAttr("abs:src") && !el.attr("abs:src").isEmpty())
                 .map((el2)
-                        -> new ImageSource(el2.attr("abs:src"), new Source(ctx.getRuntimeContext().getDomAdress()))).collect(Collectors.toList());
+                        -> new ImageSource(el2.attr("abs:src"), new Source(ctx.getRuntimeConfiguration().get(CrawlerParams.URL)))).collect(Collectors.toList());
 
         return result;
     }
@@ -58,7 +59,7 @@ public class ImageCollector extends DomCollector{
     protected Object collectUsingHtmlUnit(HtmlPage o, SearchContext ctx) {
         List<DomElement> list = o.getElementsByTagName("img");
         List<Data> result = list.parallelStream().filter((el)-> el.hasAttribute("src") && !el.getAttribute("src").isEmpty()).map((el2)
-                        -> new ImageSource(getHtmlUnitAbsUrl(el2.getAttribute("src"), o), new Source(ctx.getRuntimeContext().getDomAdress()))).collect(Collectors.toList());
+                        -> new ImageSource(getHtmlUnitAbsUrl(el2.getAttribute("src"), o), new Source(ctx.getRuntimeConfiguration().get(CrawlerParams.URL)))).collect(Collectors.toList());
         return result;
     }
 

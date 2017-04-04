@@ -7,51 +7,38 @@ package crawler.scrapping.collectors;
 
 import crawler.configuration.CrawlerParams;
 import crawler.scrapping.chain.context.SearchContext;
-
-import crawler.scrapping.collectors.URLCollector;
 import crawler.scrapping.parsers.JsoupParser;
 import java.util.Collection;
 import org.jsoup.nodes.Document;
-
-import static org.junit.Assert.*;
-import static org.junit.Assume.*;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
+import static org.junit.Assume.assumeTrue;
 
 /**
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public class URLCollectorTest {
+public class TextCollectorTest {
 
-    URLCollector urlCollector = new URLCollector();
+    TextCollector collector = new TextCollector();
 
-    public URLCollectorTest() {
+    public TextCollectorTest() {
     }
 
     /**
-     * Test of isBelongsToSearchedDomain method, of class URLCollector.
+     * Test of produces method, of class TextCollector.
      */
     @Test
-    public void testIsBelongsToSearchedDomain() {
-    }
-
-    @Test
-    public void testCollect(){
+    public void testProduces() {
         Document document = new JsoupParser().parse("https://www.w3schools.com/");
+        collector = spy(TextCollector.class);
         SearchContext ctx = spy(SearchContext.class);
-
         ctx.getCrawlerConfiguration().put(CrawlerParams.URL, "https://www.w3schools.com/");
         ctx.getRuntimeConfiguration().put(CrawlerParams.URL, "https://www.w3schools.com/");
-
         assumeTrue(document != null);
-
-        Collection result = (Collection) urlCollector.work(document, ctx);
-        assertTrue(result.size() > 0);
+        Collection result = (Collection) collector.work(document, ctx);
+        assertTrue(result.size() > 1);
     }
-    /**
-     * Test of produces method, of class URLCollector.
-     */
-
 
 }

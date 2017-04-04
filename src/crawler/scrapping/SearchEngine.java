@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -24,6 +24,7 @@
 package crawler.scrapping;
 
 import crawler.configuration.CrawlerConfiguration;
+import crawler.configuration.CrawlerParams;
 import crawler.data.Adress;
 import crawler.scrapping.chain.ChainRequest;
 import crawler.scrapping.chain.ChainResults;
@@ -61,7 +62,7 @@ public class SearchEngine {
 
     protected void init(Adress adress, ChainRequest rq) {
         SearchContext ctx = (SearchContext) rq.getContext();
-        ctx.getRuntimeContext().setDomAdress(adress);
+        ctx.getRuntimeConfiguration().put(CrawlerParams.URL, adress.get());
         try {
             runRootChains(adress, rq);
         } catch (InterruptedException ex) {

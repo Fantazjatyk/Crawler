@@ -23,6 +23,7 @@
  */
 package crawler.scrapping.collectors;
 
+import crawler.configuration.CrawlerParams;
 import crawler.data.Data;
 import crawler.data.Sentence;
 import crawler.data.Source;
@@ -55,7 +56,7 @@ public class SentenceCollector extends Collector{
     }
 
     @Override
-    public Object collect(Object o, SearchContext ctx) {
+    public Object work(Object o, SearchContext ctx) {
         List found = new LinkedList();
 
 
@@ -74,7 +75,7 @@ public class SentenceCollector extends Collector{
                     String[] occurences = Strings.cutMatchingFragments(text, s, true);
 
                     for (String match : occurences) {
-                        Sentence sentence = new Sentence(match, new Source(ctx.getRuntimeContext().getDomAdress()));
+                        Sentence sentence = new Sentence(match, new Source(ctx.getRuntimeConfiguration().get(CrawlerParams.URL)));
                         found.add(sentence);
                     }
                 }

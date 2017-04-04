@@ -35,7 +35,7 @@ import org.jsoup.nodes.Document;
 public abstract class DomCollector extends Collector{
 
     @Override
-    public Object collect(Object o, SearchContext ctx) {
+    protected Object work(Object o, SearchContext ctx) {
         Object result = new ArrayList();
         if (o instanceof Document) {
             Object r = collectUsingJsoup((Document) o, ctx);
