@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -26,7 +26,7 @@ package crawler.scrapping.collectors;
 import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import crawler.data.Text;
-import crawler.scrapping.chain.ChainRequest;
+import crawler.scrapping.chain.context.SearchContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +41,7 @@ import org.jsoup.select.Elements;
 public class TextCollector extends DomCollector{
   String[] excludedTags = new String[]{"title"};
     @Override
-    protected Object usingJsoup(Document o, ChainRequest cr) {
+    protected Object collectUsingJsoup(Document o, SearchContext ctx) {
          Elements e = o.getAllElements();
         LinkedBlockingQueue found = new LinkedBlockingQueue();
         LinkedBlockingQueue result = new LinkedBlockingQueue();
@@ -58,7 +58,7 @@ public class TextCollector extends DomCollector{
     }
 
     @Override
-    protected Object usingHtmlUnit(HtmlPage o, ChainRequest cr) {
+    protected Object collectUsingHtmlUnit(HtmlPage o, SearchContext ctx) {
          List<DomNode> e = o.getByXPath("//child::text()");
 
         LinkedBlockingQueue found = new LinkedBlockingQueue();

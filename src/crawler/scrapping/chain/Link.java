@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -46,5 +46,5 @@ public abstract class Link {
 
     public abstract Class[] produces();
 
-    public abstract Object foward();
+    abstract Object foward();
 }

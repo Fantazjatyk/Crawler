@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -43,7 +43,5 @@ public abstract class Filter<T> implements Predicate<T> {
 
     @Override
     public abstract boolean test(T t);
-
-
 
 }

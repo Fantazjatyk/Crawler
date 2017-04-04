@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -36,9 +36,10 @@ import java.util.logging.Logger;
  */
 public class HtmlUnitParser implements Parser<HtmlPage>{
 
+            private WebClient client = new WebClient();
+
     @Override
     public HtmlPage parse(String url) {
-        WebClient client = new WebClient();
         HtmlPage result = null;
         try {
             result = client.getPage(url);

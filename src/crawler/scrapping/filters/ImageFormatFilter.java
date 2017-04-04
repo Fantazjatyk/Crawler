@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -42,7 +42,7 @@ public class ImageFormatFilter extends Filter<ImageSource> {
 
     @Override
     public boolean test(ImageSource toTest) {
-        if (toTest.getQuessFormat().equals(format)) {
+        if (toTest!= null && toTest.getQuessFormat() != null && toTest.getQuessFormat().equals(format)) {
             return true;
         } else {
             return false;

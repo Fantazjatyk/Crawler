@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -28,7 +28,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import crawler.data.Data;
 import crawler.data.ImageSource;
 import crawler.data.Source;
-import crawler.scrapping.chain.ChainRequest;
 import crawler.scrapping.chain.context.SearchContext;
 import java.net.MalformedURLException;
 import java.util.List;
@@ -45,9 +44,8 @@ import org.jsoup.select.Elements;
 public class ImageCollector extends DomCollector{
 
     @Override
-    protected Object usingJsoup(Document o, ChainRequest cr) {
+    protected Object collectUsingJsoup(Document o, SearchContext ctx) {
            Elements e = o.getAllElements();
-          SearchContext ctx = (SearchContext) cr.getContext();
         List<Data> result = e.parallelStream()
                 .filter((el) -> el.tagName().equals("img") && el.hasAttr("abs:src") && !el.attr("abs:src").isEmpty())
                 .map((el2)
@@ -57,8 +55,7 @@ public class ImageCollector extends DomCollector{
     }
 
     @Override
-    protected Object usingHtmlUnit(HtmlPage o, ChainRequest cr) {
-         SearchContext ctx = (SearchContext) cr.getContext();
+    protected Object collectUsingHtmlUnit(HtmlPage o, SearchContext ctx) {
         List<DomElement> list = o.getElementsByTagName("img");
         List<Data> result = list.parallelStream().filter((el)-> el.hasAttribute("src") && !el.getAttribute("src").isEmpty()).map((el2)
                         -> new ImageSource(getHtmlUnitAbsUrl(el2.getAttribute("src"), o), new Source(ctx.getRuntimeContext().getDomAdress()))).collect(Collectors.toList());

@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -44,6 +44,7 @@ public class CrawlerMovement extends FakerCrawlerMovement {
     @Override
     Adress findNextAdress() {
         return (Adress) HumanFaker.pollRandomElement(adresses);
+
     }
 
 }

@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -24,22 +24,25 @@
 package crawler.scrapping.collectors;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import crawler.scrapping.chain.ChainRequest;
+import crawler.scrapping.chain.context.SearchContext;
+import java.util.ArrayList;
 import org.jsoup.nodes.Document;
 
 /**
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public abstract class DomCollector extends Collector {
+public abstract class DomCollector extends Collector{
 
     @Override
-    public Object collect(Object o, ChainRequest cr) {
-        Object result = null;
+    public Object collect(Object o, SearchContext ctx) {
+        Object result = new ArrayList();
         if (o instanceof Document) {
-            result = usingJsoup((Document) o, cr);
+            Object r = collectUsingJsoup((Document) o, ctx);
+            result = r != null ? r : result;
         } else if (o instanceof HtmlPage) {
-            result = usingHtmlUnit((HtmlPage) o, cr);
+             Object r = collectUsingHtmlUnit((HtmlPage) o, ctx);
+            result = r != null ? r : result;
         }
         return result;
     }
@@ -49,8 +52,8 @@ public abstract class DomCollector extends Collector {
         return new Class[]{Document.class, HtmlPage.class};
     }
 
-    protected abstract Object usingJsoup(Document o, ChainRequest cr);
+    abstract Object collectUsingJsoup(Document o, SearchContext ctx);
 
-    protected abstract Object usingHtmlUnit(HtmlPage o, ChainRequest cr);
+    abstract Object collectUsingHtmlUnit(HtmlPage o, SearchContext ctx);
 
 }

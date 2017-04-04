@@ -48,7 +48,7 @@ public class SearchContext implements ModifiableContext{
         return this.runtime;
     }
 
-    public CrawlerConfiguration getRuntimeConfiguration(){
+    public CrawlerConfiguration getCrawlerConfiguration(){
         return this.init;
     }
 

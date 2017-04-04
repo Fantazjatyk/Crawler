@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -28,7 +28,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import crawler.data.Adress;
 import crawler.data.Source;
 import crawler.logging.CrawlerLogger;
-import crawler.scrapping.chain.ChainRequest;
 import crawler.scrapping.chain.context.SearchContext;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -48,9 +47,8 @@ public class URLCollector extends DomCollector {
     private String[] htmlAttributes = new String[]{"abs:href", "abs:ref", "abs:src"};
 
     @Override
-    protected Object usingJsoup(Document o, ChainRequest cr) {
+    public Object collectUsingJsoup(Document o, SearchContext ctx) {
         Elements e = o.getAllElements();
-        SearchContext ctx = (SearchContext) cr.getContext();
         LinkedBlockingQueue result = new LinkedBlockingQueue();
         LinkedBlockingQueue<String> htmlSearchTags = new LinkedBlockingQueue(Arrays.asList(htmlAttributes));
 
@@ -61,7 +59,7 @@ public class URLCollector extends DomCollector {
 
                     if (!el.attr(el2).isEmpty()) {
                         Adress adress = new Adress(el.attr(el2), new Source(ctx.getRuntimeContext().getDomAdress().get()));
-                        if (isBelongsToSearchedDomain(ctx.getRuntimeConfiguration().getInitURL(), adress.get())) {
+                        if (isBelongsToSearchedDomain(ctx.getCrawlerConfiguration().getInitURL(), adress.get())) {
                             adress.markAsBelongsToDomain();
                         }
 
@@ -75,15 +73,14 @@ public class URLCollector extends DomCollector {
     }
 
     @Override
-    protected Object usingHtmlUnit(HtmlPage o, ChainRequest cr) {
+    Object collectUsingHtmlUnit(HtmlPage o, SearchContext ctx) {
         Iterable<DomAttr> e = o.getByXPath("//@href");
-        SearchContext ctx = (SearchContext) cr.getContext();
         List result = new ArrayList();
 
         e.forEach((el) -> {
 
             Adress adress = new Adress(el.getNodeValue(), new Source(ctx.getRuntimeContext().getDomAdress().get()));
-            if (isBelongsToSearchedDomain(ctx.getRuntimeConfiguration().getInitURL(), adress.get())) {
+            if (isBelongsToSearchedDomain(ctx.getCrawlerConfiguration().getInitURL(), adress.get())) {
                 adress.markAsBelongsToDomain();
             }
 
@@ -93,7 +90,7 @@ public class URLCollector extends DomCollector {
         return result;
     }
 
-    public boolean isBelongsToSearchedDomain(String initURL, String url) {
+    private boolean isBelongsToSearchedDomain(String initURL, String url) {
         boolean result = false;
         URL testUrl = null;
         try {

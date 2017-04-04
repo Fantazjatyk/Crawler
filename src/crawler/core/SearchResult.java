@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -30,7 +30,7 @@ import java.util.concurrent.FutureTask;
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public class SearchResult{
+public class SearchResult {
 
     private Adress source;
     private boolean isLocked = true;
@@ -50,7 +50,7 @@ public class SearchResult{
 
     }
 
-    public Adress getAdress(){
+    public Adress getAdress() {
         return this.source;
     }
 
@@ -58,4 +58,3 @@ public class SearchResult{
         return future;
     }
 }
-

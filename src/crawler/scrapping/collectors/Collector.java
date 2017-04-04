@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -28,6 +28,7 @@ import crawler.scrapping.chain.ChainRequest;
 import crawler.scrapping.filters.Filter;
 import crawler.scrapping.filters.FilterMode;
 import crawler.scrapping.chain.SearchRequestAwareLink;
+import crawler.scrapping.chain.context.SearchContext;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -39,38 +40,37 @@ import org.jsoup.select.Elements;
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
 @Valid
-public abstract class Collector extends SearchRequestAwareLink{
+public abstract class Collector extends SearchRequestAwareLink {
 
-       public static Class[] SECURED_TYPES = new Class[]{Elements.class, HtmlPage.class};
-        private List<Filter> preFilters = new ArrayList();
+    public static Class[] SECURED_TYPES = new Class[]{Elements.class, HtmlPage.class};
+    private List<Filter> preFilters = new ArrayList();
     private List<Filter> postFilters = new ArrayList();
 
     @Override
-    public final Object process(Object o, ChainRequest cr){
+    protected final Object process(Object o, ChainRequest cr) {
         Object filteredPost = new ArrayList();
-        if(o instanceof Collection){
+        if (o instanceof Collection) {
             filteredPost = applyPreFilters((Collection) o);
-        }
-        else{
+        } else {
             filteredPost = o;
         }
-        Collection collected = (Collection) collect(filteredPost, cr);
+        Collection collected = (Collection) collect(filteredPost, (SearchContext) cr.getContext());
         Collection filteredCollected = applyPostFilters(collected);
         return filteredCollected;
     }
 
-    public abstract Object collect(Object o, ChainRequest cr);
+    public abstract Object collect(Object o, SearchContext ctx);
 
-    public void addFilter(Filter f){
+    public void addFilter(Filter f) {
         FilterMode mode = f.getMode();
 
-        if(mode == FilterMode.POST){
+        if (mode == FilterMode.POST) {
             addPostFilter(f);
-        }
-        else if(mode == FilterMode.PRE){
+        } else if (mode == FilterMode.PRE) {
             addPreFilter(f);
         }
     }
+
     private void addPostFilter(Filter f) {
         this.postFilters.add(f);
     }
@@ -79,16 +79,16 @@ public abstract class Collector extends SearchRequestAwareLink{
         this.preFilters.add(f);
     }
 
-    public Collection applyPostFilters(Collection post) {
+    protected Collection applyPostFilters(Collection post) {
         return applyFilters(post, postFilters);
     }
 
-    public Collection applyPreFilters(Collection pre) {
+    protected Collection applyPreFilters(Collection pre) {
         return applyFilters(pre, preFilters);
     }
 
-    public Collection applyFilters(Collection o, Collection<Filter> filters) {
-        if(filters.isEmpty()){
+    protected Collection applyFilters(Collection o, Collection<Filter> filters) {
+        if (filters.isEmpty()) {
             return o;
         }
         List result = new ArrayList();

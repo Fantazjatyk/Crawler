@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -27,7 +27,6 @@ import crawler.data.Data;
 import crawler.data.Sentence;
 import crawler.data.Source;
 import crawler.data.Text;
-import crawler.scrapping.chain.ChainRequest;
 import crawler.scrapping.chain.context.SearchContext;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,8 +55,7 @@ public class SentenceCollector extends Collector{
     }
 
     @Override
-    public Object collect(Object o, ChainRequest cr) {
-        SearchContext ctx = (SearchContext) cr.getContext();
+    public Object collect(Object o, SearchContext ctx) {
         List found = new LinkedList();
 
 

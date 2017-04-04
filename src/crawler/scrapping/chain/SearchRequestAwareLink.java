@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -38,17 +38,17 @@ public abstract class SearchRequestAwareLink extends Link{
     Collection result = new ConcurrentSkipListSet();
     ChainRequest cr;
 
-    public Object handle(Object o, ChainRequest cr){
+    protected Object handle(Object o, ChainRequest cr){
         result = (Collection) process(o, cr);
         this.cr = cr;
         result.addAll((Collection) foward());
         return result;
     }
 
-    public abstract Object process(Object o, ChainRequest cr);
+    protected abstract Object process(Object o, ChainRequest cr);
 
     @Override
-    public Object foward() {
+    protected Object foward() {
         Collection fowardResult = new ArrayList();
         Optional<Link> succesor = super.getSuccesor();
         if(succesor.isPresent()){
