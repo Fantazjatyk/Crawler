@@ -46,7 +46,7 @@ public class URLCollectorTest {
 
         assumeTrue(document != null);
 
-        Collection result = (Collection) urlCollector.work(document, ctx);
+        Collection result = (Collection) urlCollector.collect(document, ctx);
         assertTrue(result.size() > 0);
     }
     /**

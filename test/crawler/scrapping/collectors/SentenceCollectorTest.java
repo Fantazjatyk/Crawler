@@ -45,7 +45,7 @@ public class SentenceCollectorTest {
                 add(new Text("ala ma kota a pies ma kota", new Source("")));
             }
         };
-        Collection<Sentence> result = (Collection) collector.work(input, new SearchContext());
+        Collection<Sentence> result = (Collection) collector.collect(input, new SearchContext());
         assertEquals(2, result.size());
 
     }

@@ -37,7 +37,7 @@ public class TextCollectorTest {
         ctx.getCrawlerConfiguration().put(CrawlerParams.URL, "https://www.w3schools.com/");
         ctx.getRuntimeConfiguration().put(CrawlerParams.URL, "https://www.w3schools.com/");
         assumeTrue(document != null);
-        Collection result = (Collection) collector.work(document, ctx);
+        Collection result = (Collection) collector.collect(document, ctx);
         assertTrue(result.size() > 1);
     }
 

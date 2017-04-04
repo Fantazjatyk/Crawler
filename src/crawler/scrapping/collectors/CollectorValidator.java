@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -40,14 +40,18 @@ public class CollectorValidator implements ConstraintValidator<Valid, Collector>
 
     @Override
     public boolean isValid(Collector t, ConstraintValidatorContext cvc) {
+
+        if (t.accepts() == null && t.produces() == null) {
+            return false;
+        }
+
         List accepts = Arrays.asList(t.accepts());
         List produces = Arrays.asList(t.produces());
 
-        if(!(t instanceof DomCollector) && accepts.stream().anyMatch((el)->Arrays.asList(Collector.SECURED_TYPES).contains(el))){
+        if (!(t instanceof DomCollector) && accepts.stream().anyMatch((el) -> Arrays.asList(Collector.SECURED_TYPES).contains(el)) || produces.stream().anyMatch((el) -> Arrays.asList(Collector.SECURED_TYPES).contains(el))) {
             return false;
-        }
-        else{
-        return true;
+        } else {
+            return true;
         }
     }
 

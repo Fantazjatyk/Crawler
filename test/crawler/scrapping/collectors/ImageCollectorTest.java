@@ -48,7 +48,7 @@ public class ImageCollectorTest {
 
         assumeTrue(document != null);
 
-        Collection result = (Collection) collector.work(document, ctx);
+        Collection result = (Collection) collector.collect(document, ctx);
         assertTrue(result.size() > 0);
     }
 
