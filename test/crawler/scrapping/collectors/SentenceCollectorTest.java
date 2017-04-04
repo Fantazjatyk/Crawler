@@ -5,6 +5,7 @@
  */
 package crawler.scrapping.collectors;
 
+import crawler.configuration.CrawlerParams;
 import crawler.data.Sentence;
 import crawler.data.Source;
 import crawler.data.Text;
@@ -45,7 +46,9 @@ public class SentenceCollectorTest {
                 add(new Text("ala ma kota a pies ma kota", new Source("")));
             }
         };
-        Collection<Sentence> result = (Collection) collector.collect(input, new SearchContext());
+        SearchContext rq = new SearchContext();
+        rq.getCrawlerConfiguration().put(CrawlerParams.URL, "bla bla");
+        Collection<Sentence> result = (Collection) collector.collect(input, rq);
         assertEquals(2, result.size());
 
     }

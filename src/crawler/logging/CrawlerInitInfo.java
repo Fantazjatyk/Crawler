@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -33,32 +33,22 @@ import java.util.logging.Logger;
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
 public abstract class CrawlerInitInfo {
-    public static void printInitInfo(Crawler crawler, CrawlerConfiguration conf){
+
+    public static void printInitInfo(Crawler crawler, CrawlerConfiguration conf) {
         StringBuilder info = new StringBuilder();
 
-        info.append("Crawler ("+ crawler.getClass().getSimpleName() + ") runs with given parameters:\n");
+        info.append("Crawler (" + crawler.getClass().getSimpleName() + ") runs with given parameters:\n");
 
-        conf.forEach((k, el)-> {
+        conf.forEach((k, el) -> {
             info.append(k + ": ");
-            if(el!= null && el.getClass().isArray()){
-                info.append(Arrays.toString(convertArrayToStrings((Object[]) el)) +"\n");
-            }
-            else{
-             info.append(el +"\n");
+            if (el != null && el.getClass().isArray()) {
+                info.append(Arrays.toString(utils.Arrays.convertArrayToStrings((Object[]) el)) + "\n");
+            } else {
+                info.append(el + "\n");
             }
 
-                });
+        });
         Logger.getLogger(CrawlerInitInfo.class.getClass().getSimpleName()).severe("\n" + info.toString());
-    }
-
-
-    private static String[] convertArrayToStrings(Object[] objs){
-        String[] result = new String[objs.length];
-
-        for(int i = 0; i < result.length; i++){
-            result[i] = (String) objs[i];
-        }
-        return result;
     }
 
 }

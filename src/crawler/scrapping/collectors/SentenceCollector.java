@@ -64,7 +64,7 @@ public class SentenceCollector extends Collector{
         List found = new LinkedList();
 
 
-        ((Collection<Data>)(o)).parallelStream().forEach((el) -> {
+        ((Collection<Data>)(o)).stream().forEach((el) -> {
             if(el == null){
                 return;
             }

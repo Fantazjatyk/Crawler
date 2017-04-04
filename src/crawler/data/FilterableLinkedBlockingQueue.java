@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -23,40 +23,12 @@
  */
 package crawler.data;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.stream.Collectors;
 
 /**
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public class FilterableLinkedBlockingQueue<T> extends LinkedBlockingQueue<T> implements Filterable{
-   private static DataPostProcessor dataProcessor = new DataPostProcessor();
-
-    @Override
-    public List getAllDistinctOf(Class c) {
-          Class c1 = c;
-        List result = new ArrayList();
-        if (!this.isEmpty()) {
-            result = (List) this.parallelStream().filter((el) -> el != null && el.getClass().equals(c1)).collect(Collectors.toList());
-        }
-        return result;
-    }
-
-    @Override
-    public List getAllOf(Class c) {
-        List result = getAllOf(c);
-        return (List<Data>) dataProcessor.mergeDatas(result);
-    }
-
-      public FilterableLinkedBlockingQueue() {
-    }
-
-    public FilterableLinkedBlockingQueue(Collection<? extends T> c) {
-        super(c);
-    }
+public class FilterableLinkedBlockingQueue<T> extends LinkedBlockingQueue<T> implements FilterableCollection {
 
 }
