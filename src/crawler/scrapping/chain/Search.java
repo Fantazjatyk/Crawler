@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -42,7 +42,13 @@ public class Search extends SearchRequestAwareChain{
     @Override
     protected Collection each(Object expecting, SearchRequestAwareLink link, ChainRequest rq) throws IllegalInputException {
          Collection c = new ArrayList();
-         Object result = link.handle(expecting, rq);
+         Object result = new Object();
+         try{
+         result = link.handle(expecting, rq);
+         }
+         catch(NullPointerException e){
+             Logger.getLogger(this.getClass().getName()).warning(e.getStackTrace()[0].toString());
+         }
         if(result instanceof Collection){
         c.addAll((Collection) result);
         }
@@ -106,7 +112,7 @@ private void wire(SearchRequestAwareLink produce, SearchRequestAwareLink accept)
     produce.setSuccesor(accept);
 }
 
-private boolean areCompatibile(SearchRequestAwareLink produce, SearchRequestAwareLink accept){
+protected final boolean areCompatibile(SearchRequestAwareLink produce, SearchRequestAwareLink accept){
     Object[] produces = produce.produces();
     Object[] accepts = accept.accepts();
 

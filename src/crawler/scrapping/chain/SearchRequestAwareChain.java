@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -52,6 +52,9 @@ public abstract class SearchRequestAwareChain extends AutowireChain {
     }
 
     public void start(Object root, ChainRequest rq) {
+        if(root == null || rq == null){
+            throw new NullPointerException();
+        }
         this.root = root;
         sortLinks();
         body(root, rq);

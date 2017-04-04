@@ -51,6 +51,10 @@ public class SentenceCollector extends Collector{
     }
     }
 
+      public SentenceCollector(){
+
+      }
+
     public List<String> getFilteringSentences() {
         return filteringSentences;
     }
