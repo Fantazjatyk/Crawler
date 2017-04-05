@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public interface FilterableCollection {
     static DataPostProcessor dataProcessor = new DataPostProcessor();
 
-    public default List getAllDistinctOf(Class c) {
+    public default List getAllOf(Class c) {
         Collection self = (Collection) this;
           Class c1 = c;
         List result = new ArrayList();
@@ -26,7 +26,7 @@ public interface FilterableCollection {
     }
 
 
-    public default List getAllOf(Class c) {
+    public default List getAllDistinctOf(Class c) {
         List result = getAllOf(c);
         return (List<Data>) dataProcessor.mergeDatas(result);
     }

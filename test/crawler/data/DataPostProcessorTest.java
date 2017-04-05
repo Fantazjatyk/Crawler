@@ -99,6 +99,7 @@ public class DataPostProcessorTest {
     @Test
     public void testMergeDatas_NoSources() {
         Sentence sentence = new Sentence("Ala", new Source("a"));
+        Sentence sentence4 = new Sentence("Ala", new Source("a"));
         Sentence sentence2 = new Sentence("ma", new Source("b"));
         Sentence sentence3 = new Sentence("ma");
 
@@ -107,6 +108,7 @@ public class DataPostProcessorTest {
                 add(sentence);
                 add(sentence2);
                 add(sentence3);
+                add(sentence4);
             }
         };
 

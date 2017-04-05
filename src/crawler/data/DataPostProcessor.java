@@ -59,12 +59,14 @@ public class DataPostProcessor {
     public Collection<? extends Data> mergeDatas(Collection<? extends Data> collection) {
         List<Data> result = new LinkedList();
 
-        ArrayList<? extends Data> copy = new ArrayList(collection);
+        Collection<Data> copy = new ArrayList();
+        copy.addAll(collection);
         copy.removeIf(Objects::isNull);
         copy.forEach((el) -> {
 
             if (result.contains(el)) {
                 mergeData(result.get(result.indexOf(el)), el);
+                el = null;
             } else {
                 result.add(el);
             }
@@ -84,10 +86,10 @@ public class DataPostProcessor {
         Map<Object, Source> sourcesMap = new HashMap();
         list.stream().forEach((el) -> {
 
-            if (sourcesMap.containsKey(el.getSource())) {
-                sourcesMap.get(el.getSource()).duplicate();
+            if (sourcesMap.containsKey(el.getContent())) {
+                sourcesMap.get(el.getContent()).duplicate();
             } else {
-                sourcesMap.put(el.getSource(), el);
+                sourcesMap.put(el.getContent(), el);
             }
         });
         list.clear();

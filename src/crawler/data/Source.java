@@ -31,10 +31,10 @@ public class Source<T>{
 
     public int times = 1;
 
-    T source;
+    T content;
 
-    public T getSource() {
-        return source;
+    public T getContent() {
+        return content;
     }
     
     public void duplicate(){
@@ -42,6 +42,6 @@ public class Source<T>{
     }
     
  public Source(T content){
-     this.source = content;
+     this.content = content;
  }
 }

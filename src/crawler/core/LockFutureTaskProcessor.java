@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -42,7 +42,7 @@ public class LockFutureTaskProcessor<T> extends FutureTaskProcessor<T> {
     void makeCycle() {
 
         Entry<Lock, FutureTask> entry = entry = collection.lastEntry();
-        if(entry == null){
+        if (entry == null) {
             return;
         }
         FutureTask futureTask = null;
@@ -68,7 +68,7 @@ public class LockFutureTaskProcessor<T> extends FutureTaskProcessor<T> {
         this.collection.put(lock, task);
     }
 
-    public Entry<Lock, Object> pollLastResult(){
+    public Entry<Lock, Object> pollLastResult() {
         return results.pollLastEntry();
     }
 

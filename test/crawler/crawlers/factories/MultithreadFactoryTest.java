@@ -35,12 +35,12 @@ public class MultithreadFactoryTest {
      */
 
         // zwracanie wyników itp trwa 20-30% początkowego limitu czasu.
-    @Test(timeout = 10000)
+    @Test(timeout = 5000)
     public void testCreateSentencesCrawler() {
         ConcurrentCrawler crawler = (ConcurrentCrawler) new MultithreadFactory().createSentencesCrawler();
         CrawlerConfiguration conf = new CrawlerConfiguration();
         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
-        conf.put(CrawlerParams.TIME_LIMIT, 5);
+        conf.put(CrawlerParams.TIME_LIMIT, 1);
         crawler.crawl(conf);
         assertTrue(crawler.getResults().size() > 1);
         assertTrue(crawler.getMovement().getCrawledAdresses().size() > 1);
@@ -49,12 +49,12 @@ public class MultithreadFactoryTest {
     /**
      * Test of createImagesCrawler method, of class MultithreadFactory.
      */
-    @Test(timeout = 10000)
+    @Test(timeout = 5000)
     public void testCreateImagesCrawler() {
         ConcurrentCrawler crawler = (ConcurrentCrawler) new MultithreadFactory().createImagesCrawler();
         CrawlerConfiguration conf = new CrawlerConfiguration();
         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
-        conf.put(CrawlerParams.TIME_LIMIT, 5);
+        conf.put(CrawlerParams.TIME_LIMIT, 1);
         crawler.crawl(conf);
         assertTrue(crawler.getResults().size() > 1);
         assertTrue(crawler.getMovement().getCrawledAdresses().size() > 1);
@@ -63,12 +63,12 @@ public class MultithreadFactoryTest {
     /**
      * Test of createGenericCrawler method, of class MultithreadFactory.
      */
-    @Test(timeout = 10000)
+    @Test(timeout = 5000)
     public void testCreateGenericCrawler() {
         ConcurrentCrawler crawler = (ConcurrentCrawler) new MultithreadFactory().createGenericCrawler();
         CrawlerConfiguration conf = new CrawlerConfiguration();
         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
-        conf.put(CrawlerParams.TIME_LIMIT, 5);
+        conf.put(CrawlerParams.TIME_LIMIT, 1);
         crawler.crawl(conf);
         assertTrue(crawler.getResults().size() > 1);
         assertTrue(crawler.getMovement().getCrawledAdresses().size() > 1);
