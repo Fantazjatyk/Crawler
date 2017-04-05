@@ -28,5 +28,5 @@ package crawler.crawlers.factories;
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
 public enum CrawlerMode {
-OneShot, Continous, Multithread
+OneShot, Continous, Concurrent
 }

@@ -62,7 +62,7 @@ public class CrawlersFactory {
             case Continous:
                 factory = new ContinousFactory();
                 break;
-            case Multithread:
+            case Concurrent:
                 factory = new MultithreadFactory();
                 break;
         }

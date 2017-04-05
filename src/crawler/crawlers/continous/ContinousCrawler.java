@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -49,7 +49,9 @@ public abstract class ContinousCrawler extends Crawler implements ContinousableC
         movement.getSearchEngine().setConfiguration(conf);
         appendFilters(movement.getSearchEngine(), conf);
         movement.getAdresses().add(new Adress(conf.getInitURL()));
-        return startMovement(conf.getTimeLimit());
+        Collection result = startMovement(conf.getTimeLimit());
+        super.getResults().addAll(result);
+        return super.getResults();
     }
 
     private FilterableArrayList startMovement(int timeLimit) {

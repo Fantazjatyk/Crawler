@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import crawler.data.Data;
 import crawler.data.Source;
+import java.util.Objects;
 
 /**
  *
@@ -39,7 +40,11 @@ import crawler.data.Source;
 
 public class DataPostProcessor {
 
-    private void mergeData(Data data1, Data data2) {
+    public Data mergeData(Data data1, Data data2) {
+        if(data1 == null || data2 == null
+                || !data1.getClass().equals(data2.getClass())){
+            return null;
+        }
         List<Source> dateSources = data1.getSources();
         List<Source> dateNewSources = data2.getSources();
 
@@ -48,13 +53,15 @@ public class DataPostProcessor {
                 dateSources.add(el);
             }
         });
+        return data1;
     }
 
     public Collection<? extends Data> mergeDatas(Collection<? extends Data> collection) {
         List<Data> result = new LinkedList();
 
-
-        collection.forEach((el) -> {
+        ArrayList<? extends Data> copy = new ArrayList(collection);
+        copy.removeIf(Objects::isNull);
+        copy.forEach((el) -> {
 
             if (result.contains(el)) {
                 mergeData(result.get(result.indexOf(el)), el);
