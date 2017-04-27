@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -72,8 +72,9 @@ public class Data<T> {
     @Override
     public boolean equals(Object obj) {
         Data s = (Data) obj;
-        return s!=null && s instanceof Data ?
+        return s!=null && s instanceof Data && this.content != null?
                 this.content.equals(s.content) : false;
+        // NullPointerException
     }
 
 

@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -48,6 +48,7 @@ public class ConcurrentCrawlerMovement extends FakerCrawlerMovement {
 
     @Override
     void before() {
+
         executors.execute(() -> this.processor.start(super.getRemainingTime()));
     }
 

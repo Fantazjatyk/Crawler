@@ -52,7 +52,7 @@ import javax.validation.Validator;
 public class SearchEngine {
 
     private Parser parser = new JsoupParser();
-    private Search search = new Search();
+    protected Search search = new Search();
     private CrawlerConfiguration conf;
     private List<Collector> collectors = new ArrayList();
 

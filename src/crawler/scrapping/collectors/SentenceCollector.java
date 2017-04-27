@@ -34,7 +34,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import utils.Strings;
+import michal.szymanski.util.Strings;
 
 /**
  *
@@ -76,7 +76,7 @@ public class SentenceCollector extends Collector{
                 String s = el2;
                 if (text.contains(s.toLowerCase())) {
 
-                    String[] occurences = Strings.cutMatchingFragments(text, s, true);
+                    String[] occurences = Strings.cutMatchingFragmentIgnoreCase(text, s);
 
                     for (String match : occurences) {
                         Sentence sentence = new Sentence(match, new Source(ctx.getRuntimeConfiguration().get(CrawlerParams.URL)));

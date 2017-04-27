@@ -35,7 +35,7 @@ public class MultithreadFactoryTest {
      */
 
         // zwracanie wyników itp trwa 20-30% początkowego limitu czasu.
-    @Test(timeout = 5000)
+    //@Test(timeout = 5000)
     public void testCreateSentencesCrawler() {
         ConcurrentCrawler crawler = (ConcurrentCrawler) new MultithreadFactory().createSentencesCrawler();
         CrawlerConfiguration conf = new CrawlerConfiguration();
@@ -49,7 +49,7 @@ public class MultithreadFactoryTest {
     /**
      * Test of createImagesCrawler method, of class MultithreadFactory.
      */
-    @Test(timeout = 5000)
+    //@Test(timeout = 5000)
     public void testCreateImagesCrawler() {
         ConcurrentCrawler crawler = (ConcurrentCrawler) new MultithreadFactory().createImagesCrawler();
         CrawlerConfiguration conf = new CrawlerConfiguration();
@@ -63,7 +63,7 @@ public class MultithreadFactoryTest {
     /**
      * Test of createGenericCrawler method, of class MultithreadFactory.
      */
-    @Test(timeout = 5000)
+  @Test
     public void testCreateGenericCrawler() {
         ConcurrentCrawler crawler = (ConcurrentCrawler) new MultithreadFactory().createGenericCrawler();
         CrawlerConfiguration conf = new CrawlerConfiguration();

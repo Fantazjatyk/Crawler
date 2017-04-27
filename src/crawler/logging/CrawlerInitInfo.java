@@ -42,7 +42,7 @@ public abstract class CrawlerInitInfo {
         conf.forEach((k, el) -> {
             info.append(k + ": ");
             if (el != null && el.getClass().isArray()) {
-                info.append(Arrays.toString(utils.Arrays.convertArrayToStrings((Object[]) el)) + "\n");
+                info.append(Arrays.toString(michal.szymanski.util.Arrays.convertAnyArrayToStringArray((Object[]) el)) + "\n");
             } else {
                 info.append(el + "\n");
             }

@@ -23,7 +23,6 @@
  */
 package crawler.scrapping.chain;
 
-
 import crawler.scrapping.exceptions.IllegalInputException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,22 +36,20 @@ import java.util.stream.Collectors;
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public class Search extends SearchRequestAwareChain{
+public class Search extends SearchRequestAwareChain {
 
     @Override
     protected Collection each(Object expecting, SearchRequestAwareLink link, ChainRequest rq) throws IllegalInputException {
-         Collection c = new ArrayList();
-         Object result = new Object();
-         try{
-         result = link.handle(expecting, rq);
-         }
-         catch(NullPointerException e){
-             Logger.getLogger(this.getClass().getName()).warning(e.getStackTrace()[0].toString());
-         }
-        if(result instanceof Collection){
-        c.addAll((Collection) result);
+        Collection c = new ArrayList();
+        Object result = new Object();
+        try {
+            result = link.handle(expecting, rq);
+        } catch (NullPointerException e) {
+            Logger.getLogger(this.getClass().getName()).warning(e.getStackTrace()[0].toString());
         }
-        else{
+        if (result instanceof Collection) {
+            c.addAll((Collection) result);
+        } else {
             c.add(result);
         }
         return c;
@@ -60,13 +57,13 @@ public class Search extends SearchRequestAwareChain{
 
     @Override
     protected void body(Object expecting, ChainRequest rq) {
-           onStart();
+        onStart();
         while (!links.isEmpty()) {
             SearchRequestAwareLink link = null;
             try {
                 link = links.peek();
 
-                if(!Arrays.asList(link.accepts()).contains(expecting.getClass())){
+                if (!Arrays.asList(link.accepts()).contains(expecting.getClass())) {
                     links.remove();
                     continue;
                 }
@@ -90,33 +87,31 @@ public class Search extends SearchRequestAwareChain{
     protected void onStart() {
     }
 
-
     @Override
     public void sortLinks() {
-        ConcurrentHashMap<Class[], SearchRequestAwareLink> producers = new ConcurrentHashMap(super.getLinks().parallelStream().collect(Collectors.toMap((el)->el.produces(), (el2)->el2)));
+        ConcurrentHashMap<Class[], SearchRequestAwareLink> producers = new ConcurrentHashMap(super.getLinks().parallelStream().collect(Collectors.toMap((el) -> el.produces(), (el2) -> el2)));
 
-        producers.entrySet().parallelStream().forEach((entry)->{
-         producers.entrySet().stream().forEach((entry2)->{
-               if(areCompatibile(entry2.getValue(), entry.getValue())){
-            wire(entry2.getValue(), entry.getValue());
-        }
-         });
+        producers.entrySet().parallelStream().forEach((entry) -> {
+            producers.entrySet().stream().forEach((entry2) -> {
+                if (areCompatibile(entry2.getValue(), entry.getValue())) {
+                    wire(entry2.getValue(), entry.getValue());
+                }
+            });
         }
         );
         super.getLinks().clear();;
         super.getLinks().addAll(producers.values());
     }
 
+    private void wire(SearchRequestAwareLink produce, SearchRequestAwareLink accept) {
+        produce.setSuccesor(accept);
+    }
 
-private void wire(SearchRequestAwareLink produce, SearchRequestAwareLink accept){
-    produce.setSuccesor(accept);
-}
+    protected final boolean areCompatibile(SearchRequestAwareLink produce, SearchRequestAwareLink accept) {
+        Object[] produces = produce.produces();
+        Object[] accepts = accept.accepts();
 
-protected final boolean areCompatibile(SearchRequestAwareLink produce, SearchRequestAwareLink accept){
-    Object[] produces = produce.produces();
-    Object[] accepts = accept.accepts();
-
-   return Arrays.equals(produces, accepts);
-}
+        return Arrays.equals(produces, accepts);
+    }
 
 }

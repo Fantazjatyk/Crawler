@@ -82,6 +82,7 @@ public class SearchTest {
         verify(images, times(1)).handle(any(), any());
     }
 
+
     @Test
     public void testAreCompatibile() {
         TextCollector text = spy(new TextCollector());
