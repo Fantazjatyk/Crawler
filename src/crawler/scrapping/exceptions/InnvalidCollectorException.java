@@ -27,6 +27,6 @@ package crawler.scrapping.exceptions;
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public class UnvalidCollectorException extends RuntimeException{
+public class InnvalidCollectorException extends RuntimeException{
 
 }

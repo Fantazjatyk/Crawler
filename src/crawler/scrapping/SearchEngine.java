@@ -33,7 +33,7 @@ import crawler.scrapping.chain.Search;
 import crawler.scrapping.collectors.Collector;
 import crawler.scrapping.collectors.TextCollector;
 import crawler.scrapping.collectors.URLCollector;
-import crawler.scrapping.exceptions.UnvalidCollectorException;
+import crawler.scrapping.exceptions.InnvalidCollectorException;
 import crawler.scrapping.parsers.JsoupParser;
 import crawler.scrapping.parsers.Parser;
 import java.util.ArrayList;
@@ -100,7 +100,7 @@ public class SearchEngine {
             if (isCollectorValid(el)) {
                 collectors.add(el);
             } else {
-                throw new UnvalidCollectorException();
+                throw new InnvalidCollectorException();
             }
         });
     }
@@ -109,18 +109,14 @@ public class SearchEngine {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         Set set = validator.validate(c);
 
-        if (!set.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
+        return set.isEmpty();
     }
 
     public void addCollector(Collector collector) {
         if (isCollectorValid(collector)) {
             collectors.add(collector);
         } else {
-            throw new UnvalidCollectorException();
+            throw new InnvalidCollectorException();
         }
     }
 
