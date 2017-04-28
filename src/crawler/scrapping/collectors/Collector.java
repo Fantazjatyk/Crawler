@@ -25,13 +25,16 @@ package crawler.scrapping.collectors;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import crawler.scrapping.chain.ChainRequest;
+import crawler.scrapping.chain.ChainResponse;
+import crawler.scrapping.chain.SearchRequest;
 import crawler.scrapping.filters.Filter;
 import crawler.scrapping.filters.FilterMode;
 import crawler.scrapping.chain.SearchRequestAwareLink;
 import crawler.scrapping.chain.context.SearchContext;
+import crawler.utils.ClassSet;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.jsoup.select.Elements;
 
@@ -40,30 +43,45 @@ import org.jsoup.select.Elements;
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
 @Valid
-public abstract class Collector extends SearchRequestAwareLink {
+public abstract class Collector<Produces extends Collection, Expects> extends SearchRequestAwareLink {
 
     public static Class[] SECURED_TYPES = new Class[]{Elements.class, HtmlPage.class};
-    private List<Filter> preFilters = new ArrayList();
-    private List<Filter> postFilters = new ArrayList();
+    private Collection<Filter> preFilters = new ArrayList();
+    private Collection<Filter> postFilters = new ArrayList();
 
     @Override
-    protected final Object process(Object o, ChainRequest cr) {
-       return this.collect(o, (SearchContext) cr.getContext());
-    }
+    protected final void doChain(ChainRequest rq, ChainResponse rs) {
 
-    public final Object collect(Object o, SearchContext ctx){
-                Object filteredPost = new ArrayList();
-        if (o instanceof Collection) {
-            filteredPost = applyPreFilters((Collection) o);
-        } else {
-            filteredPost = o;
+        Optional expected = rs.getResults().get(accepts());
+        if (!expected.isPresent()) {
+            return;
         }
-        Collection collected = (Collection) work(filteredPost, ctx);
-        Collection filteredCollected = applyPostFilters(collected);
-        return filteredCollected;
+
+        Expects o = (Expects) expected.get();
+        Produces prod = collectAndFilter(o, (SearchRequest) rq);
+
+        if (prod instanceof Collection) {
+            rs.getResults().addAll(prod);
+        } else {
+            rs.getResults().add(prod);
+        }
     }
 
-    protected abstract Object work(Object o, SearchContext ctx);
+    protected abstract Produces collect(Expects data, SearchRequest ctx);
+
+    public Produces collectAndFilter(Expects data, SearchRequest rq) {
+        Produces prod;
+
+        if (data instanceof Collection) {
+            Collection filtered = applyPreFilters((Collection) data);
+            Collection result = collect((Expects) filtered, rq);
+            prod = (Produces) applyPostFilters(result);
+        } else {
+            prod = Collector.this.collect(data, rq);
+            prod = (Produces) applyPostFilters(prod);
+        }
+        return prod;
+    }
 
     public void addFilter(Filter f) {
         FilterMode mode = f.getMode();
@@ -95,7 +113,7 @@ public abstract class Collector extends SearchRequestAwareLink {
         if (filters.isEmpty()) {
             return o;
         }
-        List result = new ArrayList();
+        Collection result = new ArrayList();
         filters.parallelStream().forEach((el) -> {
             result.addAll((Collection) o.parallelStream().filter(el).collect(Collectors.toList()));
         });
@@ -103,4 +121,5 @@ public abstract class Collector extends SearchRequestAwareLink {
         o.addAll(result);
         return o;
     }
+
 }

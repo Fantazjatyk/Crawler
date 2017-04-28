@@ -6,8 +6,10 @@
 package crawler.scrapping.collectors;
 
 import crawler.configuration.CrawlerParams;
+import crawler.scrapping.chain.SearchRequest;
 import crawler.scrapping.chain.context.SearchContext;
 import crawler.scrapping.parsers.JsoupParser;
+import java.io.IOException;
 import java.util.Collection;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
@@ -30,12 +32,12 @@ public class TextCollectorTest {
      * Test of produces method, of class TextCollector.
      */
     @Test
-    public void testProduces() {
+    public void testProduces() throws IOException {
         Document document = new JsoupParser().parse("https://www.w3schools.com/");
         collector = spy(TextCollector.class);
-        SearchContext ctx = spy(SearchContext.class);
-        ctx.getCrawlerConfiguration().put(CrawlerParams.URL, "https://www.w3schools.com/");
-        ctx.getRuntimeConfiguration().put(CrawlerParams.URL, "https://www.w3schools.com/");
+        SearchRequest ctx = spy(SearchRequest.class);
+        ctx.getInitParams().put(CrawlerParams.URL, "https://www.w3schools.com/");
+        ctx.getInitParams().put(CrawlerParams.URL, "https://www.w3schools.com/");
         assumeTrue(document != null);
         Collection result = (Collection) collector.collect(document, ctx);
         assertTrue(result.size() > 1);

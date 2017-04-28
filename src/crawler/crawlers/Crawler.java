@@ -34,16 +34,16 @@ import java.util.Collection;
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public abstract class Crawler implements IBasicCrawler{
+public abstract class Crawler implements IBasicCrawler {
 
     protected CrawlerConfiguration conf;
     protected FilterableArrayList sr = new FilterableArrayList();
     private CrawlerTime time = new CrawlerTime();
 
-
-    public double getElapsedTime(){
+    public double getElapsedTime() {
         return time.getElapsedTime();
     }
+
     public final FilterableArrayList getResults() {
         return sr;
     }
@@ -52,7 +52,7 @@ public abstract class Crawler implements IBasicCrawler{
         return conf;
     }
 
-    public final void init(CrawlerConfiguration conf) {
+    public final void start(CrawlerConfiguration conf) {
         this.conf = conf;
         time.start();
         CrawlerInitInfo.printInitInfo(this, conf);
@@ -61,7 +61,7 @@ public abstract class Crawler implements IBasicCrawler{
         CrawlerFinishInfo.printtCrawlerFinishInfo(this);
     }
 
-    public abstract Collection crawl(CrawlerConfiguration conf);
+    protected abstract Collection crawl(CrawlerConfiguration conf);
 
     public abstract void interrupt();
 

@@ -5,29 +5,47 @@
  */
 package crawler.data;
 
+import crawler.utils.ClassSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
 public interface FilterableCollection {
+
     static DataPostProcessor dataProcessor = new DataPostProcessor();
 
-    public default List getAllOf(Class c) {
+    public default Optional get(ClassSet c) {
         Collection self = (Collection) this;
-          Class c1 = c;
-        List result = new ArrayList();
-            result = (List) self.parallelStream().filter((el) -> el != null && el.getClass().equals(c1)).collect(Collectors.toList());
+
+        List found = (List) self.stream().filter((el) -> c.containsClass(el.getClass())).collect(Collectors.toList());
+
+        long elementsCount = found.size();
+        Optional result = elementsCount > 1 ? Optional.of(found) : found.stream().findAny();
         return result;
     }
 
+    public default List getAllDistinctOf(ClassSet c) {
+        List found = new ArrayList();
+        Optional result = get(c);
 
-    public default List getAllDistinctOf(Class c) {
-        List result = getAllOf(c);
-        return (List<Data>) dataProcessor.mergeDatas(result);
+        if(result.isPresent() && result.get() instanceof Collection){
+            Optional.of(dataProcessor.mergeDatas((Collection) result.get())).ifPresent((el)->found.addAll(el));
+        }
+        else if(result.isPresent()){
+            found.add(result.get());
+        }
+        return found;
+    }
+
+    public default List getAllDistinctOf(Class c){
+        return getAllDistinctOf(new ClassSet(c));
     }
 }

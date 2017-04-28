@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -47,7 +47,7 @@ public class ConcurrentCustomCrawler extends ConcurrentCrawler implements ICusto
 
     @Override
     public List getResultsOfFilter(SearchRequestAwareLink links) {
-      return  super.getResults().getAllDistinctOf(links.produces()[0]);
+      return  super.getResults().getAllDistinctOf(links.produces());
     }
 
     @Override

@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -33,20 +33,21 @@ import java.util.logging.Logger;
  */
 public class CrawlerFinishInfo {
 
-    public static void printtCrawlerFinishInfo(Crawler crawler){
-     StringBuilder info = new StringBuilder();
-
-     info.append("Crawler ("+ crawler.getClass().getSimpleName() + ") finished with results:\n");
-        if(crawler instanceof ContinousCrawler){
+    public static void printtCrawlerFinishInfo(Crawler crawler) {
+        StringBuilder info = new StringBuilder();
+        info.append("\n");
+        info.append("Crawler finish info:\n");
+        info.append("- Type: " + crawler.getClass().getSimpleName() +"\n");
+        if (crawler instanceof ContinousCrawler) {
             ContinousCrawler continous = (ContinousCrawler) crawler;
-            info.append("Total crawled adresses: " + continous.getMovement().getCrawledAdresses().size() + "\n");
+            info.append("- Total crawled adresses: " + continous.getMovement().getCrawledAdresses().size() + "\n");
+        } else {
+            info.append("- Total crawled adresses: 1\n");
         }
-        else{
-            info.append("Total crawled adresses: 1\n");
-        }
-        info.append("Crawling time: " + crawler.getElapsedTime() + " seconds\n");
-          Logger.getLogger(CrawlerInitInfo.class.getClass().getSimpleName()).severe("\n" + info.toString());
-    }
+        info.append("- Number of found objects: " + crawler.getResults().size() + "\n");
+        info.append("- Crawling time: " + crawler.getElapsedTime() + " seconds\n");
 
+        Logger.getLogger(CrawlerInitInfo.class.getClass().getSimpleName()).severe("\n" + info.toString());
+    }
 
 }

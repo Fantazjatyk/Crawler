@@ -6,10 +6,12 @@
 package crawler.scrapping.collectors;
 
 import crawler.configuration.CrawlerParams;
+import crawler.scrapping.chain.SearchRequest;
 import crawler.scrapping.chain.context.SearchContext;
 
 import crawler.scrapping.collectors.URLCollector;
 import crawler.scrapping.parsers.JsoupParser;
+import java.io.IOException;
 import java.util.Collection;
 import org.jsoup.nodes.Document;
 
@@ -37,12 +39,12 @@ public class URLCollectorTest {
     }
 
     @Test
-    public void testCollect(){
+    public void testCollect() throws IOException{
         Document document = new JsoupParser().parse("https://www.w3schools.com/");
-        SearchContext ctx = spy(SearchContext.class);
+        SearchRequest ctx = spy(SearchRequest.class);
 
-        ctx.getCrawlerConfiguration().put(CrawlerParams.URL, "https://www.w3schools.com/");
-        ctx.getRuntimeConfiguration().put(CrawlerParams.URL, "https://www.w3schools.com/");
+        ctx.getInitParams().put(CrawlerParams.URL, "https://www.w3schools.com/");
+        ctx.getInitParams().put(CrawlerParams.CURRENT_URL, "https://www.w3schools.com/");
 
         assumeTrue(document != null);
 

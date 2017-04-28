@@ -24,6 +24,7 @@
 package crawler.scrapping.chain;
 
 import crawler.scrapping.exceptions.IllegalInputException;
+import crawler.utils.ClassSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -39,11 +40,11 @@ import java.util.stream.Collectors;
 public class Search extends SearchRequestAwareChain {
 
     @Override
-    protected Collection each(Object expecting, SearchRequestAwareLink link, ChainRequest rq) throws IllegalInputException {
+    protected Collection each(Object expecting, SearchRequestAwareLink link, ChainRequest rq, ChainResponse rs) throws IllegalInputException {
         Collection c = new ArrayList();
         Object result = new Object();
         try {
-            result = link.handle(expecting, rq);
+            link.handle(rq, rs);
         } catch (NullPointerException e) {
             Logger.getLogger(this.getClass().getName()).warning(e.getStackTrace()[0].toString());
         }
@@ -56,22 +57,18 @@ public class Search extends SearchRequestAwareChain {
     }
 
     @Override
-    protected void body(Object expecting, ChainRequest rq) {
+    protected void body(Object expecting, ChainRequest rq, ChainResponse rs) {
         onStart();
         while (!links.isEmpty()) {
             SearchRequestAwareLink link = null;
             try {
                 link = links.peek();
 
-                if (!Arrays.asList(link.accepts()).contains(expecting.getClass())) {
-                    links.remove();
-                    continue;
-                }
-
                 links.remove();
+                if(!link.accepts().contains(expecting.getClass()))
+                    continue;
 
-                Object p = each(expecting, link, rq);
-                rq.getResults().addAll((Collection) p);
+                each(expecting, link, rq, rs);
             } catch (IllegalInputException | ClassCastException ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             }
@@ -108,10 +105,10 @@ public class Search extends SearchRequestAwareChain {
     }
 
     protected final boolean areCompatibile(SearchRequestAwareLink produce, SearchRequestAwareLink accept) {
-        Object[] produces = produce.produces();
-        Object[] accepts = accept.accepts();
+        ClassSet produces = produce.produces();
+        ClassSet accepts = accept.accepts();
 
-        return Arrays.equals(produces, accepts);
+        return Arrays.equals(produces.toArray(), accepts.toArray());
     }
 
 }

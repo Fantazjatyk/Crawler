@@ -37,8 +37,10 @@ public abstract class CrawlerInitInfo {
     public static void printInitInfo(Crawler crawler, CrawlerConfiguration conf) {
         StringBuilder info = new StringBuilder();
 
-        info.append("Crawler (" + crawler.getClass().getSimpleName() + ") runs with given parameters:\n");
-
+        info.append("\n");
+        info.append("Crawler start info:\n");
+        info.append("- Type: " + crawler.getClass().getSimpleName() + "\n");
+        info.append("- Params: \n");
         conf.forEach((k, el) -> {
             info.append(k + ": ");
             if (el != null && el.getClass().isArray()) {

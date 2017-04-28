@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import crawler.logging.CrawlerLogger;
+import java.io.IOException;
 
 /**
  *
@@ -36,27 +37,20 @@ public class JsoupParser implements Parser<Document> {
 
     String url;
 
-    public Document parse(String url) {
+    public Document parse(String url) throws IOException {
         this.url = url;
         return getHTMLElements();
     }
 
-    private Document getSourceCode() {
+    private Document getSourceCode() throws IOException {
 
         Document sourceCode = null;
-
-        try {
-            sourceCode = Jsoup.connect(url).get();
-            CrawlerLogger.getLogger(this).log("PARSED (URL: " + url + ")");
-        } catch (Exception ex) {
-            Logger.getGlobal().warning(ex.getLocalizedMessage());
-            CrawlerLogger.getLogger(this).log("CONNECTION ERROR (URL: " + url + "): " + ex.getMessage());
-        }
+        sourceCode = Jsoup.connect(url).get();
 
         return sourceCode;
     }
 
-    private Document getHTMLElements() {
+    private Document getHTMLElements() throws IOException {
         Document document = getSourceCode();
         return document;
     }

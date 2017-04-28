@@ -10,6 +10,8 @@ import crawler.scrapping.collectors.SentenceCollector;
 import crawler.scrapping.collectors.TextCollector;
 import crawler.scrapping.collectors.URLCollector;
 import crawler.scrapping.parsers.JsoupParser;
+import java.io.IOException;
+import java.util.NoSuchElementException;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
@@ -56,7 +58,7 @@ public class SearchTest {
     }
 
     @Test
-    public void testIsEveryoneCalledInChain() {
+    public void testIsEveryoneCalledInChain() throws IOException {
         URLCollector url = spy(new URLCollector());
         TextCollector text = spy(new TextCollector());
         SentenceCollector sentences = spy(new SentenceCollector());
@@ -70,8 +72,10 @@ public class SearchTest {
         Document document = new JsoupParser().parse("https://www.w3schools.com/");
 
         assumeTrue(document != null);
+        SearchRequest rq = new SearchRequest();
+
         try {
-            search.start(document, new ChainRequest());
+            search.start(document, rq);
         } catch (NullPointerException e) {
 
         }

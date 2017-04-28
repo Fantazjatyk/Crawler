@@ -7,6 +7,7 @@ package crawler.scrapping.chain;
 
 import crawler.scrapping.collectors.TextCollector;
 import crawler.scrapping.collectors.URLCollector;
+import crawler.utils.ClassSet;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
 
@@ -25,9 +26,10 @@ public class SearchRequestAwareLinkTest {
         URLCollector collectorSuccesor = spy(new URLCollector());
 
         ChainRequest request = spy(ChainRequest.class);
+        ChainResponse response = spy(ChainResponse.class);
         collector.setSuccesor(collectorSuccesor);
         try {
-            collector.foward();
+            collector.foward(request, response);
         } catch (NullPointerException e) {
 
         }
@@ -38,19 +40,21 @@ public class SearchRequestAwareLinkTest {
     public class Link extends SearchRequestAwareLink {
 
         @Override
-        protected Object process(Object o, ChainRequest cr) {
+        protected void doChain(ChainRequest rq, ChainResponse rs) {
+
+        }
+
+        @Override
+        public ClassSet produces() {
             return null;
         }
 
         @Override
-        public Class[] accepts() {
+        public ClassSet accepts() {
             return null;
         }
 
-        @Override
-        public Class[] produces() {
-            return null;
-        }
+
 
     }
 

@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -49,7 +49,7 @@ se.addCollectors(Arrays.asList(collectors));
 
     @Override
     public List getResultsOfFilter(SearchRequestAwareLink links) {
-       return super.getResults().getAllDistinctOf(links.produces()[0]);
+       return super.getResults().getAllDistinctOf(links.produces());
     }
 
     @Override

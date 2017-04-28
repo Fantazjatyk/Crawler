@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -31,14 +31,14 @@ import java.util.HashMap;
  */
 public class CrawlerConfiguration extends HashMap<String, Object> {
 
-
-    public void put(CrawlerParams key, Object value){
+    public void put(CrawlerParams key, Object value) {
         this.put(key.name(), value);
     }
 
-    public Object get(CrawlerParams key){
+    public Object get(CrawlerParams key) {
         return this.get(key.name());
     }
+
     public int getTimeLimit() {
         return (int) this.get(CrawlerParams.TIME_LIMIT.name());
     }

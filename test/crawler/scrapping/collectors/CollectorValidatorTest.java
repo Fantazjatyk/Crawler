@@ -8,7 +8,10 @@ package crawler.scrapping.collectors;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import crawler.data.Adress;
 import crawler.data.Data;
+import crawler.scrapping.chain.SearchRequest;
 import crawler.scrapping.chain.context.SearchContext;
+import crawler.utils.ClassSet;
+import java.util.Collection;
 import java.util.Set;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -54,19 +57,21 @@ public class CollectorValidatorTest {
     public class CollectorWithNullProducesOrAndAccepts extends Collector {
 
         @Override
-        protected Object work(Object o, SearchContext ctx) {
+        public ClassSet accepts() {
             return null;
         }
 
         @Override
-        public Class[] accepts() {
+        public ClassSet produces() {
             return null;
         }
 
         @Override
-        public Class[] produces() {
+        protected Collection collect(Object data, SearchRequest ctx) {
             return null;
         }
+
+
 
     }
 
@@ -80,19 +85,20 @@ public class CollectorValidatorTest {
     public class CollectorWithInvalidAcceptsOrProduces extends Collector {
 
         @Override
-        protected Object work(Object o, SearchContext ctx) {
+        public ClassSet accepts() {
+            return new ClassSet(Elements.class);
+        }
+
+        @Override
+        public ClassSet produces() {
+            return new ClassSet(Data.class);
+        }
+
+        @Override
+        protected Collection collect(Object data,SearchRequest ctx) {
             return null;
         }
 
-        @Override
-        public Class[] accepts() {
-            return new Class[]{Elements.class};
-        }
-
-        @Override
-        public Class[] produces() {
-            return new Class[]{Data.class};
-        }
 
     }
 
@@ -106,19 +112,20 @@ public class CollectorValidatorTest {
     public class ValidCollector extends Collector {
 
         @Override
-        protected Object work(Object o, SearchContext ctx) {
+        public ClassSet accepts() {
+            return new ClassSet(Adress.class);
+        }
+
+        @Override
+        public ClassSet produces() {
+            return new ClassSet(Data.class);
+        }
+
+        @Override
+        protected Collection collect(Object data, SearchRequest ctx) {
             return null;
         }
 
-        @Override
-        public Class[] accepts() {
-            return new Class[]{Adress.class};
-        }
-
-        @Override
-        public Class[] produces() {
-            return new Class[]{Data.class};
-        }
 
     }
 
@@ -132,18 +139,18 @@ public class CollectorValidatorTest {
     public class DomCollectorImpl extends DomCollector {
 
         @Override
-        Object collectUsingJsoup(Document o, SearchContext ctx) {
+        Collection collectUsingJsoup(Document o, SearchRequest ctx) {
             return null;
         }
 
         @Override
-        Object collectUsingHtmlUnit(HtmlPage o, SearchContext ctx) {
+        Collection collectUsingHtmlUnit(HtmlPage o, SearchRequest ctx) {
             return null;
         }
 
         @Override
-        public Class[] produces() {
-            return new Class[]{Data.class};
+        public ClassSet produces() {
+            return new ClassSet(Data.class);
         }
 
     }

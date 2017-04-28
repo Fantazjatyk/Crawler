@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -29,6 +29,7 @@ import crawler.scrapping.SearchEngine;
 
 import crawler.scrapping.chain.SearchRequestAwareLink;
 import crawler.scrapping.collectors.Collector;
+import crawler.utils.ClassSet;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class ContinousCustomCrawler extends ContinousCrawler implements ICustomC
 
     @Override
     public List getResultsOfFilter(SearchRequestAwareLink links) {
-        return super.getResults().getAllDistinctOf(links.produces()[0]);
+        return (List) super.getResults().getAllDistinctOf(links.produces());
     }
 
     @Override

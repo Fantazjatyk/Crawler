@@ -24,11 +24,12 @@
 package crawler.scrapping.collectors;
 
 import crawler.configuration.CrawlerParams;
-import crawler.data.Data;
 import crawler.data.Sentence;
 import crawler.data.Source;
 import crawler.data.Text;
+import crawler.scrapping.chain.SearchRequest;
 import crawler.scrapping.chain.context.SearchContext;
+import crawler.utils.ClassSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -40,38 +41,36 @@ import michal.szymanski.util.Strings;
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public class SentenceCollector extends Collector{
+public class SentenceCollector extends Collector<Collection, Collection<Text>>{
 
     List<String> filteringSentences = new ArrayList();
 
-      public SentenceCollector(String[] sentences) {
+    public SentenceCollector(String[] sentences) {
 
-        if(sentences!= null){
-        this.filteringSentences = Arrays.asList(sentences);
+        if (sentences != null) {
+            this.filteringSentences = Arrays.asList(sentences);
+        }
     }
+
+    public SentenceCollector() {
+
     }
-
-      public SentenceCollector(){
-
-      }
 
     public List<String> getFilteringSentences() {
         return filteringSentences;
     }
 
     @Override
-    public Object work(Object o, SearchContext ctx) {
+    public Collection collect(Collection<Text> o, SearchRequest ctx) {
         List found = new LinkedList();
 
-
-        ((Collection<Data>)(o)).stream().forEach((el) -> {
-            if(el == null){
+        ((Collection<Text>) (o)).stream().forEach((el) -> {
+            if (el == null) {
                 return;
             }
-            String text = ((String)(el.get())).toLowerCase();
+            String text = ((String) (el.get())).toLowerCase();
 
-
-            filteringSentences.parallelStream().filter((el1)->el1 != null).forEach((el2) -> {
+            filteringSentences.parallelStream().filter((el1) -> el1 != null).forEach((el2) -> {
 
                 String s = el2;
                 if (text.contains(s.toLowerCase())) {
@@ -79,7 +78,7 @@ public class SentenceCollector extends Collector{
                     String[] occurences = Strings.cutMatchingFragmentIgnoreCase(text, s);
 
                     for (String match : occurences) {
-                        Sentence sentence = new Sentence(match, new Source(ctx.getRuntimeConfiguration().get(CrawlerParams.URL)));
+                        Sentence sentence = new Sentence(match, new Source(ctx.getInitParams().get(CrawlerParams.CURRENT_URL)));
                         found.add(sentence);
                     }
                 }
@@ -90,13 +89,13 @@ public class SentenceCollector extends Collector{
     }
 
     @Override
-    public Class[] accepts() {
-        return new Class[]{Text.class};
+    public ClassSet accepts() {
+        return new ClassSet(Text.class);
     }
 
     @Override
-    public Class[] produces() {
-        return new Class[]{Sentence.class};
+    public ClassSet produces() {
+        return new ClassSet(Sentence.class);
     }
 
 }

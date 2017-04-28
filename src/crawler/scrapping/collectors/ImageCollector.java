@@ -29,8 +29,11 @@ import crawler.configuration.CrawlerParams;
 import crawler.data.Data;
 import crawler.data.ImageSource;
 import crawler.data.Source;
+import crawler.scrapping.chain.SearchRequest;
 import crawler.scrapping.chain.context.SearchContext;
+import crawler.utils.ClassSet;
 import java.net.MalformedURLException;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,30 +48,29 @@ import org.jsoup.select.Elements;
 public class ImageCollector extends DomCollector{
 
     @Override
-    protected Object collectUsingJsoup(Document o, SearchContext ctx) {
-           Elements e = o.getAllElements();
+    protected Collection collectUsingJsoup(Document o, SearchRequest ctx) {
+        Elements e = o.getAllElements();
         List<Data> result = e.parallelStream()
                 .filter((el) -> el.tagName().equals("img") && el.hasAttr("abs:src") && !el.attr("abs:src").isEmpty())
                 .map((el2)
-                        -> new ImageSource(el2.attr("abs:src"), new Source(ctx.getRuntimeConfiguration().get(CrawlerParams.URL)))).collect(Collectors.toList());
-
+                        -> new ImageSource(el2.attr("abs:src"), new Source(ctx.getInitParams().get(CrawlerParams.CURRENT_URL)))).collect(Collectors.toList());
         return result;
     }
 
     @Override
-    protected Object collectUsingHtmlUnit(HtmlPage o, SearchContext ctx) {
+    protected Collection collectUsingHtmlUnit(HtmlPage o, SearchRequest ctx) {
         List<DomElement> list = o.getElementsByTagName("img");
-        List<Data> result = list.parallelStream().filter((el)-> el.hasAttribute("src") && !el.getAttribute("src").isEmpty()).map((el2)
-                        -> new ImageSource(getHtmlUnitAbsUrl(el2.getAttribute("src"), o), new Source(ctx.getRuntimeConfiguration().get(CrawlerParams.URL)))).collect(Collectors.toList());
+        List<Data> result = list.parallelStream().filter((el) -> el.hasAttribute("src") && !el.getAttribute("src").isEmpty()).map((el2)
+                -> new ImageSource(getHtmlUnitAbsUrl(el2.getAttribute("src"), o), new Source(ctx.getInitParams().get(CrawlerParams.CURRENT_URL)))).collect(Collectors.toList());
         return result;
     }
 
     @Override
-    public Class[] produces() {
-        return new Class[]{ImageSource.class};
+    public ClassSet produces() {
+        return new ClassSet(ImageSource.class);
     }
 
-    private String getHtmlUnitAbsUrl(String s, HtmlPage p){
+    private String getHtmlUnitAbsUrl(String s, HtmlPage p) {
         String result = null;
         try {
             result = p.getFullyQualifiedUrl(s).toExternalForm();

@@ -33,7 +33,7 @@ import java.util.concurrent.LinkedBlockingDeque;
  */
 public abstract class SearchRequestAwareChain extends AutowireChain {
 
-    abstract protected Collection each(Object expecting, SearchRequestAwareLink link, ChainRequest rq) throws IllegalInputException;
+    abstract protected Collection each(Object expecting, SearchRequestAwareLink link, ChainRequest rq, ChainResponse rs) throws IllegalInputException;
     protected LinkedBlockingDeque<SearchRequestAwareLink> links = new LinkedBlockingDeque();
     private Object root;
 
@@ -41,7 +41,7 @@ public abstract class SearchRequestAwareChain extends AutowireChain {
         return root.getClass();
     }
 
-    abstract protected void body(Object expecting, ChainRequest rq);
+    abstract protected void body(Object expecting, ChainRequest rq, ChainResponse rs);
 
     abstract protected void onEnd();
 
@@ -51,12 +51,15 @@ public abstract class SearchRequestAwareChain extends AutowireChain {
         return links;
     }
 
-    public void start(Object root, ChainRequest rq) {
+    public ChainResponse start(Object root, SearchRequest rq) {
+        ChainResponse rs = new ChainResponse();
         if(root == null || rq == null){
             throw new NullPointerException();
         }
         this.root = root;
         sortLinks();
-        body(root, rq);
+        rs.getResults().add(root);
+        body(root, rq, rs);
+        return rs;
     }
 }

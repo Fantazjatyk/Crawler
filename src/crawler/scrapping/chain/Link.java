@@ -23,6 +23,7 @@
  */
 package crawler.scrapping.chain;
 
+import crawler.utils.ClassSet;
 import java.util.Optional;
 
 /**
@@ -42,9 +43,9 @@ public abstract class Link {
         return succesor;
     }
 
-    public abstract Class[] accepts();
+    public abstract ClassSet accepts();
 
-    public abstract Class[] produces();
+    public abstract ClassSet produces();
 
-    abstract Object foward();
+    abstract void foward(ChainRequest rq, ChainResponse rs);
 }

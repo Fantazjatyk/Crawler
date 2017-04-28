@@ -23,6 +23,7 @@
  */
 package crawler.scrapping.collectors;
 
+import crawler.utils.ClassSet;
 import java.util.Arrays;
 import java.util.List;
 import javax.validation.ConstraintValidator;
@@ -45,14 +46,26 @@ public class CollectorValidator implements ConstraintValidator<Valid, Collector>
             return false;
         }
 
-        List accepts = Arrays.asList(t.accepts());
-        List produces = Arrays.asList(t.produces());
+        ClassSet accepts = t.accepts();
+        ClassSet produces = t.produces();
 
-        if (!(t instanceof DomCollector) && accepts.stream().anyMatch((el) -> Arrays.asList(Collector.SECURED_TYPES).contains(el)) || produces.stream().anyMatch((el) -> Arrays.asList(Collector.SECURED_TYPES).contains(el))) {
-            return false;
-        } else {
-            return true;
-        }
+        boolean result = (isInstanceOfDomCollector(t) && hasValidProducesDeclaration(produces) || hasValidAcceptsDeclaration(accepts));
+        return result;
     }
 
+    private boolean isInstanceOfDomCollector(Collector c){
+        boolean result = c instanceof DomCollector;
+        return result;
+    }
+
+    private boolean hasValidAcceptsDeclaration(ClassSet accepts){
+        boolean result = !(accepts.stream().anyMatch((el) -> Arrays.asList(Collector.SECURED_TYPES).contains(el)));
+        return result;
+    }
+
+    private boolean hasValidProducesDeclaration(ClassSet produces){
+        boolean result = !(produces.stream().anyMatch((el) -> Arrays.asList(Collector.SECURED_TYPES).contains(el)));
+        return result;
+    }
 }
+

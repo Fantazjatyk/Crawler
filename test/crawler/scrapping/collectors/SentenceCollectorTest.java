@@ -9,6 +9,7 @@ import crawler.configuration.CrawlerParams;
 import crawler.data.Sentence;
 import crawler.data.Source;
 import crawler.data.Text;
+import crawler.scrapping.chain.SearchRequest;
 import crawler.scrapping.chain.context.SearchContext;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,8 +47,9 @@ public class SentenceCollectorTest {
                 add(new Text("ala ma kota a pies ma kota", new Source("")));
             }
         };
-        SearchContext rq = new SearchContext();
-        rq.getCrawlerConfiguration().put(CrawlerParams.URL, "bla bla");
+        SearchRequest rq = new SearchRequest();
+        rq.getInitParams().put(CrawlerParams.URL, "bla bla");
+        rq.getInitParams().put(CrawlerParams.CURRENT_URL, "sdsd");
         Collection<Sentence> result = (Collection) collector.collect(input, rq);
         assertEquals(2, result.size());
 

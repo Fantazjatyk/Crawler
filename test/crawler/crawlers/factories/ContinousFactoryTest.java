@@ -33,13 +33,13 @@ public class ContinousFactoryTest {
     /**
      * Test of createSentencesCrawler method, of class ContinousFactory.
      */
-    @Test(timeout = 3000)
+    @Test
     public void testCreateSentencesCrawler() {
         ContinousCrawler crawler = (ContinousCrawler) new ContinousFactory().createSentencesCrawler();
         CrawlerConfiguration conf = new CrawlerConfiguration();
         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
         conf.put(CrawlerParams.TIME_LIMIT, 1);
-        crawler.crawl(conf);
+        crawler.start(conf);
         assertTrue(crawler.getResults().size() > 1);
         assertTrue(crawler.getMovement().getCrawledAdresses().size() > 1);
     }
@@ -47,13 +47,13 @@ public class ContinousFactoryTest {
     /**
      * Test of createImagesCrawler method, of class ContinousFactory.
      */
-    @Test(timeout = 3000)
+    @Test
     public void testCreateImagesCrawler() {
         ContinousCrawler crawler = (ContinousCrawler) new ContinousFactory().createImagesCrawler();
         CrawlerConfiguration conf = new CrawlerConfiguration();
         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
         conf.put(CrawlerParams.TIME_LIMIT, 1);
-        crawler.crawl(conf);
+        crawler.start(conf);
         assertTrue(crawler.getResults().size() > 1);
         assertTrue(crawler.getMovement().getCrawledAdresses().size() > 1);
     }
@@ -61,13 +61,13 @@ public class ContinousFactoryTest {
     /**
      * Test of createGenericCrawler method, of class ContinousFactory.
      */
-    @Test(timeout = 3000)
+    @Test
     public void testCreateGenericCrawler() {
         ContinousCrawler crawler = (ContinousCrawler) new ContinousFactory().createGenericCrawler();
         CrawlerConfiguration conf = new CrawlerConfiguration();
         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
         conf.put(CrawlerParams.TIME_LIMIT, 1);
-        crawler.crawl(conf);
+        crawler.start(conf);
         assertTrue(crawler.getResults().size() > 1);
         assertTrue(crawler.getMovement().getCrawledAdresses().size() > 1);
     }

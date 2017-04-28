@@ -32,6 +32,7 @@ import java.util.Map;
 import crawler.data.Data;
 import crawler.data.Source;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -56,11 +57,12 @@ public class DataPostProcessor {
         return data1;
     }
 
-    public Collection<? extends Data> mergeDatas(Collection<? extends Data> collection) {
+    public Collection<? extends Data> mergeDatas(Collection collection) {
         List<Data> result = new LinkedList();
 
-        Collection<Data> copy = new ArrayList();
-        copy.addAll(collection);
+        Collection<Data> copy = (Collection<Data>) collection.stream().filter((el)->
+                (el instanceof Data)
+        ).collect(Collectors.toList());
         copy.removeIf(Objects::isNull);
         copy.forEach((el) -> {
 

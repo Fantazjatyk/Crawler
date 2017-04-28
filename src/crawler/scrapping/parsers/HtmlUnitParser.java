@@ -39,12 +39,10 @@ public class HtmlUnitParser implements Parser<HtmlPage>{
             private WebClient client = new WebClient();
 
     @Override
-    public HtmlPage parse(String url) {
+    public HtmlPage parse(String url) throws IOException {
         HtmlPage result = null;
         try {
             result = client.getPage(url);
-        } catch (IOException ex) {
-            Logger.getLogger(HtmlUnitParser.class.getName()).log(Level.SEVERE, null, ex);
         } catch (FailingHttpStatusCodeException ex) {
             Logger.getLogger(HtmlUnitParser.class.getName()).log(Level.SEVERE, null, ex);
         }

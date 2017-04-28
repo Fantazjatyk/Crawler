@@ -29,11 +29,14 @@ import crawler.configuration.CrawlerParams;
 import crawler.data.Adress;
 import crawler.data.Source;
 import crawler.logging.CrawlerLogger;
+import crawler.scrapping.chain.SearchRequest;
 import crawler.scrapping.chain.context.SearchContext;
+import crawler.utils.ClassSet;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import org.jsoup.nodes.Document;
@@ -43,12 +46,12 @@ import org.jsoup.select.Elements;
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public class URLCollector extends DomCollector {
+public class URLCollector extends DomCollector<Collection> {
 
     private String[] htmlAttributes = new String[]{"abs:href", "abs:ref", "abs:src"};
 
     @Override
-    public Object collectUsingJsoup(Document o, SearchContext ctx) {
+    public Collection collectUsingJsoup(Document o, SearchRequest ctx) {
         Elements e = o.getAllElements();
         LinkedBlockingQueue result = new LinkedBlockingQueue();
         LinkedBlockingQueue<String> htmlSearchTags = new LinkedBlockingQueue(Arrays.asList(htmlAttributes));
@@ -59,8 +62,8 @@ public class URLCollector extends DomCollector {
                 if (el.hasAttr(el2)) {
 
                     if (!el.attr(el2).isEmpty()) {
-                        Adress adress = new Adress(el.attr(el2), new Source(ctx.getRuntimeConfiguration().get(CrawlerParams.URL)));
-                        if (isBelongsToSearchedDomain(ctx.getCrawlerConfiguration().getInitURL(), adress.get())) {
+                        Adress adress = new Adress(el.attr(el2), new Source(ctx.getInitParams().get(CrawlerParams.CURRENT_URL)));
+                        if (isBelongsToSearchedDomain((String) ctx.getInitParams().get(CrawlerParams.URL), adress.get())) {
                             adress.markAsBelongsToDomain();
                         }
 
@@ -74,21 +77,21 @@ public class URLCollector extends DomCollector {
     }
 
     @Override
-    Object collectUsingHtmlUnit(HtmlPage o, SearchContext ctx) {
+    public Collection collectUsingHtmlUnit(HtmlPage o, SearchRequest ctx) {
         Iterable<DomAttr> e = o.getByXPath("//@href");
         List result = new ArrayList();
 
         e.forEach((el) -> {
 
-            Adress adress = new Adress(el.getNodeValue(), new Source(ctx.getRuntimeConfiguration().get(CrawlerParams.URL)));
-            if (isBelongsToSearchedDomain(ctx.getCrawlerConfiguration().getInitURL(), adress.get())) {
+            Adress adress = new Adress(el.getNodeValue(), new Source(ctx.getInitParams().get(CrawlerParams.CURRENT_URL)));
+            if (isBelongsToSearchedDomain((String) ctx.getInitParams().get(CrawlerParams.URL), adress.get())) {
                 adress.markAsBelongsToDomain();
             }
 
             result.add(adress);
 
         });
-        return result;
+        return new ArrayList(result);
     }
 
     private boolean isBelongsToSearchedDomain(String initURL, String url) {
@@ -110,8 +113,8 @@ public class URLCollector extends DomCollector {
     }
 
     @Override
-    public Class[] produces() {
-        return new Class[]{Adress.class};
+    public ClassSet produces() {
+        return new ClassSet(Adress.class);
     }
 
 }

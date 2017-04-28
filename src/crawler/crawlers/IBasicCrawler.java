@@ -32,7 +32,7 @@ import crawler.data.FilterableArrayList;
  */
 public interface IBasicCrawler {
 
-    void init(CrawlerConfiguration conf);
+    void start(CrawlerConfiguration conf);
     CrawlerConfiguration getConf();
     FilterableArrayList getResults();
 }

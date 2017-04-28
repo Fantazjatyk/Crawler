@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -23,8 +23,8 @@
  */
 package crawler.scrapping.chain;
 
-import crawler.scrapping.chain.ChainResults;
-import crawler.scrapping.chain.context.Context;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -32,19 +32,11 @@ import crawler.scrapping.chain.context.Context;
  */
 public class ChainRequest {
 
-    private Context context;
-    private ChainResults results = new ChainResults();
+    protected Map initParams = new HashMap();
 
-    public Context getContext(){
-        return this.context;
+    public Map getInitParams() {
+        return this.initParams;
     }
 
-    public void setContext(Context ctx){
-        this.context = ctx;
-    }
-
-    public ChainResults getResults(){
-    return this.results;
-    }
 
 }

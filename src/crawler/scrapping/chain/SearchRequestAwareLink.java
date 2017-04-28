@@ -23,41 +23,34 @@
  */
 package crawler.scrapping.chain;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Objects;
+import crawler.utils.ClassSet;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public abstract class SearchRequestAwareLink extends Link{
+public abstract class SearchRequestAwareLink extends Link {
 
-    Collection result = new ConcurrentSkipListSet();
-    ChainRequest cr;
-
-    protected Object handle(Object o, ChainRequest cr){
-        result = (Collection) process(o, cr);
-        this.cr = cr;
-        result.addAll((Collection) foward());
-        return result;
+    protected void handle(ChainRequest rq, ChainResponse rs) {
+        doChain(rq, rs);
+        foward(rq, rs);
     }
 
-    protected abstract Object process(Object o, ChainRequest cr);
+    protected abstract void doChain(ChainRequest rq, ChainResponse rs);
 
     @Override
-    protected Object foward() {
-        Collection fowardResult = new ArrayList();
+    protected void foward(ChainRequest rq, ChainResponse rs) {
         Optional<Link> succesor = super.getSuccesor();
-        if(succesor.isPresent()){
-            fowardResult.addAll((Collection) ((SearchRequestAwareLink)succesor.get()).handle(result, cr));
+        if (succesor.isPresent()) {
+            ((SearchRequestAwareLink) succesor.get()).handle(rq, rs);
         }
-        if(fowardResult != null)
-        fowardResult.removeIf((el)->Objects.isNull(el));
-
-        return fowardResult;
     }
+
+    @Override
+    public abstract ClassSet produces();
+
+    @Override
+    public abstract ClassSet accepts();
 
 }

@@ -24,36 +24,36 @@
 package crawler.scrapping.collectors;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import crawler.scrapping.chain.SearchRequest;
 import crawler.scrapping.chain.context.SearchContext;
-import java.util.ArrayList;
+import crawler.utils.ClassSet;
+import java.util.Collection;
 import org.jsoup.nodes.Document;
 
 /**
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public abstract class DomCollector extends Collector{
+public abstract class DomCollector<Produces extends Collection> extends Collector<Collection, Object> {
 
     @Override
-    protected Object work(Object o, SearchContext ctx) {
-        Object result = new ArrayList();
-        if (o instanceof Document) {
-            Object r = collectUsingJsoup((Document) o, ctx);
-            result = r != null ? r : result;
-        } else if (o instanceof HtmlPage) {
-             Object r = collectUsingHtmlUnit((HtmlPage) o, ctx);
-            result = r != null ? r : result;
+    protected Produces collect(Object data, SearchRequest ctx) {
+        Produces prod = null;
+        if (data instanceof Document) {
+            prod = collectUsingJsoup((Document) data, ctx);
+        } else if (data instanceof HtmlPage) {
+            prod = collectUsingHtmlUnit((HtmlPage) data, ctx);
         }
-        return result;
+        return prod;
     }
 
     @Override
-    public Class[] accepts() {
-        return new Class[]{Document.class, HtmlPage.class};
+    public ClassSet accepts() {
+        return new ClassSet(Document.class, HtmlPage.class);
     }
 
-    abstract Object collectUsingJsoup(Document o, SearchContext ctx);
+    abstract Produces collectUsingJsoup(Document data, SearchRequest ctx);
 
-    abstract Object collectUsingHtmlUnit(HtmlPage o, SearchContext ctx);
+    abstract Produces collectUsingHtmlUnit(HtmlPage data, SearchRequest ctx);
 
 }

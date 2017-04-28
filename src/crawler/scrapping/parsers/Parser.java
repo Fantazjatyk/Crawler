@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -23,11 +23,13 @@
  */
 package crawler.scrapping.parsers;
 
+import java.io.IOException;
+
 /**
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
 public interface Parser<T> {
 
-    public T parse(String url);
+    public T parse(String url) throws IOException;
 }

@@ -27,15 +27,18 @@ import crawler.configuration.CrawlerConfiguration;
 import crawler.configuration.CrawlerParams;
 import crawler.data.Adress;
 import crawler.scrapping.chain.ChainRequest;
+import crawler.scrapping.chain.ChainResponse;
 import crawler.scrapping.chain.ChainResults;
-import crawler.scrapping.chain.context.SearchContext;
 import crawler.scrapping.chain.Search;
+import crawler.scrapping.chain.SearchRequest;
 import crawler.scrapping.collectors.Collector;
 import crawler.scrapping.collectors.TextCollector;
 import crawler.scrapping.collectors.URLCollector;
 import crawler.scrapping.exceptions.InnvalidCollectorException;
 import crawler.scrapping.parsers.JsoupParser;
 import crawler.scrapping.parsers.Parser;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -60,14 +63,21 @@ public class SearchEngine {
         this.parser = parser;
     }
 
-    protected void init(Adress adress, ChainRequest rq) {
-        SearchContext ctx = (SearchContext) rq.getContext();
-        ctx.getRuntimeConfiguration().put(CrawlerParams.URL, adress.get());
+    protected ChainResponse init(Adress adress, SearchRequest rq) {
+        ChainResponse rs = null;
+        rq.getInitParams().put(CrawlerParams.URL, adress.get());
         try {
-            runRootChains(adress, rq);
+            rs = runRootChains(adress, rq);
         } catch (InterruptedException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(SearchEngine.class.getName()).log(Level.WARNING, null, ex);
+        } finally {
+            if (rs == null) {
+                rs = new ChainResponse();
+            }
         }
+        return rs;
     }
 
     public void setConfiguration(CrawlerConfiguration conf) {
@@ -75,24 +85,19 @@ public class SearchEngine {
     }
 
     public ChainResults start(Adress adress) {
-        ChainRequest rq = new ChainRequest();
-        SearchContext ctx = new SearchContext();
-        ctx.setConfiguration(conf);
-        rq.setContext(ctx);
-        init(adress, rq);
-        return rq.getResults();
+        SearchRequest rq = new SearchRequest();
+        rq.getInitParams().putAll(conf);
+        rq.getInitParams().put(CrawlerParams.CURRENT_URL, adress.get());
+        ChainResponse rs = init(adress, rq);
+        return rs.getResults();
     }
 
-    public void runRootChains(Adress adress, ChainRequest rq) throws InterruptedException {
+    public ChainResponse runRootChains(Adress adress, SearchRequest rq) throws InterruptedException, IOException {
         Object parsed = parser.parse(adress.get());
-
-        if (parsed == null) {
-            return;
-        }
         search.getLinks().add(new URLCollector());
         search.getLinks().add(new TextCollector());
         search.getLinks().addAll(collectors);
-        search.start(parsed, rq);
+        return search.start(parsed, rq);
     }
 
     public void addCollectors(Collection<Collector> links) {

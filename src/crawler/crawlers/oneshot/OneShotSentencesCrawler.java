@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -27,11 +27,11 @@ import crawler.crawlers.ISentencesCrawler;
 import crawler.crawlers.oneshot.OneShotCrawler;
 import crawler.configuration.CrawlerConfiguration;
 import crawler.data.Sentence;
-;
 import crawler.scrapping.filters.Filter;
 import crawler.scrapping.SearchEngine;
 import crawler.scrapping.collectors.SentenceCollector;
-import java.util.List;import crawler.scrapping.filters.Filter;
+import java.util.List;
+import crawler.scrapping.filters.Filter;
 import crawler.scrapping.SearchEngine;
 import crawler.scrapping.collectors.SentenceCollector;
 import java.util.List;
