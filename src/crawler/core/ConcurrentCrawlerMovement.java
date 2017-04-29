@@ -28,6 +28,7 @@ import crawler.utils.HumanFaker;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -47,57 +48,55 @@ public class ConcurrentCrawlerMovement extends FakerCrawlerMovement {
     private ExecutorService executors = Executors.newFixedThreadPool(MAX_THREADS);
 
     @Override
-    void before() {
-
+    protected void onStart() {
+        super.onStart();
         executors.execute(() -> this.processor.start(super.getRemainingTime()));
     }
 
     @Override
-    void after() {
+    protected void onEnd() {
+        super.onEnd();
         executors.shutdownNow();
     }
 
     private void downloadResults() {
-        Entry<Lock, Object> processorResult = processor.pollLastResult();
-        if (processorResult == null) {
+        Optional<Entry<Lock, Object>> processorResult = processor.pollLastResult();
+        if (!processorResult.isPresent()) {
             return;
         }
-        Collection r = (Collection) processorResult.getValue();
+        Collection r = (Collection) processorResult.get().getValue();
         results.addAll(r);
-        adresses.addAll(results.getAllDistinctOf(Adress.class));
-        freeLocks(processorResult.getKey());
+        adresses.addAll(results.getAllOf(Adress.class));
+        freeLocks(processorResult.get().getKey());
     }
 
     private void freeLocks(Lock lock) {
         if (this.hostLocks.contains(lock)) {
             this.hostLocks.remove(lock);
         }
+
     }
 
     void createNewSearchThread(Adress adress) {
         Future future = executors.submit(()
                 -> searchEngine.start(adress));
-        ;
-        try {
-            Lock lock = new Lock(adress.getURL().getHost());
-            processor.put(lock, (FutureTask) future);
-            this.hostLocks.add(lock);
-            this.searchedURLS.add(adress.get());
 
-        } catch (Exception e) {
+        Lock lock = new Lock(adress.getURL().getHost());
+        processor.put(lock, (FutureTask) future);
+        this.hostLocks.add(lock);
+        this.searchedURLS.add(adress.get());
 
-        }
-        ;
     }
 
     @Override
-    Adress findNextAdress() {
+    Optional<Adress> findNextAdress() {
         downloadResults();
-        return (Adress) HumanFaker.pollRandomElement(adresses.stream().filter((el) -> !this.hostLocks.contains(new Lock(el.getURL().getHost()))).collect(Collectors.toList()));
+        Collection results = adresses.stream().filter((el) -> !this.hostLocks.contains(new Lock(el.getURL().getHost()))).collect(Collectors.toList());
+        return Optional.ofNullable((Adress) HumanFaker.pollRandomElement(results));
     }
 
     @Override
-    void doMove(Adress adress) {
+    protected void doMove(Adress adress) {
         createNewSearchThread(adress);
     }
 

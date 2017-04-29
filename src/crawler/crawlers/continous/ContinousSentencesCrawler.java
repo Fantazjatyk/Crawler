@@ -47,7 +47,7 @@ public class ContinousSentencesCrawler extends ContinousCrawler implements ISent
 
     @Override
     public List<Sentence> getFoundSentences() {
-        return super.getResults().getAllDistinctOf(Sentence.class);
+        return super.getResults().getAllOf(Sentence.class);
     }
 
     @Override

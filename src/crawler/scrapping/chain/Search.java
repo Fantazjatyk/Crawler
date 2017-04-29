@@ -69,8 +69,8 @@ public class Search extends SearchRequestAwareChain {
                     continue;
 
                 each(expecting, link, rq, rs);
-            } catch (IllegalInputException | ClassCastException ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalInputException e) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
             }
         }
         onEnd();

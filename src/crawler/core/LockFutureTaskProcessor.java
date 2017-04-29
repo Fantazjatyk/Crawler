@@ -24,6 +24,7 @@
 package crawler.core;
 
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.FutureTask;
 import java.util.logging.Level;
@@ -38,15 +39,30 @@ public class LockFutureTaskProcessor<T> extends FutureTaskProcessor<T> {
     private ConcurrentSkipListMap<Lock, FutureTask> collection = new ConcurrentSkipListMap();
     private ConcurrentSkipListMap<Lock, Object> results = new ConcurrentSkipListMap();
 
-    @Override
-    void makeCycle() {
+    public void put(Lock lock, FutureTask task) {
+        this.collection.put(lock, task);
+    }
 
+    public Optional<Entry<Lock, Object>> pollLastResult() {
+        return Optional.ofNullable(results.pollLastEntry());
+    }
+
+    @Override
+    public void cancelAllFutureTasks() {
+        collection.forEach((lock, el) -> {
+            el.cancel(true);
+            lock.deactivate();
+        });
+        collection.clear();
+    }
+
+    @Override
+    protected void iteration() {
         Entry<Lock, FutureTask> entry = entry = collection.lastEntry();
         if (entry == null) {
             return;
         }
-        FutureTask futureTask = null;
-        futureTask = entry.getValue();
+        FutureTask futureTask = entry.getValue();
 
         if (futureTask != null && futureTask.isDone()) {
             try {
@@ -61,28 +77,6 @@ public class LockFutureTaskProcessor<T> extends FutureTaskProcessor<T> {
             }
 
         }
-
-    }
-
-    public void put(Lock lock, FutureTask task) {
-        this.collection.put(lock, task);
-    }
-
-    public Entry<Lock, Object> pollLastResult() {
-        return results.pollLastEntry();
-    }
-
-    @Override
-    public void cancelAllFutureTasks() {
-        collection.forEach((lock, el) -> {
-            el.cancel(true);
-            lock.deactivate();
-        });
-        collection.clear();
-    }
-
-    @Override
-    void after() {
     }
 
 }

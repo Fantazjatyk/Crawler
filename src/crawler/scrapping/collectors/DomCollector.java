@@ -34,10 +34,10 @@ import org.jsoup.nodes.Document;
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public abstract class DomCollector<Produces extends Collection> extends Collector<Collection, Object> {
+public abstract class DomCollector<Produces extends Collection> extends PostFilterableCollector<Collection, Object> {
 
     @Override
-    protected Produces collect(Object data, SearchRequest ctx) {
+    public final Produces work(Object data, SearchRequest ctx) {
         Produces prod = null;
         if (data instanceof Document) {
             prod = collectUsingJsoup((Document) data, ctx);

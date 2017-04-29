@@ -41,7 +41,7 @@ import michal.szymanski.util.Strings;
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public class SentenceCollector extends Collector<Collection, Collection<Text>>{
+public class SentenceCollector extends PrePostFilterableCollector<Collection, Collection> {
 
     List<String> filteringSentences = new ArrayList();
 
@@ -61,7 +61,7 @@ public class SentenceCollector extends Collector<Collection, Collection<Text>>{
     }
 
     @Override
-    public Collection collect(Collection<Text> o, SearchRequest ctx) {
+    protected Collection work(Collection o, SearchRequest ctx) {
         List found = new LinkedList();
 
         ((Collection<Text>) (o)).stream().forEach((el) -> {

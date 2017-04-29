@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -23,7 +23,6 @@
  */
 package crawler.core;
 
-
 import com.google.common.base.Stopwatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -40,59 +39,39 @@ public abstract class TimeLimitedContinousProces extends ContinousProcess {
     private Stopwatch stopwatch;
     private volatile int timeLimit;
 
-    public int getRemainingTime(){
+    public int getRemainingTime() {
         return (int) (this.timeLimit - stopwatch.elapsed(TimeUnit.SECONDS));
     }
 
-    @Override
-    final void loopBody() {
-        makeCycle();
-        sleep();
-    }
-
-    abstract void makeCycle();
-
-    public void start(int timeLimit){
+    public void start(int timeLimit) {
         this.timeLimit = timeLimit;
         super.start();
     }
 
-    private final void initIndependendLimiter(){
-                  Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(()->{ while(!isDone()){
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(CrawlerMovement.class.getName()).log(Level.SEVERE, null, ex);
+    private final void initIndependendLimiter() {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            while (!isDone()) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(CrawlerMovement.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-       }
-        kill();
+            kill();
         });
     }
 
-    void before(){
-
-    }
-
-    void after(){
-
-    }
     @Override
-    final void onStart() {
+    protected void onStart() {
         stopwatch = Stopwatch.createUnstarted();
         stopwatch.start();
         initIndependendLimiter();
-        before();
     }
 
     @Override
     final boolean isDone() {
         return stopwatch.elapsed(TimeUnit.SECONDS) > timeLimit;
-    }
-
-    @Override
-    final void onEnd() {
-        after();
     }
 
 }

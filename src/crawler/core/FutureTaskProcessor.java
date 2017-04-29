@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -30,12 +30,5 @@ package crawler.core;
 public abstract class FutureTaskProcessor<T> extends TimeLimitedContinousProces {
 
     public abstract void cancelAllFutureTasks();
-
-    abstract void makeCycle();
-
-    @Override
-    abstract void after();
-
-
 
 }

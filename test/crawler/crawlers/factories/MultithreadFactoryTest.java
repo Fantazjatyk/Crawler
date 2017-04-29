@@ -40,8 +40,9 @@ public class MultithreadFactoryTest {
         ConcurrentCrawler crawler = (ConcurrentCrawler) new MultithreadFactory().createSentencesCrawler();
         CrawlerConfiguration conf = new CrawlerConfiguration();
         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
+        conf.put(CrawlerParams.SENTENCES, "javascript");
         conf.put(CrawlerParams.TIME_LIMIT, 1);
-        crawler.crawl(conf);
+        crawler.start(conf);
         assertTrue(crawler.getResults().size() > 1);
         assertTrue(crawler.getMovement().getCrawledAdresses().size() > 1);
     }
@@ -55,7 +56,7 @@ public class MultithreadFactoryTest {
         CrawlerConfiguration conf = new CrawlerConfiguration();
         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
         conf.put(CrawlerParams.TIME_LIMIT, 1);
-        crawler.crawl(conf);
+        crawler.start(conf);
         assertTrue(crawler.getResults().size() > 1);
         assertTrue(crawler.getMovement().getCrawledAdresses().size() > 1);
     }
@@ -69,7 +70,7 @@ public class MultithreadFactoryTest {
         CrawlerConfiguration conf = new CrawlerConfiguration();
         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
         conf.put(CrawlerParams.TIME_LIMIT, 1);
-        crawler.crawl(conf);
+        crawler.start(conf);
         assertTrue(crawler.getResults().size() > 1);
         assertTrue(crawler.getMovement().getCrawledAdresses().size() > 1);
     }

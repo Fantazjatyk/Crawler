@@ -71,7 +71,7 @@ public class SearchEngine {
         } catch (InterruptedException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(SearchEngine.class.getName()).log(Level.WARNING, null, ex);
+            Logger.getLogger(SearchEngine.class.getName()).warning(ex.getMessage());
         } finally {
             if (rs == null) {
                 rs = new ChainResponse();

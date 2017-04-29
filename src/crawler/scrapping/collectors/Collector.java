@@ -24,6 +24,7 @@
 package crawler.scrapping.collectors;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import crawler.data.Text;
 import crawler.scrapping.chain.ChainRequest;
 import crawler.scrapping.chain.ChainResponse;
 import crawler.scrapping.chain.SearchRequest;
@@ -46,20 +47,28 @@ import org.jsoup.select.Elements;
 public abstract class Collector<Produces extends Collection, Expects> extends SearchRequestAwareLink {
 
     public static Class[] SECURED_TYPES = new Class[]{Elements.class, HtmlPage.class};
-    private Collection<Filter> preFilters = new ArrayList();
-    private Collection<Filter> postFilters = new ArrayList();
 
     @Override
-    protected final void doChain(ChainRequest rq, ChainResponse rs) {
+    protected void doChain(ChainRequest rq, ChainResponse rs) {
 
-        Optional expected = rs.getResults().get(accepts());
+        Optional expected = rs.getResults().getOneOrMany(accepts());
         if (!expected.isPresent()) {
             return;
         }
 
         Expects o = (Expects) expected.get();
-        Produces prod = collectAndFilter(o, (SearchRequest) rq);
-
+        Produces prod = null;
+        SearchRequest srq = (SearchRequest) rq;
+        /*
+        Zmienna expected zwrrapowana przez Optional może być kolekcją albo pojedyńczym obiektem.
+        Klasy potomne po Collector akceptują tylko kolekcje, ale z kolei klasa potomna DomCollector akceptuje tylko pojedyńczy obiekt.
+        Czasami prowadzi to do wyrzucenia wyjątku ClassCastException.
+         */
+        try {
+            prod = collect(o, srq);
+        } catch (ClassCastException e) {
+            catchClassCastException(o, srq);
+        }
         if (prod instanceof Collection) {
             rs.getResults().addAll(prod);
         } else {
@@ -67,59 +76,25 @@ public abstract class Collector<Produces extends Collection, Expects> extends Se
         }
     }
 
-    protected abstract Produces collect(Expects data, SearchRequest ctx);
-
-    public Produces collectAndFilter(Expects data, SearchRequest rq) {
-        Produces prod;
-
-        if (data instanceof Collection) {
-            Collection filtered = applyPreFilters((Collection) data);
-            Collection result = collect((Expects) filtered, rq);
-            prod = (Produces) applyPostFilters(result);
-        } else {
-            prod = Collector.this.collect(data, rq);
-            prod = (Produces) applyPostFilters(prod);
+    public Produces catchClassCastException(Expects data, SearchRequest rq) {
+        Produces prod = null;
+        Collection collection;
+        try {
+            if (data instanceof Collection) {
+                collection = (Collection) data;
+                prod = collect((Expects) collection.stream().findAny().get(), rq);
+            } else {
+                collection = new ArrayList();
+                collection.add(data);
+                prod = collect((Expects) collection, rq);
+            }
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+            // it's over.
         }
         return prod;
     }
 
-    public void addFilter(Filter f) {
-        FilterMode mode = f.getMode();
-
-        if (mode == FilterMode.POST) {
-            addPostFilter(f);
-        } else if (mode == FilterMode.PRE) {
-            addPreFilter(f);
-        }
-    }
-
-    private void addPostFilter(Filter f) {
-        this.postFilters.add(f);
-    }
-
-    private void addPreFilter(Filter f) {
-        this.preFilters.add(f);
-    }
-
-    protected Collection applyPostFilters(Collection post) {
-        return applyFilters(post, postFilters);
-    }
-
-    protected Collection applyPreFilters(Collection pre) {
-        return applyFilters(pre, preFilters);
-    }
-
-    protected Collection applyFilters(Collection o, Collection<Filter> filters) {
-        if (filters.isEmpty()) {
-            return o;
-        }
-        Collection result = new ArrayList();
-        filters.parallelStream().forEach((el) -> {
-            result.addAll((Collection) o.parallelStream().filter(el).collect(Collectors.toList()));
-        });
-        o.clear();
-        o.addAll(result);
-        return o;
-    }
+    protected abstract Produces collect(Expects data, SearchRequest ctx);
 
 }

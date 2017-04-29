@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import crawler.data.Adress;
+import java.util.Optional;
 
 /**
  *
@@ -36,14 +37,8 @@ import crawler.data.Adress;
 public class CrawlerMovement extends FakerCrawlerMovement {
 
     @Override
-    void doMove(Adress adress) {
-        results.addAll(searchEngine.start(adress));
-        adresses.addAll((List) (results.getAllDistinctOf(Adress.class).stream().filter((el) -> ((Adress) (el)).isBelongsToDomain()).collect(Collectors.toList())));
-    }
-
-    @Override
-    Adress findNextAdress() {
-        return (Adress) HumanFaker.pollRandomElement(adresses);
+    Optional<Adress> findNextAdress() {
+        return Optional.ofNullable((Adress) HumanFaker.pollRandomElement(adresses));
 
     }
 

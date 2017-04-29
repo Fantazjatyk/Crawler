@@ -31,18 +31,17 @@ import crawler.data.ImageSource;
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public class ImageFormatFilter extends Filter<ImageSource> {
+public class ImageFormatFilter implements Filter<ImageSource> {
 
     private String format;
 
-    public ImageFormatFilter(FilterMode mode, String format){
-        super(mode);
+    public ImageFormatFilter(String format) {
         this.format = format;
     }
 
     @Override
     public boolean test(ImageSource toTest) {
-        if (toTest!= null && toTest.getQuessFormat() != null && toTest.getQuessFormat().equals(format)) {
+        if (toTest != null && toTest.getQuessFormat() != null && toTest.getQuessFormat().equals(format)) {
             return true;
         } else {
             return false;

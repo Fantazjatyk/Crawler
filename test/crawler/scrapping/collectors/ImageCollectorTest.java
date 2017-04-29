@@ -57,7 +57,7 @@ public class ImageCollectorTest {
     @Test
     public void testWithFilter() throws IOException {
 
-        collector.addFilter(new ImageFormatFilter(FilterMode.POST, "png"));
+        collector.addPostFilter(new ImageFormatFilter("png"));
         Document document = new JsoupParser().parse("https://www.w3schools.com/");
         SearchRequest ctx = spy(SearchRequest.class);
 
@@ -66,7 +66,7 @@ public class ImageCollectorTest {
 
         assumeTrue(document != null);
 
-        Collection<ImageSource> result = (Collection) collector.collectAndFilter(document, ctx);
+        Collection<ImageSource> result = (Collection) collector.collect(document, ctx);
         assertTrue(!result.isEmpty());
         assertTrue(result.parallelStream().filter((el) -> el.getQuessFormat() != null && !el.getQuessFormat().equals("png")).count() == 0);
 
@@ -78,7 +78,7 @@ public class ImageCollectorTest {
         int filteredSize;
 
         //filtered
-        collector.addFilter(new ImageFormatFilter(FilterMode.POST, "png"));
+        collector.addPostFilter(new ImageFormatFilter("png"));
         Document document = new JsoupParser().parse("https://www.w3schools.com/");
         SearchRequest ctx = spy(SearchRequest.class);
 
@@ -87,13 +87,13 @@ public class ImageCollectorTest {
 
         assumeTrue(document != null);
 
-        Collection<ImageSource> resultFiltered = (Collection) collector.collectAndFilter(document, ctx);
+        Collection<ImageSource> resultFiltered = (Collection) collector.collect(document, ctx);
         filteredSize = resultFiltered.size();
 
         setup();
 
         //non filtered
-         Collection<ImageSource> resultNonFiltered = (Collection) collector.collectAndFilter(document, ctx);
+         Collection<ImageSource> resultNonFiltered = (Collection) collector.collect(document, ctx);
          nonFilteredSize = resultNonFiltered.size();
 
          assumeTrue(resultFiltered.size() > 0);

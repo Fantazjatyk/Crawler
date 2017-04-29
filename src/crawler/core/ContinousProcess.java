@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -38,26 +38,27 @@ public abstract class ContinousProcess extends SimpleProcess {
     final protected void main() {
         onStart();
         while (!this.isDone() && !isDone()) {
-            loopBody();
+            iteration();
+            sleep();
         }
         onEnd();
     }
 
-    void sleep() {
+    final private void sleep() {
         try {
             Thread.sleep(delay.get());
         } catch (InterruptedException ex) {
-          
+
         }
     }
 
-    abstract void loopBody();
+    abstract protected void iteration();
 
     public final void kill() {
         isDone.set(true);
     }
 
-    abstract void onStart();
+    abstract protected void onStart();
 
     public void setDelay(int delay) {
         this.delay.set(delay);
@@ -65,6 +66,8 @@ public abstract class ContinousProcess extends SimpleProcess {
 
     abstract boolean isDone();
 
-    abstract void onEnd();
+    protected void onEnd(){
+
+    }
 
 }

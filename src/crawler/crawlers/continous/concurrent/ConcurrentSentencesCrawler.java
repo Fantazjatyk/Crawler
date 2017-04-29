@@ -46,7 +46,7 @@ public class ConcurrentSentencesCrawler extends ConcurrentCrawler implements ISe
 
     @Override
     public List<Sentence> getFoundSentences() {
-        return super.getResults().getAllDistinctOf(Sentence.class);
+        return super.getResults().getAllOf(Sentence.class);
     }
 
     @Override

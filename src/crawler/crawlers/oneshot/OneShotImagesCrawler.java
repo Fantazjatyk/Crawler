@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -47,12 +47,12 @@ public class OneShotImagesCrawler extends OneShotCrawler implements IImageCrawle
 
     @Override
     public List<ImageSource> getFoundImages() {
-        return super.getResults().getAllDistinctOf(ImageSource.class);
+        return super.getResults().getAllOf(ImageSource.class);
     }
 
     @Override
     public void addImagesFilter(Filter<ImageSource> f) {
-        image.addFilter(f);
+        image.addPostFilter(f);
     }
 
 

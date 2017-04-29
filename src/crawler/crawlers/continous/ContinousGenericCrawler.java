@@ -49,7 +49,7 @@ public class ContinousGenericCrawler extends ContinousCrawler implements Generic
     @Override
     public List<Sentence> getFoundSentences() {
 
-        return super.getResults().getAllDistinctOf(Sentence.class);
+        return super.getResults().getAllOf(Sentence.class);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ContinousGenericCrawler extends ContinousCrawler implements Generic
 
     @Override
     public List<ImageSource> getFoundImages() {
-        return super.getResults().getAllDistinctOf(ImageSource.class);
+        return super.getResults().getAllOf(ImageSource.class);
     }
 
     @Override

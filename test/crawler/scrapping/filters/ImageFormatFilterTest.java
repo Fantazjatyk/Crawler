@@ -22,7 +22,7 @@ public class ImageFormatFilterTest {
 
     @Before
     public void setup(){
-       filter  = new ImageFormatFilter(FilterMode.PRE, "png");
+       filter  = new ImageFormatFilter("png");
     }
     /**
      * Test of test method, of class ImageFormatFilter.
@@ -39,13 +39,13 @@ public class ImageFormatFilterTest {
 
     @Test
     public void testTestOptimistic(){
-        filter  = new ImageFormatFilter(FilterMode.PRE, "jpg");
+        filter  = new ImageFormatFilter("jpg");
         assertTrue(filter.test(new ImageSource("https://www.w3schools.com/css/trolltunga.jpg", new Source("https://www.w3schools.com/css/trolltunga.jpg"))));
     }
 
     @Test
     public void testTestPesimistic(){
-        filter  = new ImageFormatFilter(FilterMode.PRE, "png");
+        filter  = new ImageFormatFilter("png");
         assertFalse(filter.test(new ImageSource("https://www.w3schools.com/css/trolltunga.jpg", new Source("https://www.w3schools.com/css/trolltunga.jpg"))));
     }
 

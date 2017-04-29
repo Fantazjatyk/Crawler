@@ -39,8 +39,8 @@ public class OneShotFactoryTest {
         OneShotCrawler crawler = (OneShotCrawler) new OneShotFactory().createSentencesCrawler();
         CrawlerConfiguration conf = new CrawlerConfiguration();
         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
-        List results = (List) crawler.crawl(conf);
-        assertTrue(results.size() > 1);
+        crawler.start(conf);
+        assertTrue(crawler.getResults().size() > 1);
     }
 
     /**
@@ -51,8 +51,8 @@ public class OneShotFactoryTest {
         OneShotCrawler crawler = (OneShotCrawler) new OneShotFactory().createImagesCrawler();
         CrawlerConfiguration conf = new CrawlerConfiguration();
         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
-        List results = (List) crawler.crawl(conf);
-        assertTrue(results.size() > 1);
+        crawler.start(conf);
+        assertTrue(crawler.getResults().size() > 1);
     }
 
     /**
@@ -63,8 +63,8 @@ public class OneShotFactoryTest {
         OneShotCrawler crawler = (OneShotCrawler) new OneShotFactory().createGenericCrawler();
         CrawlerConfiguration conf = new CrawlerConfiguration();
         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
-        List results = (List) crawler.crawl(conf);
-        assertTrue(results.size() > 1);
+        crawler.start(conf);
+        assertTrue(crawler.getResults().size() > 1);
     }
 
     /**
@@ -74,8 +74,8 @@ public class OneShotFactoryTest {
         OneShotCrawler crawler = (OneShotCrawler) new OneShotFactory().createCustomCrawler();
         CrawlerConfiguration conf = new CrawlerConfiguration();
         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
-        List results = (List) crawler.crawl(conf);
-        assertTrue(results.size() > 1);
+        crawler.start(conf);
+        assertTrue(crawler.getResults().size() > 1);
     }
 
 }

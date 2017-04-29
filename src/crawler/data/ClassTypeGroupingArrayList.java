@@ -29,6 +29,6 @@ import java.util.ArrayList;
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public class FilterableArrayList extends ArrayList implements FilterableCollection{
+public class ClassTypeGroupingArrayList extends ArrayList implements ClassTypeGroupable{
 
 }

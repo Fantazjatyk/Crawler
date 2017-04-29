@@ -34,7 +34,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.stream.Collectors;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
 
 /**
@@ -51,16 +54,18 @@ public class TextCollector extends DomCollector<Collection> {
         LinkedBlockingQueue found = new LinkedBlockingQueue();
         LinkedBlockingQueue result = new LinkedBlockingQueue();
 
+        e.parallelStream()
+                .filter((el) -> isElementPassable(el.ownText(), el.tag().getName()) && !found.contains(el.ownText()))
+                .forEach((el) -> {
+                    result.add(new Text(el.ownText()));
+                    found.add(el.ownText());
+                });
 
-        e.parallelStream().forEach((el) -> {
-            String text = el.ownText();
-
-            if (text != null && !text.isEmpty() && !found.contains(text) && !Arrays.asList(excludedTags).contains(el.tag())) {
-                result.add(new Text(text));
-                found.add(text);
-            }
-        });
         return new ArrayList(result);
+    }
+
+    private boolean isElementPassable(String text, String tagName) {
+        return text != null && !text.isEmpty() && !Arrays.asList(excludedTags).contains(tagName);
     }
 
     @Override
@@ -70,15 +75,16 @@ public class TextCollector extends DomCollector<Collection> {
         LinkedBlockingQueue found = new LinkedBlockingQueue();
         LinkedBlockingQueue result = new LinkedBlockingQueue();
 
-        e.parallelStream().forEach((el) -> {
-            String text = el.getTextContent();
+        e.parallelStream()
+                .filter((el) -> isElementPassable(el.getTextContent(), el.getNodeName()) && !found.contains(el.getTextContent()))
+                .peek((el) -> {
+                    String text = el.getTextContent();
 
-            if (text != null && !text.isEmpty() && !found.contains(text) && !Arrays.asList(excludedTags).contains(el.getNodeName())) {
-                result.add(new Text(text));
-                found.add(text);
-            }
-        });
-        return new ArrayList(result);
+                    result.add(new Text(text));
+                    found.add(text);
+
+                });
+        return result;
     }
 
     @Override

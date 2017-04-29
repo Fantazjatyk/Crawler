@@ -37,9 +37,9 @@ public class FilterableLinkedBlockingQueueTest {
         queue.add(new Adress());
         queue.add(new Adress());
 
-        assertEquals(3, queue.getAllDistinctOf(Sentence.class).size());
-        assertEquals(2, queue.getAllDistinctOf(Adress.class).size());
-        assertEquals(1, queue.getAllDistinctOf(Data.class).size());
+        assertEquals(3, queue.getAllOf(Sentence.class).size());
+        assertEquals(2, queue.getAllOf(Adress.class).size());
+        assertEquals(1, queue.getAllOf(Data.class).size());
 
  }
 

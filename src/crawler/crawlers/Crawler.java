@@ -24,7 +24,7 @@
 package crawler.crawlers;
 
 import crawler.configuration.CrawlerConfiguration;
-import crawler.data.FilterableArrayList;
+import crawler.data.ClassTypeGroupingArrayList;
 import crawler.logging.CrawlerFinishInfo;
 import crawler.logging.CrawlerInitInfo;
 import crawler.scrapping.SearchEngine;
@@ -37,14 +37,14 @@ import java.util.Collection;
 public abstract class Crawler implements IBasicCrawler {
 
     protected CrawlerConfiguration conf;
-    protected FilterableArrayList sr = new FilterableArrayList();
+    protected ClassTypeGroupingArrayList sr = new ClassTypeGroupingArrayList();
     private CrawlerTime time = new CrawlerTime();
 
     public double getElapsedTime() {
         return time.getElapsedTime();
     }
 
-    public final FilterableArrayList getResults() {
+    public final ClassTypeGroupingArrayList getResults() {
         return sr;
     }
 

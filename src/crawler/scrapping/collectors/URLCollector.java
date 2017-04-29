@@ -39,6 +39,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.stream.Collectors;
+import michal.szymanski.util.URLs;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
@@ -52,63 +54,47 @@ public class URLCollector extends DomCollector<Collection> {
 
     @Override
     public Collection collectUsingJsoup(Document o, SearchRequest ctx) {
-        Elements e = o.getAllElements();
         LinkedBlockingQueue result = new LinkedBlockingQueue();
-        LinkedBlockingQueue<String> htmlSearchTags = new LinkedBlockingQueue(Arrays.asList(htmlAttributes));
 
-        e.stream().parallel().forEach((el) -> {
+        for (String s : htmlAttributes) {
+            Elements input = o.getElementsByAttribute(s);
+            if (input == null || input.isEmpty()) {
+                continue;
+            }
 
-            htmlSearchTags.parallelStream().forEach((el2) -> {
-                if (el.hasAttr(el2)) {
-
-                    if (!el.attr(el2).isEmpty()) {
-                        Adress adress = new Adress(el.attr(el2), new Source(ctx.getInitParams().get(CrawlerParams.CURRENT_URL)));
-                        if (isBelongsToSearchedDomain((String) ctx.getInitParams().get(CrawlerParams.URL), adress.get())) {
+            input = input.parallelStream()
+                    .filter((el) -> el != null && el.attr(s) != null)
+                    .peek((el) -> {
+                        Adress adress = new Adress(el.attr(s), new Source(ctx.getInitParams().get(CrawlerParams.CURRENT_URL)));
+                        if (URLs.isBelongsToDomain((String) ctx.getInitParams().get(CrawlerParams.URL), adress.get())) {
                             adress.markAsBelongsToDomain();
                         }
 
                         result.add(adress);
-                    }
-                }
-            });
+                    })
+                    .collect(Collectors.toCollection(() -> new Elements()));
 
-        });
+        }
+
         return result;
     }
 
     @Override
     public Collection collectUsingHtmlUnit(HtmlPage o, SearchRequest ctx) {
-        Iterable<DomAttr> e = o.getByXPath("//@href");
+        Collection<DomAttr> e = (Collection) o.getByXPath("//@href");
         List result = new ArrayList();
 
-        e.forEach((el) -> {
+        e.parallelStream()
+                .forEach((el) -> {
 
-            Adress adress = new Adress(el.getNodeValue(), new Source(ctx.getInitParams().get(CrawlerParams.CURRENT_URL)));
-            if (isBelongsToSearchedDomain((String) ctx.getInitParams().get(CrawlerParams.URL), adress.get())) {
-                adress.markAsBelongsToDomain();
-            }
+                    Adress adress = new Adress(el.getNodeValue(), new Source(ctx.getInitParams().get(CrawlerParams.CURRENT_URL)));
+                    if (URLs.isBelongsToDomain((String) ctx.getInitParams().get(CrawlerParams.URL), adress.get())) {
+                        adress.markAsBelongsToDomain();
+                    }
 
-            result.add(adress);
+                    result.add(adress);
 
-        });
-        return new ArrayList(result);
-    }
-
-    private boolean isBelongsToSearchedDomain(String initURL, String url) {
-        boolean result = false;
-        URL testUrl = null;
-        try {
-            testUrl = new URL(url);
-
-            if (new URL(initURL).getHost().equalsIgnoreCase(testUrl.getHost())) {
-                result = true;
-            } else {
-
-            }
-        } catch (MalformedURLException ex) {
-            CrawlerLogger.getLogger(this).log("BAD ADRESS " + url);
-        }
-
+                });
         return result;
     }
 

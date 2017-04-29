@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -27,10 +27,11 @@ package crawler.core;
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public abstract class SimpleProcess{
+public abstract class SimpleProcess {
 
-      public final void start(){
-       main();
-}
-  abstract protected void main();
+    public final void start() {
+        main();
+    }
+
+    abstract protected void main();
 }

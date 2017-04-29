@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -24,10 +24,13 @@
 package crawler.core;
 
 import crawler.data.Adress;
-import crawler.data.FilterableArrayList;
+import crawler.data.ClassTypeGroupingArrayList;
 import crawler.scrapping.SearchEngine;
+import java.util.List;
+import java.util.Optional;
 
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -36,25 +39,29 @@ import java.util.concurrent.LinkedBlockingDeque;
 public abstract class AbstractCrawlerMovement extends TimeLimitedContinousProces {
 
     protected SearchEngine searchEngine = new SearchEngine();
-    protected FilterableArrayList results = new FilterableArrayList();
+    protected ClassTypeGroupingArrayList results = new ClassTypeGroupingArrayList();
     protected LinkedBlockingDeque<Adress> adresses = new LinkedBlockingDeque();
     private LinkedBlockingDeque<Adress> crawledAdresses = new LinkedBlockingDeque();
     protected String initURL;
 
     @Override
-    void makeCycle() {
-        Adress adress = null;
+    public void iteration(){
+        Optional<Adress> adress = findNextAdress();
 
-        adress = findNextAdress();
-        if (adress == null) {
+        if (!adress.isPresent()) {
             return;
         }
 
-        doMove(adress);
-        commitMove(adress);
+        doMove(adress.get());
+        commitMove(adress.get());
     }
 
-    public FilterableArrayList getResults() {
+    protected void doMove(Adress adress) {
+        results.addAll(searchEngine.start(adress));
+        adresses.addAll((List) (results.getAllOf(Adress.class).stream().filter((el) -> ((Adress) (el)).isBelongsToDomain()).collect(Collectors.toList())));
+    }
+
+    public ClassTypeGroupingArrayList getResults() {
         return results;
     }
 
@@ -70,11 +77,10 @@ public abstract class AbstractCrawlerMovement extends TimeLimitedContinousProces
         return crawledAdresses;
     }
 
-    private void commitMove(Adress adress) {
+    private final void commitMove(Adress adress) {
         this.crawledAdresses.push(adress);
     }
 
-    abstract Adress findNextAdress();
+    abstract Optional<Adress> findNextAdress();
 
-    abstract void doMove(Adress adress);
 }

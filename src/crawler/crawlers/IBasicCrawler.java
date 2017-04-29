@@ -24,7 +24,7 @@
 package crawler.crawlers;
 
 import crawler.configuration.CrawlerConfiguration;
-import crawler.data.FilterableArrayList;
+import crawler.data.ClassTypeGroupingArrayList;
 
 /**
  *
@@ -34,5 +34,5 @@ public interface IBasicCrawler {
 
     void start(CrawlerConfiguration conf);
     CrawlerConfiguration getConf();
-    FilterableArrayList getResults();
+    ClassTypeGroupingArrayList getResults();
 }

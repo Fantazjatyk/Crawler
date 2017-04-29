@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -32,8 +32,8 @@ import crawler.utils.HumanFaker;
 public abstract class FakerCrawlerMovement extends AbstractCrawlerMovement {
 
     @Override
-    void makeCycle() {
-        super.makeCycle(); //To change body of generated methods, choose Tools | Templates.
+    public void iteration() {
+        super.iteration(); //To change body of generated methods, choose Tools | Templates.
         pretendHuman();
     }
 

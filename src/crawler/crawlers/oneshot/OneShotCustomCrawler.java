@@ -49,7 +49,7 @@ se.addCollectors(Arrays.asList(collectors));
 
     @Override
     public List getResultsOfFilter(SearchRequestAwareLink links) {
-       return super.getResults().getAllDistinctOf(links.produces());
+       return super.getResults().getAllOf(links.produces());
     }
 
     @Override

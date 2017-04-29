@@ -50,7 +50,7 @@ public class ContinousCustomCrawler extends ContinousCrawler implements ICustomC
 
     @Override
     public List getResultsOfFilter(SearchRequestAwareLink links) {
-        return (List) super.getResults().getAllDistinctOf(links.produces());
+        return (List) super.getResults().getAllOf(links.produces());
     }
 
     @Override

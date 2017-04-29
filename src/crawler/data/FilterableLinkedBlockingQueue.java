@@ -29,6 +29,6 @@ import java.util.concurrent.LinkedBlockingQueue;
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public class FilterableLinkedBlockingQueue<T> extends LinkedBlockingQueue<T> implements FilterableCollection {
+public class FilterableLinkedBlockingQueue<T> extends LinkedBlockingQueue<T> implements ClassTypeGroupable {
 
 }

@@ -29,7 +29,7 @@ import crawler.crawlers.ContinousableCrawler;
 import crawler.configuration.CrawlerConfiguration;
 import crawler.core.AbstractCrawlerMovement;
 import crawler.data.Adress;
-import crawler.data.FilterableArrayList;
+import crawler.data.ClassTypeGroupingArrayList;
 import java.util.Collection;
 
 /**
@@ -54,7 +54,7 @@ public abstract class ContinousCrawler extends Crawler implements ContinousableC
         return super.getResults();
     }
 
-    private FilterableArrayList startMovement(int timeLimit) {
+    private ClassTypeGroupingArrayList startMovement(int timeLimit) {
         this.movement.start(timeLimit);
         return movement.getResults();
     }

@@ -29,17 +29,7 @@ import java.util.function.Predicate;
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public abstract class Filter<T> implements Predicate<T> {
-
-    private FilterMode mode;
-
-    public Filter(FilterMode mode) {
-        this.mode = mode;
-    }
-
-    public FilterMode getMode() {
-        return mode;
-    }
+public abstract interface Filter<T> extends Predicate<T> {
 
     @Override
     public abstract boolean test(T t);

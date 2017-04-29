@@ -47,7 +47,7 @@ public class ContinousImagesCrawler extends ContinousCrawler implements IImageCr
 
     @Override
     public List<ImageSource> getFoundImages() {
-        return super.getResults().getAllDistinctOf(ImageSource.class);
+        return super.getResults().getAllOf(ImageSource.class);
     }
 
     @Override

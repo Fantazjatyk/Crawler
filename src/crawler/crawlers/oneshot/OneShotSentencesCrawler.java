@@ -49,7 +49,7 @@ public class OneShotSentencesCrawler extends OneShotCrawler implements ISentence
 
     @Override
     public List<Sentence> getFoundSentences() {
-        return super.getResults().getAllDistinctOf(Sentence.class);
+        return super.getResults().getAllOf(Sentence.class);
     }
 
     @Override

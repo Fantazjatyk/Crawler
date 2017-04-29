@@ -23,12 +23,12 @@
  */
 package crawler.scrapping.chain;
 
-import crawler.data.FilterableArrayList;
+import crawler.data.ClassTypeGroupingArrayList;
 
 /**
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public class ChainResults extends FilterableArrayList{
+public class ChainResults extends ClassTypeGroupingArrayList{
 
 }
