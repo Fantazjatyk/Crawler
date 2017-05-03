@@ -23,7 +23,6 @@
  */
 package crawler.data;
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -31,33 +30,32 @@ import java.util.Objects;
 
 /**
  *
-@author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
+ * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
  */
 public class Data<T> {
-
 
     T content;
     Collection<Source> sources = new ArrayList();
 
-    public Data(T content, Source source){
+    public Data(T content, Source source) {
         this.content = content;
         this.sources.add(source);
     }
 
-    public Data(T content, List<Source> sources){
+    public Data(T content, List<Source> sources) {
         this.content = content;
         this.sources.addAll(sources);
     }
 
-    public Data(T content){
+    public Data(T content) {
         this.content = content;
     }
 
-    public T get(){
+    public T get() {
         return this.content;
     }
 
-    public Collection<Source> getSources(){
+    public Collection<Source> getSources() {
         return this.sources;
     }
 
@@ -65,20 +63,19 @@ public class Data<T> {
         this.sources = sources;
     }
 
-
-
     @Override
     public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof Data)) {
+            return false;
+        }
         Data s = (Data) obj;
-        return s!=null && s instanceof Data && this.content != null?
-                this.content.equals(s.content) : false;
-        // NullPointerException
+        return this.content != null
+                ? this.content.equals(s.content) : false;
     }
-
 
     @Override
     public int hashCode() {
-            int hash = 3;
+        int hash = 3;
         hash = 89 * hash + Objects.hashCode(this.content);
         return hash;
     }

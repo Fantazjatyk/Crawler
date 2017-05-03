@@ -28,17 +28,12 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import crawler.configuration.CrawlerParams;
 import crawler.data.Adress;
 import crawler.data.Source;
-import crawler.logging.CrawlerLogger;
 import crawler.scrapping.chain.SearchRequest;
 import crawler.utils.ClassSet;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.stream.Collectors;
 import michal.szymanski.util.URLs;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -61,17 +56,16 @@ public class URLCollector extends DomCollector<Collection> {
                 continue;
             }
 
-            input = input.parallelStream()
+            input.parallelStream()
                     .filter((el) -> el != null && el.attr(s) != null)
-                    .peek((el) -> {
+                    .forEach((el) -> {
                         Adress adress = new Adress(el.attr(s), new Source(ctx.getInitParams().get(CrawlerParams.CURRENT_URL)));
                         if (URLs.isBelongsToDomain((String) ctx.getInitParams().get(CrawlerParams.URL), adress.get())) {
                             adress.markAsBelongsToDomain();
                         }
 
                         result.add(adress);
-                    })
-                    .collect(Collectors.toCollection(() -> new Elements()));
+                    });
 
         }
 

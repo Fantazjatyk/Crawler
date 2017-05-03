@@ -8,7 +8,6 @@ package crawler.crawlers.factories;
 import crawler.configuration.CrawlerConfiguration;
 import crawler.configuration.CrawlerParams;
 import crawler.crawlers.oneshot.OneShotCrawler;
-import java.util.List;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;

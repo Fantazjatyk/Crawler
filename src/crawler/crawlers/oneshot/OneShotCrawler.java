@@ -29,7 +29,6 @@ import crawler.configuration.CrawlerConfiguration;
 import crawler.data.Adress;
 import crawler.scrapping.SearchEngine;
 
-import java.util.Collection;
 import michal.szymanski.util.collection.ClassGroupingMap;
 
 /**

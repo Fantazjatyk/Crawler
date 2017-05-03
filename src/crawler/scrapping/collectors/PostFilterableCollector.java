@@ -5,13 +5,10 @@
  */
 package crawler.scrapping.collectors;
 
-import crawler.scrapping.chain.ChainRequest;
-import crawler.scrapping.chain.ChainResponse;
 import crawler.scrapping.chain.SearchRequest;
 import crawler.scrapping.filters.Filter;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -26,10 +23,8 @@ public abstract class PostFilterableCollector<Produces extends Collection, Expec
 
     @Override
     protected Produces collect(Expects data, SearchRequest ctx) {
-        Produces prod = null;
         Collection result = work(data, ctx);
-        prod = (Produces) applyPostFilters(result);
-        return prod;
+        return (Produces) applyPostFilters(result);
     }
 
     protected abstract Produces work(Expects data, SearchRequest rq);

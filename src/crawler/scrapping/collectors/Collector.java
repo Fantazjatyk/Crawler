@@ -24,17 +24,14 @@
 package crawler.scrapping.collectors;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import crawler.data.Text;
 import crawler.scrapping.chain.ChainRequest;
 import crawler.scrapping.chain.ChainResponse;
 import crawler.scrapping.chain.SearchRequest;
-import crawler.scrapping.filters.Filter;
 import crawler.scrapping.chain.SearchRequestAwareLink;
-import crawler.utils.ClassSet;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jsoup.select.Elements;
 
 /**
@@ -44,7 +41,7 @@ import org.jsoup.select.Elements;
 @Valid
 public abstract class Collector<Produces extends Collection, Expects> extends SearchRequestAwareLink {
 
-    public static Class[] SECURED_TYPES = new Class[]{Elements.class, HtmlPage.class};
+    public static final Class[] SECURED_TYPES = new Class[]{Elements.class, HtmlPage.class};
 
     @Override
     protected void doChain(ChainRequest rq, ChainResponse rs) {
@@ -75,7 +72,7 @@ public abstract class Collector<Produces extends Collection, Expects> extends Se
         Produces prod = null;
         Collection collection = new ArrayList();
         try {
-            if (data instanceof Collection) {
+            if (data instanceof Collection && !collection.isEmpty()) {
                 collection = (Collection) data;
                 prod = collect((Expects) collection.stream().findAny().get(), rq);
             } else {
@@ -83,7 +80,7 @@ public abstract class Collector<Produces extends Collection, Expects> extends Se
                 prod = collect((Expects) collection, rq);
             }
         } catch (ClassCastException e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE, null, e);
             // it's over.
         }
         return prod;

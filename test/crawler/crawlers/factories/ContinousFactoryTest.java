@@ -72,7 +72,7 @@ public class ContinousFactoryTest {
         ContinousCrawler crawler = (ContinousCrawler) new ContinousFactory().createGenericCrawler();
         CrawlerConfiguration conf = new CrawlerConfiguration();
         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
-        conf.put(CrawlerParams.TIME_LIMIT, 20);
+        conf.put(CrawlerParams.TIME_LIMIT, time);
         crawler.start(conf);
         assertTrue(crawler.getResults().totalSize() > 1);
         assertTrue(crawler.getMovement().getCrawledAdresses().size() > 1);

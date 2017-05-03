@@ -26,7 +26,6 @@ package crawler.scrapping;
 import crawler.configuration.CrawlerConfiguration;
 import crawler.configuration.CrawlerParams;
 import crawler.data.Adress;
-import crawler.scrapping.chain.ChainRequest;
 import crawler.scrapping.chain.ChainResponse;
 import crawler.scrapping.chain.ChainResults;
 import crawler.scrapping.chain.Search;
@@ -38,7 +37,6 @@ import crawler.scrapping.exceptions.InnvalidCollectorException;
 import crawler.scrapping.parsers.JsoupParser;
 import crawler.scrapping.parsers.Parser;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -47,7 +45,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import michal.szymanski.util.collection.ClassGroupingMap;
 
 /**
  *

@@ -44,23 +44,27 @@ import org.jsoup.select.Elements;
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public class ImageCollector extends DomCollector{
+public class ImageCollector extends DomCollector {
+
+    private String srcTag = "src";
+    private String srcAbsTag = "abs:src";
+    private String imgTag = "img";
 
     @Override
     protected Collection collectUsingJsoup(Document o, SearchRequest ctx) {
         Elements e = o.getAllElements();
         List<Data> result = e.parallelStream()
-                .filter((el) -> el.tagName().equals("img") && el.hasAttr("abs:src") && !el.attr("abs:src").isEmpty())
+                .filter((el) -> el.tagName().equals(imgTag) && el.hasAttr(srcAbsTag) && !el.attr(srcAbsTag).isEmpty())
                 .map((el2)
-                        -> new ImageSource(el2.attr("abs:src"), new Source(ctx.getInitParams().get(CrawlerParams.CURRENT_URL)))).collect(Collectors.toList());
+                        -> new ImageSource(el2.attr(srcAbsTag), new Source(ctx.getInitParams().get(CrawlerParams.CURRENT_URL)))).collect(Collectors.toList());
         return result;
     }
 
     @Override
     protected Collection collectUsingHtmlUnit(HtmlPage o, SearchRequest ctx) {
-        List<DomElement> list = o.getElementsByTagName("img");
-        List<Data> result = list.parallelStream().filter((el) -> el.hasAttribute("src") && !el.getAttribute("src").isEmpty()).map((el2)
-                -> new ImageSource(getHtmlUnitAbsUrl(el2.getAttribute("src"), o), new Source(ctx.getInitParams().get(CrawlerParams.CURRENT_URL)))).collect(Collectors.toList());
+        List<DomElement> list = o.getElementsByTagName(imgTag);
+        List<Data> result = list.parallelStream().filter((el) -> el.hasAttribute(srcTag) && !el.getAttribute(srcTag).isEmpty()).map((el2)
+                -> new ImageSource(getHtmlUnitAbsUrl(el2.getAttribute(srcTag), o), new Source(ctx.getInitParams().get(CrawlerParams.CURRENT_URL)))).collect(Collectors.toList());
         return result;
     }
 

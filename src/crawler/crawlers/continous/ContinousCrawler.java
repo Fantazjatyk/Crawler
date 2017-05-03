@@ -29,7 +29,6 @@ import crawler.crawlers.ContinousableCrawler;
 import crawler.configuration.CrawlerConfiguration;
 import crawler.core.AbstractCrawlerMovement;
 import crawler.data.Adress;
-import java.util.Collection;
 import michal.szymanski.util.collection.ClassGroupingMap;
 
 /**
@@ -49,8 +48,7 @@ public abstract class ContinousCrawler extends Crawler implements ContinousableC
         movement.getSearchEngine().setConfiguration(conf);
         appendFilters(movement.getSearchEngine(), conf);
         movement.getAdresses().add(new Adress(conf.getInitURL()));
-        ClassGroupingMap result = startMovement(conf.getTimeLimit());
-        return result;
+        return startMovement(conf.getTimeLimit());
     }
 
     private ClassGroupingMap startMovement(int timeLimit) {

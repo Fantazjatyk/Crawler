@@ -11,7 +11,6 @@ import crawler.scrapping.collectors.TextCollector;
 import crawler.scrapping.collectors.URLCollector;
 import crawler.scrapping.parsers.JsoupParser;
 import java.io.IOException;
-import java.util.NoSuchElementException;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
 import static org.mockito.Mockito.*;

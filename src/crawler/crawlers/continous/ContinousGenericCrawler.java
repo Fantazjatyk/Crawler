@@ -28,7 +28,6 @@ import crawler.crawlers.continous.ContinousCrawler;
 import crawler.configuration.CrawlerConfiguration;
 import crawler.crawlers.GenericCrawler;
 
-import java.util.List;
 
 import crawler.data.ImageSource;
 import crawler.data.Sentence;
@@ -37,7 +36,6 @@ import crawler.scrapping.collectors.SentenceCollector;
 import crawler.scrapping.filters.Filter;
 import crawler.scrapping.SearchEngine;
 import java.util.Collection;
-import java.util.Optional;
 
 /**
  *
@@ -47,9 +45,8 @@ public class ContinousGenericCrawler extends ContinousCrawler implements Generic
 
     @Override
     public Collection getFoundSentences() {
-        Collection results = super.getResults().getGroup(Sentence.class);
 
-        return results;
+        return super.getResults().getGroup(Sentence.class);
     }
 
     @Override

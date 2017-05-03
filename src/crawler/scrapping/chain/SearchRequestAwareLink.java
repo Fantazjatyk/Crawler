@@ -24,7 +24,6 @@
 package crawler.scrapping.chain;
 
 import crawler.utils.ClassSet;
-import java.util.Optional;
 
 /**
  *

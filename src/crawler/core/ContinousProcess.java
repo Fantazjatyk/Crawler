@@ -35,7 +35,7 @@ public abstract class ContinousProcess extends SimpleProcess {
     private AtomicInteger delay = new AtomicInteger(0);
     private AtomicBoolean isDone = new AtomicBoolean(false);
 
-    final protected void main() {
+    protected final void main() {
         onStart();
         while (!this.isDone() && !isDone()) {
             iteration();
@@ -44,21 +44,21 @@ public abstract class ContinousProcess extends SimpleProcess {
         onEnd();
     }
 
-    final private void sleep() {
+    private final void sleep() {
         try {
             Thread.sleep(delay.get());
         } catch (InterruptedException ex) {
-
+            kill();
         }
     }
 
-    abstract protected void iteration();
+    protected abstract void iteration();
 
     public final void kill() {
         isDone.set(true);
     }
 
-    abstract protected void onStart();
+    protected abstract void onStart();
 
     public void setDelay(int delay) {
         this.delay.set(delay);
@@ -66,7 +66,7 @@ public abstract class ContinousProcess extends SimpleProcess {
 
     abstract boolean isDone();
 
-    protected void onEnd(){
+    protected void onEnd() {
 
     }
 

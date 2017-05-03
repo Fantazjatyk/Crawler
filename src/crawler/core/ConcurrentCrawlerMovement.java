@@ -25,7 +25,6 @@ package crawler.core;
 
 import crawler.data.Adress;
 import crawler.utils.HumanFaker;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map.Entry;

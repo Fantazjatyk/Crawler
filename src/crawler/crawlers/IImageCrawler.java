@@ -23,7 +23,6 @@
  */
 package crawler.crawlers;
 
-import java.util.List;
 import crawler.data.ImageSource;
 import crawler.scrapping.filters.Filter;
 import java.util.Collection;

@@ -29,6 +29,7 @@ import java.io.IOException;
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
+@FunctionalInterface
 public interface Parser<T> {
 
     public T parse(String url) throws IOException;

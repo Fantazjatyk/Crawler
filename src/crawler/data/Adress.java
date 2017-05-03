@@ -74,7 +74,7 @@ public class Adress extends Data<String> {
 
     private void assignQuess(String content) {
         if (content.contains(".")) {
-            int lastDotIndex = content.lastIndexOf(".");
+            int lastDotIndex = content.lastIndexOf('.');
             quessFormat = content.substring(lastDotIndex + 1, content.length());
         }
     }

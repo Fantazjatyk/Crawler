@@ -24,14 +24,8 @@
 package crawler.scrapping.chain;
 
 import crawler.scrapping.exceptions.IllegalInputException;
-import crawler.utils.ClassSet;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 /**
  *

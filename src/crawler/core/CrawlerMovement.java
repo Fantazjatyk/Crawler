@@ -24,8 +24,6 @@
 package crawler.core;
 
 import crawler.utils.HumanFaker;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import crawler.data.Adress;
 import java.util.Optional;

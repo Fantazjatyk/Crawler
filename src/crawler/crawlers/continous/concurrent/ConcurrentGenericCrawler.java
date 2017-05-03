@@ -34,7 +34,6 @@ import crawler.scrapping.SearchEngine;
 import crawler.scrapping.collectors.ImageCollector;
 import crawler.scrapping.collectors.SentenceCollector;
 import java.util.Collection;
-import java.util.List;
 
 /**
  *

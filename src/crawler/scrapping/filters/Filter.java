@@ -31,7 +31,4 @@ import java.util.function.Predicate;
  */
 public abstract interface Filter<T> extends Predicate<T> {
 
-    @Override
-    public abstract boolean test(T t);
-
 }

@@ -23,10 +23,8 @@
  */
 package crawler.scrapping.parsers;
 
-import java.util.logging.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import crawler.logging.CrawlerLogger;
 import java.io.IOException;
 
 /**
@@ -43,11 +41,7 @@ public class JsoupParser implements Parser<Document> {
     }
 
     private Document getSourceCode() throws IOException {
-
-        Document sourceCode = null;
-        sourceCode = Jsoup.connect(url).get();
-
-        return sourceCode;
+        return Jsoup.connect(url).get();
     }
 
     private Document getHTMLElements() throws IOException {

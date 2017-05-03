@@ -5,9 +5,6 @@
  */
 package crawler.scrapping.chain;
 
-import crawler.configuration.CrawlerParams;
-import java.util.Optional;
-
 /**
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com

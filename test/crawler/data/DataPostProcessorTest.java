@@ -36,19 +36,6 @@ public class DataPostProcessorTest {
     /**
      * Test of mergeDatas method, of class DataPostProcessor.
      */
-    @Test
-    public void testMergeData_RejectNotSameDataType() {
-        Sentence sentence = new Sentence("Ala");
-        Adress adress = new Adress("http://www.google.pl");
-        assertNull(processor.mergeData(adress, sentence));
-    }
-
-    @Test
-    public void testMergeData_InvalidParams() {
-        Sentence sentence = new Sentence("Ala");
-        Adress adress = null;
-        assertNull(processor.mergeData(adress, sentence));
-    }
 
     @Test
     public void testMergeData_Optimistic() {
@@ -75,7 +62,7 @@ public class DataPostProcessorTest {
 
         List<Data> result = (List) processor.mergeDatas(sentences);
         assertEquals(2, result.size());
-        assertEquals(2, ((Source) (result.get(result.indexOf(sentence)).getSources().iterator().next())).times);
+        assertEquals(2, ((Source) (result.get(result.indexOf(sentence)).getSources().iterator().next())).getTimes());
     }
 
     @Test
@@ -115,12 +102,12 @@ public class DataPostProcessorTest {
         List<Data> result = (List) processor.mergeDatas(sentences);
 
         assertEquals(2, result.size());
-        assertEquals(1, ((Source) (result.get(result.indexOf(sentence2)).getSources().iterator().next())).times);
+        assertEquals(1, ((Source) (result.get(result.indexOf(sentence2)).getSources().iterator().next())).getTimes());
 
     }
 
     @Test
-    public void testMergeDatas_DiffrentTypes(){
+    public void testMergeDatas_DiffrentTypes() {
         Sentence sentence = new Sentence("Ala", new Source("a"));
         Sentence sentence2 = new Sentence("ma", new Source("b"));
         Adress adress = new Adress("google.pl", new Source("http://google.pl"));
@@ -133,7 +120,7 @@ public class DataPostProcessorTest {
             }
         };
 
-         List<Data> result = (List) processor.mergeDatas(sentences);
-         assertEquals(3, result.size());
+        List<Data> result = (List) processor.mergeDatas(sentences);
+        assertEquals(3, result.size());
     }
 }

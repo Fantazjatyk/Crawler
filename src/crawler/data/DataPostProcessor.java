@@ -78,11 +78,9 @@ public class DataPostProcessor {
     }
 
     private Collection<Source> getMergedSources(Collection<Source> sources) {
-        List<Source> list = new ArrayList() {
-            {
-                addAll(sources);
-            }
-        };
+        List<Source> list = new ArrayList();
+        list.addAll(sources);
+
         Map<Object, Source> sourcesMap = new HashMap();
         list.stream().forEach((el) -> {
 

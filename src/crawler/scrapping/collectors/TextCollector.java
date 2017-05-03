@@ -33,10 +33,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.stream.Collectors;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
 
 /**

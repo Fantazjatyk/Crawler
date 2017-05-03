@@ -24,7 +24,6 @@
 package crawler.crawlers.continous;
 
 import crawler.crawlers.IImageCrawler;
-import java.util.List;
 
 import crawler.crawlers.continous.ContinousCrawler;
 import crawler.configuration.CrawlerConfiguration;

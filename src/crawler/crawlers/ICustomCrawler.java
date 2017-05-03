@@ -26,7 +26,6 @@ package crawler.crawlers;
 import crawler.scrapping.chain.SearchRequestAwareLink;
 import crawler.scrapping.collectors.Collector;
 import java.util.Collection;
-import java.util.List;
 
 /**
  *

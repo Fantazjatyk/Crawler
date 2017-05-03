@@ -25,7 +25,6 @@ package crawler.scrapping.collectors;
 
 import crawler.utils.ClassSet;
 import java.util.Arrays;
-import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -49,23 +48,21 @@ public class CollectorValidator implements ConstraintValidator<Valid, Collector>
         ClassSet accepts = t.accepts();
         ClassSet produces = t.produces();
 
-        boolean result = (isInstanceOfDomCollector(t) && hasValidProducesDeclaration(produces) || hasValidAcceptsDeclaration(accepts));
-        return result;
+        return (isInstanceOfDomCollector(t) && hasValidProducesDeclaration(produces) || hasValidAcceptsDeclaration(accepts));
     }
 
-    private boolean isInstanceOfDomCollector(Collector c){
-        boolean result = c instanceof DomCollector;
-        return result;
+    private boolean isInstanceOfDomCollector(Collector c) {
+
+        return c instanceof DomCollector;
     }
 
-    private boolean hasValidAcceptsDeclaration(ClassSet accepts){
-        boolean result = !(accepts.stream().anyMatch((el) -> Arrays.asList(Collector.SECURED_TYPES).contains(el)));
-        return result;
+    private boolean hasValidAcceptsDeclaration(ClassSet accepts) {
+
+        return !(accepts.stream().anyMatch((el) -> Arrays.asList(Collector.SECURED_TYPES).contains(el)));
     }
 
-    private boolean hasValidProducesDeclaration(ClassSet produces){
-        boolean result = !(produces.stream().anyMatch((el) -> Arrays.asList(Collector.SECURED_TYPES).contains(el)));
-        return result;
+    private boolean hasValidProducesDeclaration(ClassSet produces) {
+
+        return !(produces.stream().anyMatch((el) -> Arrays.asList(Collector.SECURED_TYPES).contains(el)));
     }
 }
-

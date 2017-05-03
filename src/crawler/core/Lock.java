@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -49,7 +49,7 @@ public class Lock implements Comparable {
         int result = 0;
         if (o instanceof Lock) {
             Lock lockO = (Lock) o;
-            this.getId().compareTo(lockO.getId());
+            return this.getId().compareTo(lockO.getId());
         }
         return result;
     }

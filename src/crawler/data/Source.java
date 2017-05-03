@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -27,21 +27,25 @@ package crawler.data;
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public class Source<T>{
+public class Source<T> {
 
-    public int times = 1;
+    private int times = 1;
 
     T content;
 
     public T getContent() {
         return content;
     }
-    
-    public void duplicate(){
+
+    public int getTimes() {
+        return times;
+    }
+
+    public void duplicate() {
         this.times++;
     }
-    
- public Source(T content){
-     this.content = content;
- }
+
+    public Source(T content) {
+        this.content = content;
+    }
 }

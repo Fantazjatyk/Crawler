@@ -25,9 +25,7 @@ package crawler.scrapping.chain;
 
 import crawler.utils.ClassSet;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.stream.Collectors;
 
 /**
@@ -58,7 +56,7 @@ public abstract class AutowireChain<LinkType extends SearchRequestAwareLink> ext
 
                 }
                 );
-        super.getLinks().clear();;
+        super.getLinks().clear();
         super.getLinks().addAll(producers.values());
     }
 
