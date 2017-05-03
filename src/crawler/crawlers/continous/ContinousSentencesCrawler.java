@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -32,6 +32,7 @@ import crawler.data.Sentence;
 import crawler.scrapping.filters.Filter;
 import crawler.scrapping.SearchEngine;
 import crawler.scrapping.collectors.SentenceCollector;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -46,8 +47,8 @@ public class ContinousSentencesCrawler extends ContinousCrawler implements ISent
     }
 
     @Override
-    public List<Sentence> getFoundSentences() {
-        return super.getResults().getAllOf(Sentence.class);
+    public Collection getFoundSentences() {
+        return super.getResults().getGroup(Sentence.class);
     }
 
     @Override

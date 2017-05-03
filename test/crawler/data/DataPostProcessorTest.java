@@ -75,7 +75,7 @@ public class DataPostProcessorTest {
 
         List<Data> result = (List) processor.mergeDatas(sentences);
         assertEquals(2, result.size());
-        assertEquals(2, ((Source) (result.get(result.indexOf(sentence)).getSources().get(0))).times);
+        assertEquals(2, ((Source) (result.get(result.indexOf(sentence)).getSources().iterator().next())).times);
     }
 
     @Test
@@ -115,7 +115,7 @@ public class DataPostProcessorTest {
         List<Data> result = (List) processor.mergeDatas(sentences);
 
         assertEquals(2, result.size());
-        assertEquals(1, ((Source) (result.get(result.indexOf(sentence2)).getSources().get(0))).times);
+        assertEquals(1, ((Source) (result.get(result.indexOf(sentence2)).getSources().iterator().next())).times);
 
     }
 

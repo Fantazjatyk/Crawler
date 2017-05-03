@@ -27,7 +27,6 @@ import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import crawler.data.Text;
 import crawler.scrapping.chain.SearchRequest;
-import crawler.scrapping.chain.context.SearchContext;
 import crawler.utils.ClassSet;
 import java.util.ArrayList;
 import java.util.Arrays;

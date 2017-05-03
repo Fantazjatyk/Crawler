@@ -31,6 +31,7 @@ import crawler.scrapping.chain.SearchRequestAwareLink;
 import crawler.scrapping.collectors.Collector;
 import crawler.utils.ClassSet;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -49,8 +50,8 @@ public class ContinousCustomCrawler extends ContinousCrawler implements ICustomC
     }
 
     @Override
-    public List getResultsOfFilter(SearchRequestAwareLink links) {
-        return (List) super.getResults().getAllOf(links.produces());
+    public Collection getResultsOfFilter(SearchRequestAwareLink links) {
+        return super.getResults().getMergedGroup(links.produces().toArray(new Class[0]));
     }
 
     @Override

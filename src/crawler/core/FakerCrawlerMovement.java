@@ -38,10 +38,10 @@ public abstract class FakerCrawlerMovement extends AbstractCrawlerMovement {
     }
 
     protected void pretendHuman() {
-        if (super.getRemainingTime() > 60000) {
-            int randomDelay = HumanFaker.getRandomMilis(5000);
+        int maxRange = super.getRemainingTime() > 60000 ? 5000 : 1000;
+        int minRange = 1000;
+            int randomDelay = HumanFaker.getRandomMilis(minRange, maxRange);
             this.setDelay(randomDelay);
         }
-    }
 
 }

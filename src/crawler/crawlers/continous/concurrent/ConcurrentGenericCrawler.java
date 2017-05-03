@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -33,13 +33,14 @@ import crawler.scrapping.filters.Filter;
 import crawler.scrapping.SearchEngine;
 import crawler.scrapping.collectors.ImageCollector;
 import crawler.scrapping.collectors.SentenceCollector;
+import java.util.Collection;
 import java.util.List;
 
 /**
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public class ConcurrentGenericCrawler extends ConcurrentCrawler implements GenericCrawler{
+public class ConcurrentGenericCrawler extends ConcurrentCrawler implements GenericCrawler {
 
     @Override
     public void appendFilters(SearchEngine se, CrawlerConfiguration conf) {
@@ -48,13 +49,13 @@ public class ConcurrentGenericCrawler extends ConcurrentCrawler implements Gener
     }
 
     @Override
-    public List<ImageSource> getFoundImages() {
-        return super.getResults().getAllOf(ImageSource.class);
+    public Collection getFoundImages() {
+        return super.getResults().getGroup(ImageSource.class);
     }
 
     @Override
-    public List<Sentence> getFoundSentences() {
-        return super.getResults().getAllOf(Sentence.class);
+    public Collection getFoundSentences() {
+        return super.getResults().getGroup(Sentence.class);
     }
 
     @Override

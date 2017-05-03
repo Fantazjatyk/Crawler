@@ -44,7 +44,7 @@ public class CrawlerFinishInfo {
         } else {
             info.append("- Total crawled adresses: 1\n");
         }
-        info.append("- Number of found objects: " + crawler.getResults().size() + "\n");
+        info.append("- Number of found objects: " + crawler.getResults().totalSize() + "\n");
         info.append("- Crawling time: " + crawler.getElapsedTime() + " seconds\n");
 
         Logger.getLogger(CrawlerInitInfo.class.getClass().getSimpleName()).severe("\n" + info.toString());

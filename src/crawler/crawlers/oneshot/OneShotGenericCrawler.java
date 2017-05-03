@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -33,6 +33,7 @@ import crawler.scrapping.filters.Filter;
 import crawler.scrapping.SearchEngine;
 import crawler.scrapping.collectors.ImageCollector;
 import crawler.scrapping.collectors.SentenceCollector;
+import java.util.Collection;
 
 import java.util.List;
 
@@ -49,13 +50,13 @@ public class OneShotGenericCrawler extends OneShotCrawler implements GenericCraw
     }
 
     @Override
-    public List<ImageSource> getFoundImages() {
-        return super.getResults().getAllOf(ImageSource.class);
+    public Collection getFoundImages() {
+        return super.getResults().getGroup(ImageSource.class);
     }
 
     @Override
-    public List<Sentence> getFoundSentences() {
-        return super.getResults().getAllOf(Sentence.class);
+    public Collection getFoundSentences() {
+        return super.getResults().getGroup(Sentence.class);
     }
 
     @Override

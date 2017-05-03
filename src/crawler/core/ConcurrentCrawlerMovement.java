@@ -25,6 +25,7 @@ package crawler.core;
 
 import crawler.data.Adress;
 import crawler.utils.HumanFaker;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map.Entry;
@@ -34,6 +35,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 import java.util.stream.Collectors;
+import michal.szymanski.util.collection.ClassGroupingMap;
 
 /**
  *
@@ -64,9 +66,9 @@ public class ConcurrentCrawlerMovement extends FakerCrawlerMovement {
         if (!processorResult.isPresent()) {
             return;
         }
-        Collection r = (Collection) processorResult.get().getValue();
-        results.addAll(r);
-        adresses.addAll(results.getAllOf(Adress.class));
+        ClassGroupingMap r =  (ClassGroupingMap) processorResult.get().getValue();
+        results.putAll(r.toCollection());
+        adresses.addAll(results.getGroup(Adress.class));
         freeLocks(processorResult.get().getKey());
     }
 

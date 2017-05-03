@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -40,10 +40,6 @@ public class ImageSource extends Adress {
 
     public ImageSource(String content, List<Source> sources) {
         super(content, sources);
-    }
-
-    public ImageSource(){
-       
     }
 
 }

@@ -38,39 +38,37 @@ import java.util.stream.Collectors;
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-
 public class DataPostProcessor {
 
     public Data mergeData(Data data1, Data data2) {
-        if(data1 == null || data2 == null
-                || !data1.getClass().equals(data2.getClass())){
-            return null;
-        }
-        List<Source> dateSources = data1.getSources();
-        List<Source> dateNewSources = data2.getSources();
+        Collection<Source> dateSources = data1.getSources();
+        Collection<Source> dateNewSources = data2.getSources();
 
-        dateNewSources.forEach((el) -> {
-            if (!dateSources.contains(el)) {
-                dateSources.add(el);
-            }
-        });
+        dateNewSources.stream().filter((el) -> dateSources.contains(el) == false).forEach((el) -> dateSources.add(el));
+
         return data1;
     }
 
     public Collection<? extends Data> mergeDatas(Collection collection) {
         List<Data> result = new LinkedList();
 
-        Collection<Data> copy = (Collection<Data>) collection.stream().filter((el)->
-                (el instanceof Data)
+        Collection<Data> copy = (Collection<Data>) collection.stream().filter((el)
+                -> (el instanceof Data)
         ).collect(Collectors.toList());
         copy.removeIf(Objects::isNull);
-        copy.forEach((el) -> {
+        copy.forEach((data2) -> {
 
-            if (result.contains(el)) {
-                mergeData(result.get(result.indexOf(el)), el);
-                el = null;
+            if (result.contains(data2)) {
+                Data data1 = result.get(result.indexOf(data2));
+
+                if (data1 != null && data2 != null
+                        && data1.getClass().equals(data2.getClass())) {
+                    mergeData(data1, data2);
+
+                    data2 = null;
+                }
             } else {
-                result.add(el);
+                result.add(data2);
             }
         });
 
@@ -79,7 +77,7 @@ public class DataPostProcessor {
         return result;
     }
 
-    private List<Source> getMergedSources(List<Source> sources) {
+    private Collection<Source> getMergedSources(Collection<Source> sources) {
         List<Source> list = new ArrayList() {
             {
                 addAll(sources);
@@ -94,9 +92,7 @@ public class DataPostProcessor {
                 sourcesMap.put(el.getContent(), el);
             }
         });
-        list.clear();
-        list.addAll(sourcesMap.values());
-        return list;
+        return sourcesMap.values();
     }
 
 }

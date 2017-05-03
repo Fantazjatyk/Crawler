@@ -29,13 +29,14 @@ import crawler.scrapping.SearchEngine;
 
 import crawler.scrapping.chain.SearchRequestAwareLink;
 import crawler.scrapping.collectors.Collector;
+import java.util.Collection;
 import java.util.List;
 
 /**
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public class ConcurrentCustomCrawler extends ConcurrentCrawler implements ICustomCrawler{
+public class ConcurrentCustomCrawler extends ConcurrentCrawler implements ICustomCrawler {
 
     Collector[] links = new Collector[0];
 
@@ -43,11 +44,9 @@ public class ConcurrentCustomCrawler extends ConcurrentCrawler implements ICusto
     public void appendFilters(SearchEngine se, CrawlerConfiguration conf) {
     }
 
-
-
     @Override
-    public List getResultsOfFilter(SearchRequestAwareLink links) {
-      return  super.getResults().getAllOf(links.produces());
+    public Collection getResultsOfFilter(SearchRequestAwareLink links) {
+        return super.getResults().getMergedGroup(links.produces().toArray(new Class[0]));
     }
 
     @Override

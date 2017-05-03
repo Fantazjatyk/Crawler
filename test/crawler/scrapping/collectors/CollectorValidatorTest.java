@@ -9,7 +9,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import crawler.data.Adress;
 import crawler.data.Data;
 import crawler.scrapping.chain.SearchRequest;
-import crawler.scrapping.chain.context.SearchContext;
 import crawler.utils.ClassSet;
 import java.util.Collection;
 import java.util.Set;

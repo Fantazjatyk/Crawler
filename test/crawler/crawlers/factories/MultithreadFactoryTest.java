@@ -30,34 +30,36 @@ public class MultithreadFactoryTest {
     public void setUp() {
     }
 
+    int time = 5;
     /**
      * Test of createSentencesCrawler method, of class MultithreadFactory.
      */
 
         // zwracanie wyników itp trwa 20-30% początkowego limitu czasu.
     //@Test(timeout = 5000)
+    @Test
     public void testCreateSentencesCrawler() {
         ConcurrentCrawler crawler = (ConcurrentCrawler) new MultithreadFactory().createSentencesCrawler();
         CrawlerConfiguration conf = new CrawlerConfiguration();
         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
-        conf.put(CrawlerParams.SENTENCES, "javascript");
-        conf.put(CrawlerParams.TIME_LIMIT, 1);
+        conf.put(CrawlerParams.SENTENCES, new String[]{"javascript"});
+        conf.put(CrawlerParams.TIME_LIMIT, time);
         crawler.start(conf);
-        assertTrue(crawler.getResults().size() > 1);
+        assertTrue(crawler.getResults().totalSize() > 1);
         assertTrue(crawler.getMovement().getCrawledAdresses().size() > 1);
     }
 
     /**
      * Test of createImagesCrawler method, of class MultithreadFactory.
      */
-    //@Test(timeout = 5000)
+    @Test
     public void testCreateImagesCrawler() {
         ConcurrentCrawler crawler = (ConcurrentCrawler) new MultithreadFactory().createImagesCrawler();
         CrawlerConfiguration conf = new CrawlerConfiguration();
         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
-        conf.put(CrawlerParams.TIME_LIMIT, 1);
+        conf.put(CrawlerParams.TIME_LIMIT, time);
         crawler.start(conf);
-        assertTrue(crawler.getResults().size() > 1);
+        assertTrue(crawler.getResults().totalSize() > 1);
         assertTrue(crawler.getMovement().getCrawledAdresses().size() > 1);
     }
 
@@ -69,9 +71,9 @@ public class MultithreadFactoryTest {
         ConcurrentCrawler crawler = (ConcurrentCrawler) new MultithreadFactory().createGenericCrawler();
         CrawlerConfiguration conf = new CrawlerConfiguration();
         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
-        conf.put(CrawlerParams.TIME_LIMIT, 1);
+        conf.put(CrawlerParams.TIME_LIMIT, time);
         crawler.start(conf);
-        assertTrue(crawler.getResults().size() > 1);
+        assertTrue(crawler.getResults().totalSize() > 1);
         assertTrue(crawler.getMovement().getCrawledAdresses().size() > 1);
     }
 

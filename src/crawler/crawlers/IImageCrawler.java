@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -26,6 +26,7 @@ package crawler.crawlers;
 import java.util.List;
 import crawler.data.ImageSource;
 import crawler.scrapping.filters.Filter;
+import java.util.Collection;
 
 /**
  *
@@ -33,6 +34,6 @@ import crawler.scrapping.filters.Filter;
  */
 public interface IImageCrawler extends IBasicCrawler{
 
-    public List<ImageSource> getFoundImages();
+    public Collection<ImageSource> getFoundImages();
     public void addImagesFilter(Filter<ImageSource> f);
 }

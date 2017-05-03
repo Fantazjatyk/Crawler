@@ -29,9 +29,7 @@ import crawler.scrapping.chain.ChainRequest;
 import crawler.scrapping.chain.ChainResponse;
 import crawler.scrapping.chain.SearchRequest;
 import crawler.scrapping.filters.Filter;
-import crawler.scrapping.filters.FilterMode;
 import crawler.scrapping.chain.SearchRequestAwareLink;
-import crawler.scrapping.chain.context.SearchContext;
 import crawler.utils.ClassSet;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,40 +49,36 @@ public abstract class Collector<Produces extends Collection, Expects> extends Se
     @Override
     protected void doChain(ChainRequest rq, ChainResponse rs) {
 
-        Optional expected = rs.getResults().getOneOrMany(accepts());
-        if (!expected.isPresent()) {
+        Collection expected = rs.getResults().getMergedGroup(accepts());
+
+        if (expected.isEmpty()) {
             return;
         }
 
-        Expects o = (Expects) expected.get();
+        Expects o = expected.size() == 1 ? (Expects) expected.stream().findAny().get() : (Expects) expected;
         Produces prod = null;
         SearchRequest srq = (SearchRequest) rq;
-        /*
-        Zmienna expected zwrrapowana przez Optional może być kolekcją albo pojedyńczym obiektem.
-        Klasy potomne po Collector akceptują tylko kolekcje, ale z kolei klasa potomna DomCollector akceptuje tylko pojedyńczy obiekt.
-        Czasami prowadzi to do wyrzucenia wyjątku ClassCastException.
-         */
+
         try {
             prod = collect(o, srq);
         } catch (ClassCastException e) {
-            catchClassCastException(o, srq);
+            prod = catchClassCastException(o, srq);
         }
-        if (prod instanceof Collection) {
-            rs.getResults().addAll(prod);
-        } else {
-            rs.getResults().add(prod);
+
+        if (prod != null) {
+            rs.getResults().putAll(prod);
         }
+
     }
 
     public Produces catchClassCastException(Expects data, SearchRequest rq) {
         Produces prod = null;
-        Collection collection;
+        Collection collection = new ArrayList();
         try {
             if (data instanceof Collection) {
                 collection = (Collection) data;
                 prod = collect((Expects) collection.stream().findAny().get(), rq);
             } else {
-                collection = new ArrayList();
                 collection.add(data);
                 prod = collect((Expects) collection, rq);
             }

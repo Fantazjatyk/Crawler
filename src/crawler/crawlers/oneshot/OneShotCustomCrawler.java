@@ -30,6 +30,7 @@ import crawler.scrapping.SearchEngine;
 import crawler.scrapping.chain.SearchRequestAwareLink;
 import crawler.scrapping.collectors.Collector;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -48,8 +49,8 @@ se.addCollectors(Arrays.asList(collectors));
 
 
     @Override
-    public List getResultsOfFilter(SearchRequestAwareLink links) {
-       return super.getResults().getAllOf(links.produces());
+    public Collection getResultsOfFilter(SearchRequestAwareLink links) {
+       return super.getResults().getMergedGroup((Class[]) links.produces().toArray());
     }
 
     @Override

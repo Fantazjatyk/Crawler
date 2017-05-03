@@ -7,7 +7,6 @@ package crawler.scrapping.collectors;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import crawler.scrapping.chain.SearchRequest;
-import crawler.scrapping.chain.context.SearchContext;
 import java.util.ArrayList;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;

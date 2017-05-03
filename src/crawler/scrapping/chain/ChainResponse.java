@@ -5,8 +5,6 @@
  */
 package crawler.scrapping.chain;
 
-import crawler.scrapping.chain.context.Context;
-
 /**
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com

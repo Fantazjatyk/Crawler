@@ -24,13 +24,15 @@
 package crawler.core;
 
 import crawler.data.Adress;
-import crawler.data.ClassTypeGroupingArrayList;
 import crawler.scrapping.SearchEngine;
+import crawler.utils.HumanFaker;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.stream.Collectors;
+import michal.szymanski.util.collection.ClassGroupingMap;
 
 /**
  *
@@ -39,13 +41,13 @@ import java.util.stream.Collectors;
 public abstract class AbstractCrawlerMovement extends TimeLimitedContinousProces {
 
     protected SearchEngine searchEngine = new SearchEngine();
-    protected ClassTypeGroupingArrayList results = new ClassTypeGroupingArrayList();
+    protected ClassGroupingMap results = new ClassGroupingMap();
     protected LinkedBlockingDeque<Adress> adresses = new LinkedBlockingDeque();
     private LinkedBlockingDeque<Adress> crawledAdresses = new LinkedBlockingDeque();
     protected String initURL;
 
     @Override
-    public void iteration(){
+    public void iteration() {
         Optional<Adress> adress = findNextAdress();
 
         if (!adress.isPresent()) {
@@ -57,11 +59,15 @@ public abstract class AbstractCrawlerMovement extends TimeLimitedContinousProces
     }
 
     protected void doMove(Adress adress) {
-        results.addAll(searchEngine.start(adress));
-        adresses.addAll((List) (results.getAllOf(Adress.class).stream().filter((el) -> ((Adress) (el)).isBelongsToDomain()).collect(Collectors.toList())));
+        results.putAll(searchEngine.start(adress).toCollection());
+        Collection group = results.getGroup(Adress.class);
+        if (!group.isEmpty()) {
+            adresses.addAll((Collection) group.stream().filter((el) -> ((Adress) (el)).isBelongsToDomain()).collect(Collectors.toList()));
+        }
+
     }
 
-    public ClassTypeGroupingArrayList getResults() {
+    public ClassGroupingMap getResults() {
         return results;
     }
 

@@ -24,11 +24,12 @@
 package crawler.crawlers;
 
 import crawler.configuration.CrawlerConfiguration;
-import crawler.data.ClassTypeGroupingArrayList;
+import crawler.data.DataPostProcessor;
 import crawler.logging.CrawlerFinishInfo;
 import crawler.logging.CrawlerInitInfo;
 import crawler.scrapping.SearchEngine;
 import java.util.Collection;
+import michal.szymanski.util.collection.ClassGroupingMap;
 
 /**
  *
@@ -36,15 +37,15 @@ import java.util.Collection;
  */
 public abstract class Crawler implements IBasicCrawler {
 
-    protected CrawlerConfiguration conf;
-    protected ClassTypeGroupingArrayList sr = new ClassTypeGroupingArrayList();
+    private CrawlerConfiguration conf;
+    private ClassGroupingMap sr = new ClassGroupingMap();
     private CrawlerTime time = new CrawlerTime();
 
     public double getElapsedTime() {
         return time.getElapsedTime();
     }
 
-    public final ClassTypeGroupingArrayList getResults() {
+    public final ClassGroupingMap getResults() {
         return sr;
     }
 
@@ -56,12 +57,14 @@ public abstract class Crawler implements IBasicCrawler {
         this.conf = conf;
         time.start();
         CrawlerInitInfo.printInitInfo(this, conf);
-        sr.addAll(crawl(conf));
+        Collection results = crawl(conf).toCollection();
+        results = new DataPostProcessor().mergeDatas(results);
+        sr.putAll(results);
         time.end();
         CrawlerFinishInfo.printtCrawlerFinishInfo(this);
     }
 
-    protected abstract Collection crawl(CrawlerConfiguration conf);
+    protected abstract ClassGroupingMap crawl(CrawlerConfiguration conf);
 
     public abstract void interrupt();
 

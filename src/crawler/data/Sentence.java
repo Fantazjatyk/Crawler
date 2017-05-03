@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -23,24 +23,18 @@
  */
 package crawler.data;
 
-
-
 /**
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public class Sentence extends Text{
+public class Sentence extends Text {
 
     public Sentence(String content, Source source) {
         super(content, source);
     }
 
-    public Sentence(String content){
+    public Sentence(String content) {
         super(content);
     }
-
-    public Sentence() {
-    }
-
 
 }

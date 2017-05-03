@@ -7,7 +7,6 @@ package crawler.scrapping.collectors;
 
 import crawler.configuration.CrawlerParams;
 import crawler.scrapping.chain.SearchRequest;
-import crawler.scrapping.chain.context.SearchContext;
 import crawler.scrapping.parsers.JsoupParser;
 import java.io.IOException;
 import java.util.Collection;

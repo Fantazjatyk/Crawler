@@ -30,7 +30,6 @@ import crawler.data.Data;
 import crawler.data.ImageSource;
 import crawler.data.Source;
 import crawler.scrapping.chain.SearchRequest;
-import crawler.scrapping.chain.context.SearchContext;
 import crawler.utils.ClassSet;
 import java.net.MalformedURLException;
 import java.util.Collection;

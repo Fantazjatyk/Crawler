@@ -29,7 +29,7 @@ public class ImageFormatFilterTest {
      */
     @Test
     public void testImageFormatFilter_Test_EmptyWrapper() {
-        assertFalse(filter.test(new ImageSource()));
+        assertFalse(filter.test(new ImageSource("", new Source(""))));
     }
 
         @Test

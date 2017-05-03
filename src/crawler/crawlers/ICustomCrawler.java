@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -25,6 +25,7 @@ package crawler.crawlers;
 
 import crawler.scrapping.chain.SearchRequestAwareLink;
 import crawler.scrapping.collectors.Collector;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -34,5 +35,5 @@ import java.util.List;
 public interface ICustomCrawler {
 
     void setCollectors(Collector[] links);
-    List getResultsOfFilter(SearchRequestAwareLink links);
+    Collection getResultsOfFilter(SearchRequestAwareLink links);
 }

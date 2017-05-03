@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -24,7 +24,7 @@
 package crawler.crawlers;
 
 import crawler.configuration.CrawlerConfiguration;
-import crawler.data.ClassTypeGroupingArrayList;
+import michal.szymanski.util.collection.ClassGroupingMap;
 
 /**
  *
@@ -34,5 +34,6 @@ public interface IBasicCrawler {
 
     void start(CrawlerConfiguration conf);
     CrawlerConfiguration getConf();
-    ClassTypeGroupingArrayList getResults();
+    ClassGroupingMap getResults();
+    double getElapsedTime();
 }

@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -31,14 +31,6 @@ import crawler.crawlers.continous.ContinousCrawler;
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
 public abstract class ConcurrentCrawler extends ContinousCrawler{
-
-    /*
-    Zasada działania.
-    Crawler ten jest rozszerzeniem ContinousCrawler - w tym przypadku wykorzystywane jest rozszerzenie klasy CrawlerMovement, czyli ConcurrentCrawlerMovement
-    ConcurrentCrawlerMovement różni się od swojego przodka tym, że działa w wielu wątkach, które tworzone są dla kolejnego adresu, jeśli:
-    a) adres ten nie był wcześniej crawlowany
-    b) host tego adresu nie jest aktualnie crawlowany w którymś z wątków.
-    */
 
     public ConcurrentCrawler(){
         super.movement = new ConcurrentCrawlerMovement();

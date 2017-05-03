@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -23,12 +23,12 @@
  */
 package crawler.scrapping.chain;
 
-import crawler.data.ClassTypeGroupingArrayList;
+import michal.szymanski.util.collection.ClassGroupingMap;
 
 /**
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public class ChainResults extends ClassTypeGroupingArrayList{
+public class ChainResults extends ClassGroupingMap {
 
 }

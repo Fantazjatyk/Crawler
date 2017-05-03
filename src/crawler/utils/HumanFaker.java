@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -34,10 +34,14 @@ import java.util.Random;
  */
 public abstract class HumanFaker {
 
-    public static int getRandomMilis(int max){
-        return new Random().nextInt(max) * 1000;
-    }
-    public static Object pollRandomElement(Collection c){
+    public static int getRandomMilis(int minMilis, int maxMilis) {
+        int result = new Random().nextInt(maxMilis);
+        if (result < minMilis) {
+            result = minMilis + maxMilis;
+        }
+    return result ;
+}
+public static Object pollRandomElement(Collection c){
         Object result;
 
         if(c.isEmpty()){
@@ -54,8 +58,6 @@ public abstract class HumanFaker {
         }
         return result;
     }
-
-
 
     private static Object getRandomListElement(List c){
         int index = new Random().nextInt(c.size());

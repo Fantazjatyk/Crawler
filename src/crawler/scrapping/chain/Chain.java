@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -23,10 +23,40 @@
  */
 package crawler.scrapping.chain;
 
+import java.util.concurrent.LinkedBlockingDeque;
+
 /**
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public abstract class Chain {
+public abstract class Chain<LinkType> {
+
+    protected LinkedBlockingDeque<LinkType> links = new LinkedBlockingDeque();
+    private SearchRequest rq;
+    private Object root;
+
+    public Class getRootType() {
+        return root.getClass();
+    }
+
+    public SearchRequest getChainRequest() {
+        return rq;
+    }
+
+    public ChainResponse start(Object root, SearchRequest rq) {
+        if (root == null || rq == null) {
+            throw new NullPointerException();
+        }
+        this.root = root;
+        this.rq = rq;
+
+        ChainResponse rs = new ChainResponse();
+        rs.getResults().put(root);
+        return rs;
+    }
+
+    public LinkedBlockingDeque<LinkType> getLinks() {
+        return links;
+    }
 
 }

@@ -9,7 +9,6 @@ import crawler.scrapping.chain.ChainRequest;
 import crawler.scrapping.chain.ChainResponse;
 import crawler.scrapping.chain.SearchRequest;
 import crawler.scrapping.filters.Filter;
-import crawler.scrapping.filters.FilterMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;

@@ -23,7 +23,6 @@
  */
 package crawler.scrapping.filters;
 
-import crawler.scrapping.filters.FilterMode;
 import crawler.scrapping.filters.Filter;
 import crawler.data.ImageSource;
 
@@ -41,11 +40,7 @@ public class ImageFormatFilter implements Filter<ImageSource> {
 
     @Override
     public boolean test(ImageSource toTest) {
-        if (toTest != null && toTest.getQuessFormat() != null && toTest.getQuessFormat().equals(format)) {
-            return true;
-        } else {
-            return false;
-        }
+        return toTest != null && toTest.getQuessFormat() != null && toTest.getQuessFormat().equals(format);
     }
 
 }

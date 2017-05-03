@@ -25,7 +25,7 @@ public class SearchRequestAwareLinkTest {
         TextCollector collector = spy(new TextCollector());
         URLCollector collectorSuccesor = spy(new URLCollector());
 
-        ChainRequest request = spy(ChainRequest.class);
+        ChainRequest request = spy(SearchRequest.class);
         ChainResponse response = spy(ChainResponse.class);
         collector.setSuccesor(collectorSuccesor);
         try {

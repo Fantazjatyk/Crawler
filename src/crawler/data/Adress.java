@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -34,8 +34,8 @@ import java.util.List;
 public class Adress extends Data<String> {
 
     boolean isBelongsToDomain;
-    URL url;
-    String quessFormat;
+    private URL url;
+    private String quessFormat;
 
     public Adress(String content, Source source) {
         super(content, source);
@@ -53,11 +53,7 @@ public class Adress extends Data<String> {
         assign(content);
     }
 
-
-    public Adress(){
-
-    }
-    public void assign(String content) {
+    private void assign(String content) {
         this.url = createURL(content);
         assignQuess(url != null && url.getPath() !=null && !url.getPath().isEmpty() ? url.getPath() : content);
     }
@@ -79,7 +75,6 @@ public class Adress extends Data<String> {
     private void assignQuess(String content) {
         if (content.contains(".")) {
             int lastDotIndex = content.lastIndexOf(".");
-            //assumes that this is file format (this not a rule).
             quessFormat = content.substring(lastDotIndex + 1, content.length());
         }
     }

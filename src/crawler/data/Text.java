@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -38,8 +38,5 @@ public class Text extends Data<String>{
    public Text(String content){
        super(content);
    }
-
-    public Text() {
-    }
 
 }

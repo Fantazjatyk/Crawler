@@ -40,14 +40,6 @@ public abstract class SearchRequestAwareLink extends Link {
     protected abstract void doChain(ChainRequest rq, ChainResponse rs);
 
     @Override
-    protected void foward(ChainRequest rq, ChainResponse rs) {
-        Optional<Link> succesor = super.getSuccesor();
-        if (succesor.isPresent()) {
-            ((SearchRequestAwareLink) succesor.get()).handle(rq, rs);
-        }
-    }
-
-    @Override
     public abstract ClassSet produces();
 
     @Override

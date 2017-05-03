@@ -8,8 +8,6 @@ package crawler.scrapping.collectors;
 import crawler.configuration.CrawlerParams;
 import crawler.data.ImageSource;
 import crawler.scrapping.chain.SearchRequest;
-import crawler.scrapping.chain.context.SearchContext;
-import crawler.scrapping.filters.FilterMode;
 import crawler.scrapping.filters.ImageFormatFilter;
 import crawler.scrapping.parsers.JsoupParser;
 import java.io.IOException;

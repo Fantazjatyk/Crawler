@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -30,6 +30,7 @@ import crawler.data.Adress;
 import crawler.scrapping.SearchEngine;
 
 import java.util.Collection;
+import michal.szymanski.util.collection.ClassGroupingMap;
 
 /**
  *
@@ -39,7 +40,7 @@ public abstract class OneShotCrawler extends Crawler implements IBasicCrawler {
 
     private SearchEngine search = new SearchEngine();
 
-    public SearchEngine getSearchEngine(){
+    public SearchEngine getSearchEngine() {
         return this.search;
     }
 
@@ -47,11 +48,11 @@ public abstract class OneShotCrawler extends Crawler implements IBasicCrawler {
     public void interrupt() {
     }
 
-       @Override
-    public Collection crawl(CrawlerConfiguration conf) {
-       appendFilters(search, conf);
-       search.setConfiguration(conf);
-       return search.start(new Adress(conf.getInitURL()));
+    @Override
+    public ClassGroupingMap crawl(CrawlerConfiguration conf) {
+        appendFilters(search, conf);
+        search.setConfiguration(conf);
+        return search.start(new Adress(conf.getInitURL()));
     }
 
 }

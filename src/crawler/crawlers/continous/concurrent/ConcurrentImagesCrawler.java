@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -30,6 +30,7 @@ import crawler.data.ImageSource;
 import crawler.scrapping.filters.Filter;
 import crawler.scrapping.SearchEngine;
 import crawler.scrapping.collectors.ImageCollector;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -44,8 +45,8 @@ public class ConcurrentImagesCrawler extends ConcurrentCrawler implements IImage
     }
 
     @Override
-    public List<ImageSource> getFoundImages() {
-        return super.getResults().getAllOf(ImageSource.class);
+    public Collection getFoundImages() {
+        return super.getResults().getGroup(ImageSource.class);
     }
 
     @Override

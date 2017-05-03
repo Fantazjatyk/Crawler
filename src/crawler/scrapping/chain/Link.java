@@ -38,7 +38,6 @@ public abstract class Link {
         this.succesor = Optional.ofNullable(succesor);
     }
 
-
     public Optional<Link> getSuccesor() {
         return succesor;
     }
@@ -47,5 +46,10 @@ public abstract class Link {
 
     public abstract ClassSet produces();
 
-    abstract void foward(ChainRequest rq, ChainResponse rs);
+    protected void foward(ChainRequest rq, ChainResponse rs) {
+        if (succesor.isPresent()) {
+            ((SearchRequestAwareLink) succesor.get()).handle(rq, rs);
+        }
+    }
+
 }

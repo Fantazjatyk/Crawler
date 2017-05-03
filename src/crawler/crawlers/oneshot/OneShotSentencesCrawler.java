@@ -34,6 +34,7 @@ import java.util.List;
 import crawler.scrapping.filters.Filter;
 import crawler.scrapping.SearchEngine;
 import crawler.scrapping.collectors.SentenceCollector;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -48,8 +49,8 @@ public class OneShotSentencesCrawler extends OneShotCrawler implements ISentence
     }
 
     @Override
-    public List<Sentence> getFoundSentences() {
-        return super.getResults().getAllOf(Sentence.class);
+    public Collection getFoundSentences() {
+        return super.getResults().getGroup(Sentence.class);
     }
 
     @Override

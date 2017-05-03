@@ -25,6 +25,7 @@ package crawler.data;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,7 +37,7 @@ public class Data<T> {
 
 
     T content;
-    List<Source> sources = new ArrayList();
+    Collection<Source> sources = new ArrayList();
 
     public Data(T content, Source source){
         this.content = content;
@@ -52,18 +53,15 @@ public class Data<T> {
         this.content = content;
     }
 
-    public Data(){
-
-    }
     public T get(){
         return this.content;
     }
 
-    public List<Source> getSources(){
+    public Collection<Source> getSources(){
         return this.sources;
     }
 
-    public void setSources(List<Source> sources) {
+    public void setSources(Collection<Source> sources) {
         this.sources = sources;
     }
 

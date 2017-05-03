@@ -40,7 +40,7 @@ public class OneShotFactoryTest {
         CrawlerConfiguration conf = new CrawlerConfiguration();
         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
         crawler.start(conf);
-        assertTrue(crawler.getResults().size() > 1);
+        assertTrue(crawler.getResults().totalSize() > 1);
     }
 
     /**
@@ -52,7 +52,7 @@ public class OneShotFactoryTest {
         CrawlerConfiguration conf = new CrawlerConfiguration();
         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
         crawler.start(conf);
-        assertTrue(crawler.getResults().size() > 1);
+        assertTrue(crawler.getResults().totalSize() > 1);
     }
 
     /**
@@ -64,7 +64,7 @@ public class OneShotFactoryTest {
         CrawlerConfiguration conf = new CrawlerConfiguration();
         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
         crawler.start(conf);
-        assertTrue(crawler.getResults().size() > 1);
+        assertTrue(crawler.getResults().totalSize() > 1);
     }
 
     /**
@@ -75,7 +75,7 @@ public class OneShotFactoryTest {
         CrawlerConfiguration conf = new CrawlerConfiguration();
         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
         crawler.start(conf);
-        assertTrue(crawler.getResults().size() > 1);
+        assertTrue(crawler.getResults().totalSize() > 1);
     }
 
 }

@@ -28,20 +28,21 @@ import crawler.data.Sentence;
 import crawler.data.Source;
 import crawler.data.Text;
 import crawler.scrapping.chain.SearchRequest;
-import crawler.scrapping.chain.context.SearchContext;
 import crawler.utils.ClassSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import michal.szymanski.util.Strings;
 
 /**
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public class SentenceCollector extends PrePostFilterableCollector<Collection, Collection> {
+public class SentenceCollector extends PrePostFilterableCollector<Collection, Collection<Text>> {
 
     List<String> filteringSentences = new ArrayList();
 
@@ -49,10 +50,8 @@ public class SentenceCollector extends PrePostFilterableCollector<Collection, Co
 
         if (sentences != null) {
             this.filteringSentences = Arrays.asList(sentences);
+            filteringSentences = filteringSentences.stream().peek((el) -> el.toLowerCase()).collect(Collectors.toList());
         }
-    }
-
-    public SentenceCollector() {
 
     }
 
@@ -61,30 +60,22 @@ public class SentenceCollector extends PrePostFilterableCollector<Collection, Co
     }
 
     @Override
-    protected Collection work(Collection o, SearchRequest ctx) {
+    protected Collection work(Collection<Text> o, SearchRequest ctx) {
         List found = new LinkedList();
 
-        ((Collection<Text>) (o)).stream().forEach((el) -> {
-            if (el == null) {
-                return;
-            }
-            String text = ((String) (el.get())).toLowerCase();
+        o.stream()
+                .filter((input) -> filteringSentences.stream().anyMatch((filter) -> input.get().toLowerCase().contains(filter)))
+                .forEach((input) -> {
+                    filteringSentences.stream().forEach((filter) -> {
 
-            filteringSentences.parallelStream().filter((el1) -> el1 != null).forEach((el2) -> {
+                        String[] occurences = Strings.cutMatchingFragmentIgnoreCase(input.get(), filter);
+                        Stream.of(occurences).forEach((occurence) -> {
+                            Sentence sentence = new Sentence(occurence, new Source(ctx.getInitParams().get(CrawlerParams.CURRENT_URL)));
+                            found.add(sentence);
+                        });
+                    });
+                });
 
-                String s = el2;
-                if (text.contains(s.toLowerCase())) {
-
-                    String[] occurences = Strings.cutMatchingFragmentIgnoreCase(text, s);
-
-                    for (String match : occurences) {
-                        Sentence sentence = new Sentence(match, new Source(ctx.getInitParams().get(CrawlerParams.CURRENT_URL)));
-                        found.add(sentence);
-                    }
-                }
-
-            });
-        });
         return found;
     }
 

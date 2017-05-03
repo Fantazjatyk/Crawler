@@ -10,7 +10,6 @@ import crawler.data.Sentence;
 import crawler.data.Source;
 import crawler.data.Text;
 import crawler.scrapping.chain.SearchRequest;
-import crawler.scrapping.chain.context.SearchContext;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

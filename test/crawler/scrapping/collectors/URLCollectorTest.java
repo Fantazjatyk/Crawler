@@ -7,7 +7,6 @@ package crawler.scrapping.collectors;
 
 import crawler.configuration.CrawlerParams;
 import crawler.scrapping.chain.SearchRequest;
-import crawler.scrapping.chain.context.SearchContext;
 
 import crawler.scrapping.collectors.URLCollector;
 import crawler.scrapping.parsers.JsoupParser;
@@ -39,7 +38,7 @@ public class URLCollectorTest {
     }
 
     @Test
-    public void testCollect() throws IOException{
+    public void testCollect() throws IOException {
         Document document = new JsoupParser().parse("https://www.w3schools.com/");
         SearchRequest ctx = spy(SearchRequest.class);
 
@@ -54,6 +53,5 @@ public class URLCollectorTest {
     /**
      * Test of produces method, of class URLCollector.
      */
-
 
 }

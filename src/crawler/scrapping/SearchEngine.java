@@ -47,6 +47,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import michal.szymanski.util.collection.ClassGroupingMap;
 
 /**
  *

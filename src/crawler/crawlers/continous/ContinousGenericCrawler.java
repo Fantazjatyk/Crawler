@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -30,15 +30,14 @@ import crawler.crawlers.GenericCrawler;
 
 import java.util.List;
 
-
-
-
 import crawler.data.ImageSource;
 import crawler.data.Sentence;
 import crawler.scrapping.collectors.ImageCollector;
 import crawler.scrapping.collectors.SentenceCollector;
 import crawler.scrapping.filters.Filter;
 import crawler.scrapping.SearchEngine;
+import java.util.Collection;
+import java.util.Optional;
 
 /**
  *
@@ -47,9 +46,10 @@ import crawler.scrapping.SearchEngine;
 public class ContinousGenericCrawler extends ContinousCrawler implements GenericCrawler {
 
     @Override
-    public List<Sentence> getFoundSentences() {
+    public Collection getFoundSentences() {
+        Collection results = super.getResults().getGroup(Sentence.class);
 
-        return super.getResults().getAllOf(Sentence.class);
+        return results;
     }
 
     @Override
@@ -59,8 +59,8 @@ public class ContinousGenericCrawler extends ContinousCrawler implements Generic
     }
 
     @Override
-    public List<ImageSource> getFoundImages() {
-        return super.getResults().getAllOf(ImageSource.class);
+    public Collection getFoundImages() {
+        return super.getResults().getGroup(ImageSource.class);
     }
 
     @Override
@@ -70,6 +70,5 @@ public class ContinousGenericCrawler extends ContinousCrawler implements Generic
     @Override
     public void addSentencesFilter(Filter<Sentence> f) {
     }
-
 
 }

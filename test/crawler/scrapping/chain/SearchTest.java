@@ -61,7 +61,7 @@ public class SearchTest {
     public void testIsEveryoneCalledInChain() throws IOException {
         URLCollector url = spy(new URLCollector());
         TextCollector text = spy(new TextCollector());
-        SentenceCollector sentences = spy(new SentenceCollector());
+        SentenceCollector sentences = spy(new SentenceCollector(new String[]{}));
         ImageCollector images = spy(new ImageCollector());
 
         search.getLinks().add(url);
@@ -90,7 +90,7 @@ public class SearchTest {
     @Test
     public void testAreCompatibile() {
         TextCollector text = spy(new TextCollector());
-        SentenceCollector sentences = spy(new SentenceCollector());
+        SentenceCollector sentences = spy(new SentenceCollector(new String[]{}));
         ImageCollector images = spy(new ImageCollector());
 
         assertTrue(search.areCompatibile(text, sentences));

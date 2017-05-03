@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com.
@@ -26,6 +26,7 @@ package crawler.crawlers;
 import java.util.List;
 import crawler.data.Sentence;
 import crawler.scrapping.filters.Filter;
+import java.util.Collection;
 
 
 /**
@@ -34,6 +35,6 @@ import crawler.scrapping.filters.Filter;
  */
 public interface ISentencesCrawler extends IBasicCrawler{
 
-    List<Sentence> getFoundSentences();
+    Collection<Sentence> getFoundSentences();
     void addSentencesFilter(Filter<Sentence> f);
 }
