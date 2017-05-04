@@ -27,7 +27,7 @@ public abstract class PrePostFilterableCollector<Produces extends Collection, Ex
     }
 
     @Override
-    protected Produces collect(Expects data, SearchRequest ctx) {
+    public Produces collect(Expects data, SearchRequest ctx) {
         Collection input = data;
         Collection filteredInput = applyPreFilters(input);
         return super.collect((Expects) filteredInput, ctx);

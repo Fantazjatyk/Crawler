@@ -22,7 +22,7 @@ public abstract class PostFilterableCollector<Produces extends Collection, Expec
     private Collection<Filter> postFilters = new ArrayList();
 
     @Override
-    protected Produces collect(Expects data, SearchRequest ctx) {
+    public Produces collect(Expects data, SearchRequest ctx) {
         Collection result = work(data, ctx);
         return (Produces) applyPostFilters(result);
     }

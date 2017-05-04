@@ -55,7 +55,6 @@ public class DataPostProcessor {
         Collection<Data> copy = (Collection<Data>) collection.stream().filter((el)
                 -> (el instanceof Data)
         ).collect(Collectors.toList());
-        copy.removeIf(Objects::isNull);
         copy.forEach((data2) -> {
 
             if (result.contains(data2)) {
@@ -76,6 +75,7 @@ public class DataPostProcessor {
 
         return result;
     }
+
 
     private Collection<Source> getMergedSources(Collection<Source> sources) {
         List<Source> list = new ArrayList();

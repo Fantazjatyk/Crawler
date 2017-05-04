@@ -66,10 +66,8 @@ public class SearchEngine {
         rq.getInitParams().put(CrawlerParams.URL, adress.get());
         try {
             rs = runRootChains(adress, rq);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(SearchEngine.class.getName()).warning(ex.getMessage());
+        } catch (InterruptedException | IOException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, ex.toString());
         } finally {
             if (rs == null) {
                 rs = new ChainResponse();
