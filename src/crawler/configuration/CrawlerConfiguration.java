@@ -23,7 +23,11 @@
  */
 package crawler.configuration;
 
+import crawler.scrapping.collectors.Collector;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -31,12 +35,34 @@ import java.util.HashMap;
  */
 public class CrawlerConfiguration extends HashMap<String, Object> {
 
-    public void put(CrawlerParams key, Object value) {
+    private Map<Class, Collector> collectors = new HashMap();
+
+    public CrawlerConfiguration put(CrawlerParams key, Object value) {
         this.put(key.name(), value);
+        return this;
     }
 
     public Object get(CrawlerParams key) {
         return this.get(key.name());
+    }
+
+    public CrawlerConfiguration timeLimit(int limit) {
+        this.put(CrawlerParams.TIME_LIMIT, limit);
+        return this;
+    }
+
+    public CrawlerConfiguration initUrl(String url) {
+        this.put(CrawlerParams.URL, url);
+        return this;
+    }
+
+    public CrawlerConfiguration addCollector(Collector c) {
+        this.collectors.put(c.getClass(), c);
+        return this;
+    }
+
+    public Map getCollectors() {
+        return this.collectors;
     }
 
     public int getTimeLimit() {

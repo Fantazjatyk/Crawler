@@ -37,7 +37,7 @@ import michal.szymanski.util.collection.ClassGroupingMap;
  */
 public abstract class Crawler implements IBasicCrawler {
 
-    private CrawlerConfiguration conf;
+    private CrawlerConfiguration conf = new CrawlerConfiguration();
     private ClassGroupingMap sr = new ClassGroupingMap();
     private CrawlerTime time = new CrawlerTime();
 
@@ -53,8 +53,7 @@ public abstract class Crawler implements IBasicCrawler {
         return conf;
     }
 
-    public final void start(CrawlerConfiguration conf) {
-        this.conf = conf;
+    public final void start() {
         time.start();
         CrawlerInitInfo.printInitInfo(this, conf);
         Collection results = crawl(conf).toCollection();
@@ -62,6 +61,10 @@ public abstract class Crawler implements IBasicCrawler {
         sr.putAll(results);
         time.end();
         CrawlerFinishInfo.printtCrawlerFinishInfo(this);
+    }
+
+    public CrawlerConfiguration configure() {
+        return this.conf;
     }
 
     protected abstract ClassGroupingMap crawl(CrawlerConfiguration conf);

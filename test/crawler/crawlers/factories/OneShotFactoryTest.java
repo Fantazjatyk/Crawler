@@ -7,7 +7,11 @@ package crawler.crawlers.factories;
 
 import crawler.configuration.CrawlerConfiguration;
 import crawler.configuration.CrawlerParams;
+import crawler.crawlers.continous.concurrent.FlexibleConcurrentCrawler;
+import crawler.crawlers.oneshot.FlexibleOneShotCrawler;
 import crawler.crawlers.oneshot.OneShotCrawler;
+import crawler.scrapping.collectors.ImagesCollector;
+import crawler.scrapping.collectors.SentencesCollector;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,47 +38,20 @@ public class OneShotFactoryTest {
      * Test of createSentencesCrawler method, of class OneShotFactory.
      */
     @Test
-    public void testCreateSentencesCrawler() {
-        OneShotCrawler crawler = (OneShotCrawler) new OneShotFactory().createSentencesCrawler();
-        CrawlerConfiguration conf = new CrawlerConfiguration();
-        conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
-        crawler.start(conf);
-        assertTrue(crawler.getResults().totalSize() > 1);
-    }
+    public void testFlexibleCrawler() {
+        FlexibleOneShotCrawler crawler = new FlexibleOneShotCrawler();
+        SentencesCollector c = new SentencesCollector();
+        c.setTarget("Learn");
+        ImagesCollector i = new ImagesCollector();
 
-    /**
-     * Test of createImagesCrawler method, of class OneShotFactory.
-     */
-    @Test
-    public void testCreateImagesCrawler() {
-        OneShotCrawler crawler = (OneShotCrawler) new OneShotFactory().createImagesCrawler();
-        CrawlerConfiguration conf = new CrawlerConfiguration();
-        conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
-        crawler.start(conf);
+        crawler.configure()
+                .initUrl("https://www.w3schools.com/")
+                .addCollector(c)
+                .addCollector(i);
+        crawler.start();
         assertTrue(crawler.getResults().totalSize() > 1);
-    }
-
-    /**
-     * Test of createGenericCrawler method, of class OneShotFactory.
-     */
-    @Test
-    public void testCreateGenericCrawler() {
-        OneShotCrawler crawler = (OneShotCrawler) new OneShotFactory().createGenericCrawler();
-        CrawlerConfiguration conf = new CrawlerConfiguration();
-        conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
-        crawler.start(conf);
-        assertTrue(crawler.getResults().totalSize() > 1);
-    }
-
-    /**
-     * Test of createCustomCrawler method, of class OneShotFactory.
-     */
-    public void testCreateCustomCrawler() {
-        OneShotCrawler crawler = (OneShotCrawler) new OneShotFactory().createCustomCrawler();
-        CrawlerConfiguration conf = new CrawlerConfiguration();
-        conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
-        crawler.start(conf);
-        assertTrue(crawler.getResults().totalSize() > 1);
+        assertTrue(c.getResults().size() > 0);
+        assertTrue(i.getResults().size() > 0);
     }
 
 }

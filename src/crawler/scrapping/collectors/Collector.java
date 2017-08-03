@@ -24,6 +24,7 @@
 package crawler.scrapping.collectors;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import crawler.data.DataPostProcessor;
 import crawler.scrapping.chain.ChainRequest;
 import crawler.scrapping.chain.ChainResponse;
 import crawler.scrapping.chain.SearchRequest;

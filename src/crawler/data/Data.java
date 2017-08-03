@@ -65,7 +65,7 @@ public class Data<T> {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof Data)) {
+        if (obj == null || !obj.getClass().equals(this.getClass())) {
             return false;
         }
         Data s = (Data) obj;

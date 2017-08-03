@@ -5,8 +5,8 @@
  */
 package crawler.scrapping.chain;
 
-import crawler.scrapping.collectors.ImageCollector;
-import crawler.scrapping.collectors.SentenceCollector;
+import crawler.scrapping.collectors.ImagesCollector;
+import crawler.scrapping.collectors.SentencesCollector;
 import crawler.scrapping.collectors.TextCollector;
 import crawler.scrapping.collectors.URLCollector;
 import crawler.scrapping.parsers.JsoupParser;
@@ -40,8 +40,9 @@ public class SearchTest {
     public void testSortLinks() {
         URLCollector url = spy(new URLCollector());
         TextCollector text = spy(new TextCollector());
-        SentenceCollector sentences = spy(new SentenceCollector(new String[]{"spy"}));
-        ImageCollector images = spy(new ImageCollector());
+        SentencesCollector sentences = spy(SentencesCollector.class);
+        sentences.setTarget("spy");
+        ImagesCollector images = spy(new ImagesCollector());
 
         search.getLinks().add(url);
         search.getLinks().add(text);
@@ -60,8 +61,8 @@ public class SearchTest {
     public void testIsEveryoneCalledInChain() throws IOException {
         URLCollector url = spy(new URLCollector());
         TextCollector text = spy(new TextCollector());
-        SentenceCollector sentences = spy(new SentenceCollector(new String[]{}));
-        ImageCollector images = spy(new ImageCollector());
+        SentencesCollector sentences = spy(new SentencesCollector());
+        ImagesCollector images = spy(new ImagesCollector());
 
         search.getLinks().add(url);
         search.getLinks().add(text);
@@ -89,8 +90,8 @@ public class SearchTest {
     @Test
     public void testAreCompatibile() {
         TextCollector text = spy(new TextCollector());
-        SentenceCollector sentences = spy(new SentenceCollector(new String[]{}));
-        ImageCollector images = spy(new ImageCollector());
+        SentencesCollector sentences = spy(new SentencesCollector());
+        ImagesCollector images = spy(new ImagesCollector());
 
         assertTrue(search.areCompatibile(text, sentences));
         assertFalse(search.areCompatibile(images, sentences));

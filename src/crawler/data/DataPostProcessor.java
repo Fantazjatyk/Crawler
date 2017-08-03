@@ -57,14 +57,16 @@ public class DataPostProcessor {
         ).collect(Collectors.toList());
         copy.forEach((data2) -> {
 
+
             if (result.contains(data2)) {
                 Data data1 = result.get(result.indexOf(data2));
 
-                if (data1 != null && data2 != null
-                        && data1.getClass().equals(data2.getClass())) {
+                if (data1 != null && data2 != null) {
                     mergeData(data1, data2);
 
                     data2 = null;
+                } else {
+                    result.add(data2);
                 }
             } else {
                 result.add(data2);
@@ -90,7 +92,9 @@ public class DataPostProcessor {
                 sourcesMap.put(el.getContent(), el);
             }
         });
-        return sourcesMap.values();
+        list.clear();
+        list.addAll(sourcesMap.values());
+        return list;
     }
 
 }

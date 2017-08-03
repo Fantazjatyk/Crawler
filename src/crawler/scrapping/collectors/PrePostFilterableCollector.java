@@ -9,6 +9,7 @@ import crawler.scrapping.chain.SearchRequest;
 import crawler.scrapping.filters.Filter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.function.Predicate;
 
 /**
  *
@@ -16,9 +17,9 @@ import java.util.Collection;
  */
 public abstract class PrePostFilterableCollector<Produces extends Collection, Expects extends Collection> extends PostFilterableCollector<Produces, Expects> {
 
-    private Collection<Filter> preFilters = new ArrayList();
+    private Collection<Predicate> preFilters = new ArrayList();
 
-    public void addPreFilter(Filter f) {
+    public void addPreFilter(Predicate f) {
         this.preFilters.add(f);
     }
 

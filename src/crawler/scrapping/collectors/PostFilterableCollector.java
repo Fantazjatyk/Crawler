@@ -9,6 +9,7 @@ import crawler.scrapping.chain.SearchRequest;
 import crawler.scrapping.filters.Filter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -17,27 +18,27 @@ import java.util.stream.Collectors;
  * Collector produces Collection, that also means, that every can be post
  * filtered.
  */
-public abstract class PostFilterableCollector<Produces extends Collection, Expects> extends Collector<Produces, Expects> {
+public abstract class PostFilterableCollector<Produces extends Collection, Expects> extends DataHolderCollector<Produces, Expects> {
 
-    private Collection<Filter> postFilters = new ArrayList();
+    private Collection<Predicate> postFilters = new ArrayList();
 
     @Override
-    public Produces collect(Expects data, SearchRequest ctx) {
+    public Produces gather(Expects data, SearchRequest ctx) {
         Collection result = work(data, ctx);
         return (Produces) applyPostFilters(result);
     }
 
     protected abstract Produces work(Expects data, SearchRequest rq);
 
-    public void addPostFilter(Filter f) {
-        this.postFilters.add(f);
+    protected void addPostFilter(Predicate p) {
+        this.postFilters.add(p);
     }
 
     protected Collection applyPostFilters(Collection post) {
         return applyFilters(post, postFilters);
     }
 
-    protected Collection applyFilters(Collection o, Collection<Filter> filters) {
+    protected Collection applyFilters(Collection o, Collection<Predicate> filters) {
         if (filters.isEmpty()) {
             return o;
         }

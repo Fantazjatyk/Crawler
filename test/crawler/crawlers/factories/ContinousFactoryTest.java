@@ -8,7 +8,10 @@ package crawler.crawlers.factories;
 import crawler.configuration.CrawlerConfiguration;
 import crawler.configuration.CrawlerParams;
 import crawler.crawlers.continous.ContinousCrawler;
-import crawler.crawlers.continous.ContinousSentencesCrawler;
+import crawler.crawlers.continous.FlexibleContinousCrawler;
+import crawler.crawlers.continous.concurrent.FlexibleConcurrentCrawler;
+import crawler.scrapping.collectors.ImagesCollector;
+import crawler.scrapping.collectors.SentencesCollector;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -24,6 +27,7 @@ public class ContinousFactoryTest {
     }
 
     int time = 5;
+
     @AfterClass
     public static void tearDownClass() {
     }
@@ -35,55 +39,42 @@ public class ContinousFactoryTest {
     /**
      * Test of createSentencesCrawler method, of class ContinousFactory.
      */
+
     @Test
-    public void testCreateSentencesCrawler() {
-        ContinousCrawler crawler = (ContinousCrawler) new ContinousFactory().createSentencesCrawler();
-        CrawlerConfiguration conf = new CrawlerConfiguration();
-        conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
-        conf.put(CrawlerParams.SENTENCES, new String[]{"javascript"});
-        conf.put(CrawlerParams.TIME_LIMIT, time);
-        crawler.start(conf);
+    public void testFlexibleCrawler() {
+        FlexibleContinousCrawler crawler = new FlexibleContinousCrawler();
+        SentencesCollector c = new SentencesCollector();
+        c.setTarget("Learn");
+        ImagesCollector i = new ImagesCollector();
+        crawler.configure()
+                .initUrl("https://www.w3schools.com/")
+                .timeLimit(time)
+                .addCollector(c)
+                .addCollector(i);
+        crawler.start();
         assertTrue(crawler.getResults().totalSize() > 1);
-        assertTrue(((ContinousSentencesCrawler)crawler).getFoundSentences().size() > 0);
+        assertTrue(c.getResults().size() > 0);
+        assertTrue(i.getResults().size() > 0);
         assertTrue(crawler.getMovement().getCrawledAdresses().size() > 1);
     }
 
-    /**
-     * Test of createImagesCrawler method, of class ContinousFactory.
-     */
-
-    @Test
-    public void testCreateImagesCrawler() {
-        ContinousCrawler crawler = (ContinousCrawler) new ContinousFactory().createImagesCrawler();
-        CrawlerConfiguration conf = new CrawlerConfiguration();
-         conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
-        conf.put(CrawlerParams.TIME_LIMIT, time);
-        crawler.start(conf);
+        @Test
+    public void testFlexibleCrawler_withoutDuplicates() {
+        FlexibleContinousCrawler crawler = new FlexibleContinousCrawler();
+        SentencesCollector c = new SentencesCollector();
+        c.setTarget("Learn");
+        ImagesCollector i = new ImagesCollector();
+        crawler.configure()
+                .initUrl("https://www.w3schools.com/")
+                .timeLimit(time)
+                .addCollector(c)
+                .addCollector(i);
+        crawler.start();
         assertTrue(crawler.getResults().totalSize() > 1);
+        assertTrue(c.getResultsWithoutDuplicates().size() > 0);
+        assertTrue(i.getResults().size() > 0);
         assertTrue(crawler.getMovement().getCrawledAdresses().size() > 1);
     }
 
-    /**
-     * Test of createGenericCrawler method, of class ContinousFactory.
-     */
-
-    @Test
-    public void testCreateGenericCrawler() {
-        ContinousCrawler crawler = (ContinousCrawler) new ContinousFactory().createGenericCrawler();
-        CrawlerConfiguration conf = new CrawlerConfiguration();
-        conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
-        conf.put(CrawlerParams.TIME_LIMIT, time);
-        crawler.start(conf);
-        assertTrue(crawler.getResults().totalSize() > 1);
-        assertTrue(crawler.getMovement().getCrawledAdresses().size() > 1);
-    }
-
-    /**
-     * Test of createCustomCrawler method, of class ContinousFactory.
-     */
-
-    public void testCreateCustomCrawler() {
-
-    }
 
 }

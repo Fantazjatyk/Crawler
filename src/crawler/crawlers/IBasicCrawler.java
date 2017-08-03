@@ -32,7 +32,7 @@ import michal.szymanski.util.collection.ClassGroupingMap;
  */
 public interface IBasicCrawler {
 
-    void start(CrawlerConfiguration conf);
+    void start();
     CrawlerConfiguration getConf();
     ClassGroupingMap getResults();
     double getElapsedTime();

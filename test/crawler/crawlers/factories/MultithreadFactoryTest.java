@@ -8,6 +8,9 @@ package crawler.crawlers.factories;
 import crawler.configuration.CrawlerConfiguration;
 import crawler.configuration.CrawlerParams;
 import crawler.crawlers.continous.concurrent.ConcurrentCrawler;
+import crawler.crawlers.continous.concurrent.FlexibleConcurrentCrawler;
+import crawler.scrapping.collectors.ImagesCollector;
+import crawler.scrapping.collectors.SentencesCollector;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -31,58 +34,30 @@ public class MultithreadFactoryTest {
     }
 
     int time = 5;
+
     /**
      * Test of createSentencesCrawler method, of class MultithreadFactory.
      */
-
-        // zwracanie wyników itp trwa 20-30% początkowego limitu czasu.
+    // zwracanie wyników itp trwa 20-30% początkowego limitu czasu.
     //@Test(timeout = 5000)
+
+
     @Test
-    public void testCreateSentencesCrawler() {
-        ConcurrentCrawler crawler = (ConcurrentCrawler) new MultithreadFactory().createSentencesCrawler();
-        CrawlerConfiguration conf = new CrawlerConfiguration();
-        conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
-        conf.put(CrawlerParams.SENTENCES, new String[]{"javascript"});
-        conf.put(CrawlerParams.TIME_LIMIT, time);
-        crawler.start(conf);
+    public void testFlexibleCrawler() {
+        FlexibleConcurrentCrawler crawler = new FlexibleConcurrentCrawler();
+        SentencesCollector c = new SentencesCollector();
+        c.setTarget("Learn");
+        ImagesCollector i = new ImagesCollector();
+        crawler.configure()
+                .initUrl("https://www.w3schools.com/")
+                .timeLimit(time)
+                .addCollector(c)
+                .addCollector(i);
+        crawler.start();
         assertTrue(crawler.getResults().totalSize() > 1);
+        assertTrue(c.getResults().size() > 0);
+        assertTrue(i.getResults().size() > 0);
         assertTrue(crawler.getMovement().getCrawledAdresses().size() > 1);
-    }
-
-    /**
-     * Test of createImagesCrawler method, of class MultithreadFactory.
-     */
-    @Test
-    public void testCreateImagesCrawler() {
-        ConcurrentCrawler crawler = (ConcurrentCrawler) new MultithreadFactory().createImagesCrawler();
-        CrawlerConfiguration conf = new CrawlerConfiguration();
-        conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
-        conf.put(CrawlerParams.TIME_LIMIT, time);
-        crawler.start(conf);
-        assertTrue(crawler.getResults().totalSize() > 1);
-        assertTrue(crawler.getMovement().getCrawledAdresses().size() > 1);
-    }
-
-    /**
-     * Test of createGenericCrawler method, of class MultithreadFactory.
-     */
-  @Test
-    public void testCreateGenericCrawler() {
-        ConcurrentCrawler crawler = (ConcurrentCrawler) new MultithreadFactory().createGenericCrawler();
-        CrawlerConfiguration conf = new CrawlerConfiguration();
-        conf.put(CrawlerParams.URL, "https://www.w3schools.com/");
-        conf.put(CrawlerParams.TIME_LIMIT, time);
-        crawler.start(conf);
-        assertTrue(crawler.getResults().totalSize() > 1);
-        assertTrue(crawler.getMovement().getCrawledAdresses().size() > 1);
-    }
-
-    /**
-     * Test of createCustomCrawler method, of class MultithreadFactory.
-     */
-    public void testCreateCustomCrawler() {
-        ConcurrentCrawler crawler = (ConcurrentCrawler) new MultithreadFactory().createCustomCrawler();
-
     }
 
 }

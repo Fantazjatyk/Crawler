@@ -42,18 +42,10 @@ import michal.szymanski.util.Strings;
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public class SentenceCollector extends PrePostFilterableCollector<Collection, Collection<Text>> {
+public class SentencesCollector extends PrePostFilterableCollector<Collection, Collection<Text>> {
 
-    List<String> filteringSentences = new ArrayList();
-
-    public SentenceCollector(String[] sentences) {
-
-        if (sentences != null) {
-            this.filteringSentences = Arrays.asList(sentences);
-            filteringSentences = filteringSentences.stream().peek((el) -> el.toLowerCase()).collect(Collectors.toList());
-        }
-
-    }
+    private List<String> filteringSentences = new ArrayList();
+    private boolean ignoreCase = false;
 
     public List<String> getFilteringSentences() {
         return filteringSentences;
@@ -64,19 +56,31 @@ public class SentenceCollector extends PrePostFilterableCollector<Collection, Co
         List found = new LinkedList();
 
         o.stream()
-                .filter((input) -> filteringSentences.stream().anyMatch((filter) -> input.get().toLowerCase().contains(filter)))
+                .filter((input) -> filteringSentences.stream().anyMatch((filter) -> input.get().toLowerCase().contains(filter.toLowerCase())))
                 .forEach((input) -> {
                     filteringSentences.stream().forEach((filter) -> {
 
-                        String[] occurences = Strings.cutMatchingFragmentIgnoreCase(input.get(), filter);
+                        String[] occurences;
+                        if (ignoreCase) {
+                            occurences = Strings.cutMatchingFragmentIgnoreCase(input.get(), filter);
+                        } else {
+                            occurences = Strings.cutMatchingFragments(input.get(), filter);
+                        }
                         Stream.of(occurences).forEach((occurence) -> {
                             Sentence sentence = new Sentence(occurence, new Source(ctx.getInitParams().get(CrawlerParams.CURRENT_URL)));
                             found.add(sentence);
                         });
                     });
                 });
-
         return found;
+    }
+
+    public void setTarget(String... sentences) {
+        this.filteringSentences = Arrays.asList(sentences);
+    }
+
+    public void setIgnoreCase(boolean bol) {
+        this.ignoreCase = bol;
     }
 
     @Override

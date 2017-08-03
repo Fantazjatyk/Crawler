@@ -22,7 +22,7 @@ import org.junit.Test;
  */
 public class SentenceCollectorTest {
 
-    SentenceCollector collector;
+    SentencesCollector collector;
 
     public SentenceCollectorTest() {
     }
@@ -39,18 +39,61 @@ public class SentenceCollectorTest {
      */
     @Test
     public void testCollectTargetGiven() {
-        collector = new SentenceCollector(new String[]{"ala"});
+        collector = new SentencesCollector();
+        collector.setTarget("ala", "Szwecji", "Aha");
         List input = new ArrayList() {
             {
-                add(new Text("ala ma kota a kot ma psa", new Source("")));
+                add(new Text("ala ma kota a kot ma psa. Aha. Aha ta Ala.", new Source("")));
                 add(new Text("ala ma kota a pies ma kota", new Source("")));
+                add(new Text("No to cóż, że ze Szwecji... szwecji", new Source("")));
             }
         };
         SearchRequest rq = new SearchRequest();
         rq.getInitParams().put(CrawlerParams.URL, "bla bla");
         rq.getInitParams().put(CrawlerParams.CURRENT_URL, "sdsd");
         Collection<Sentence> result = (Collection) collector.collect(input, rq);
-        assertEquals(2, result.size());
+        assertEquals(5, result.size());
+
+    }
+
+    @Test
+    public void testCollectTargetIgnoreCase() {
+        collector = new SentencesCollector();
+        collector.setIgnoreCase(true);
+        collector.setTarget("ala", "Szwecji", "Aha");
+        List input = new ArrayList() {
+            {
+                add(new Text("ala ma kota a kot ma psa. Aha. Aha ta Ala.", new Source("")));
+                add(new Text("ala ma kota a pies ma kota", new Source("")));
+                add(new Text("No to cóż, że ze Szwecji... szwecji", new Source("")));
+            }
+        };
+        SearchRequest rq = new SearchRequest();
+        rq.getInitParams().put(CrawlerParams.URL, "bla bla");
+        rq.getInitParams().put(CrawlerParams.CURRENT_URL, "sdsd");
+        Collection<Sentence> result = (Collection) collector.collect(input, rq);
+        assertEquals(7, result.size());
+    }
+
+    @Test
+    public void testCollectTargetWithoutDuplicates() {
+        SentencesCollector collector = new SentencesCollector();
+        collector.setTarget("ala", "Szwecji", "Aha");
+        List input = new ArrayList() {
+            {
+                add(new Text("ala ma kota a kot ma psa. Aha. Aha ta Ala, Aha...", new Source("")));
+                add(new Text("ala ma kota a pies ma kota", new Source("")));
+                add(new Text("No to cóż, że ze Szwecji... szwecji", new Source("")));
+                add(new Text("No to cóż, że ze Szwecji... szwecji", new Source("")));
+            }
+        };
+        SearchRequest rq = new SearchRequest();
+        rq.getInitParams().put(CrawlerParams.URL, "bla bla");
+        rq.getInitParams().put(CrawlerParams.CURRENT_URL, "sdsd");
+        collector.collect(input, rq);
+        Collection<Sentence> result = collector.getResultsWithoutDuplicates();
+        assertEquals(3, result.size());
+        assertTrue(result.stream().filter(el -> el.getSources().stream().findAny().get().getTimes() == 2).count() == 2);
 
     }
 
