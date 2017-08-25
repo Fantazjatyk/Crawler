@@ -23,7 +23,7 @@
  */
 package crawler.scrapping.chain;
 
-import crawler.scrapping.exceptions.IllegalInputException;
+import crawler.exception.IllegalInputException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

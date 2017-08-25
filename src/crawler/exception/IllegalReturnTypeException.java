@@ -21,12 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package crawler.scrapping.exceptions;
+package crawler.exception;
 
 /**
  *
  * @author Michał Szymański, kontakt: michal.szymanski.aajar@gmail.com
  */
-public class IllegalInputException extends RuntimeException{
+public class IllegalReturnTypeException extends Exception{
 
 }

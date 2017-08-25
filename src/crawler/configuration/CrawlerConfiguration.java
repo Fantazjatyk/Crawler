@@ -66,7 +66,10 @@ public class CrawlerConfiguration extends HashMap<String, Object> {
     }
 
     public int getTimeLimit() {
-        return (int) this.get(CrawlerParams.TIME_LIMIT.name());
+        if (this.containsKey(CrawlerParams.TIME_LIMIT.name())) {
+            return (int) this.get(CrawlerParams.TIME_LIMIT.name());
+        }
+        return 0;
     }
 
     public String getInitURL() {

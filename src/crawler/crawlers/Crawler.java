@@ -25,10 +25,15 @@ package crawler.crawlers;
 
 import crawler.configuration.CrawlerConfiguration;
 import crawler.data.DataPostProcessor;
+import crawler.exception.InitialConfigurationException;
 import crawler.logging.CrawlerFinishInfo;
 import crawler.logging.CrawlerInitInfo;
 import crawler.scrapping.SearchEngine;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import michal.szymanski.util.collection.ClassGroupingMap;
 
 /**
@@ -54,6 +59,7 @@ public abstract class Crawler implements IBasicCrawler {
     }
 
     public final void start() {
+        checkInit();
         time.start();
         CrawlerInitInfo.printInitInfo(this, conf);
         Collection results = crawl(conf).toCollection();
@@ -61,6 +67,19 @@ public abstract class Crawler implements IBasicCrawler {
         sr.putAll(results);
         time.end();
         CrawlerFinishInfo.printtCrawlerFinishInfo(this);
+    }
+
+    private void checkInit() throws InitialConfigurationException {
+
+        try {
+            new URL(conf.getInitURL());
+        } catch (MalformedURLException ex) {
+            throw new InitialConfigurationException("Target URL is not valid URL");
+        }
+        if (conf.getTimeLimit() < 0) {
+            throw new InitialConfigurationException("Time limit cannot be lower than 0");
+        }
+
     }
 
     public CrawlerConfiguration configure() {

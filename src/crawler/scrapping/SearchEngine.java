@@ -33,7 +33,7 @@ import crawler.scrapping.chain.SearchRequest;
 import crawler.scrapping.collectors.Collector;
 import crawler.scrapping.collectors.TextCollector;
 import crawler.scrapping.collectors.URLCollector;
-import crawler.scrapping.exceptions.InnvalidCollectorException;
+import crawler.exception.InnvalidCollectorException;
 import crawler.scrapping.parsers.JsoupParser;
 import crawler.scrapping.parsers.Parser;
 import java.io.IOException;
