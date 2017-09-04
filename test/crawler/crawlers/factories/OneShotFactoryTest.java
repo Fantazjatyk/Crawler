@@ -43,6 +43,7 @@ public class OneShotFactoryTest {
         SentencesCollector c = new SentencesCollector();
         c.setTarget("Learn");
         ImagesCollector i = new ImagesCollector();
+        
 
         crawler.configure()
                 .initUrl("https://www.w3schools.com/")
